@@ -1,0 +1,3 @@
+entidades.Pessoa.nome = Deve possuir uma unica letra maiuscula, seguida por letras minusculas.
+entidades.Pessoa.email = Deve possuir: texto + @ + texto + . + texto. Texto pode ter n\u00fameros de 0 a 9.
+
