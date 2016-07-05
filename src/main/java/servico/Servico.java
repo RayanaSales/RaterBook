@@ -1,50 +1,48 @@
 package servico;
 
+import entidades.EntidadeNegocio;
+import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
-public class Servico
-{
-    protected static EntityManagerFactory emf;
+public abstract class Servico<T extends EntidadeNegocio> {
+
+    @PersistenceContext(unitName = "rater-book", type = PersistenceContextType.TRANSACTION)
     protected EntityManager em;
-    private EntityTransaction et;
 
-    public Servico()
-    {
-        
+    public void salvar(T entidadeNegocio) {
+
+        em.persist(entidadeNegocio);
+
     }
 
-    public static void encerrarServico()
-    {
-        emf.close();
+    public void alterar(T entidadeNegocio) {
+
+        em.merge(entidadeNegocio);
+
     }
 
-    public void abrirTransacao()
-    {
-        emf = Persistence.createEntityManagerFactory("rater_book");
-        //DbUnitUtil.inserirDados();
-        
-        em = emf.createEntityManager();
-        et = em.getTransaction();
-        et.begin();
+    public void remover(T entidadeNegocio) {
+
+        entidadeNegocio = em.find(getClasseEntidade(), entidadeNegocio.getChavePrimaria());
+        em.remove(entidadeNegocio);
+
     }
 
-    public void fecharTransacao()
-    {
-        try
-        {
-            if (et != null && et.isActive())
-            {
-                et.commit();
-            }
-        } catch (Exception ex)
-        {
-            et.rollback();
-        } finally
-        {
-            em.close();
-        }
+    public List<T> listarTodos() {
+        StringBuilder jpql = new StringBuilder();
+        jpql.append("select e ");
+        jpql.append(" from ");
+        jpql.append(getClasseEntidade().getSimpleName());
+        jpql.append(" as e ");
+        TypedQuery<T> query = em.createQuery(jpql.toString(), 
+                getClasseEntidade());
+        return query.getResultList();
     }
+
+    public abstract Class<T> getClasseEntidade();
+
+    public abstract T getEntidadeNegocio();
 }

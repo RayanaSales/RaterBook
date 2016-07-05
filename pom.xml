@@ -13,7 +13,13 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+    <repositories>
+        <repository>
+            <id>primefaces</id>
+            <name>PrimeFaces Repository</name>
+            <url>http://repository.primefaces.org/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -49,10 +55,10 @@
             <version>4.12</version>
         </dependency>  
         <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
-        </dependency>         
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>       
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
@@ -84,6 +90,11 @@
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.7.20</version>
         </dependency> 
+         <dependency>  
+            <groupId>org.primefaces.themes</groupId>  
+            <artifactId>all-themes</artifactId>  
+            <version>1.0.10</version>  
+        </dependency>
     </dependencies>
 
     <build>

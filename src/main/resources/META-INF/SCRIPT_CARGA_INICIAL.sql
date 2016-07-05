@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS raterbook;
+CREATE DATABASE raterbook;

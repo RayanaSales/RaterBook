@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml" >
+        <ui:define name="conteudo">
+            <h:form id="formularioAutor">
+                <p:tabView>
+                    <p:tab title="Cadastro de Autores">
+                        <h:form id="formCadastroCurso">
+                            <p:fieldset legend="Dados do Autor">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel for="nome">Nome</p:outputLabel>
+                                    <p:inputText id="nome" value="#{autorBean.autor.nome}" />
+                                    <p:message for="nome" id="messageNome" />
+
+                                    <p:commandButton action="#{autorBean.cadastrar()}" value="Cadastrar" 
+                                                     update=":formularioAutor" process="@form"/>
+                                </p:panelGrid>
+                            </p:fieldset>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Autores Cadastrados" id="painelAutoresCadastrados">
+
+                        <h:form id="formTabelaAutor">
+                            <p:dataTable id="tabelaAutor" editable="true"  var="autor" value="#{autorBean.autores}" paginator="true" rows="5" emptyMessage="Nenhum Autor registrado">
+                                <f:facet name="header">Autores</f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{autorBean.alterarEntidadeCadastrada}"  />
+                      
+                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{autor.nome}" sortBy="#{autor.nome}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{autor.nome}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="nome" value="#{autor.nome}" required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column>
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(autor)}" process="@this" update="formularioAutor">
+                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column> 
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
