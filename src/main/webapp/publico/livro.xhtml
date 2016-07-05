@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml" >
+        <ui:define name="conteudo">
+            <h:form id="formularioLivro">
+                <p:tabView>
+                    <p:tab title="Cadastro de Livros">
+                        <h:form id="formCadastroLivro">
+                            <p:fieldset legend="Dados do Livro">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel for="nome">Nome</p:outputLabel>
+                                    <p:inputText id="nome" value="#{livroBean.livro.nome}" />
+                                    <p:message for="nome" id="messageNome" />
+
+                                    <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
+                                    <p:inputText id="sinopse" value="#{livroBean.livro.sinopse}" />
+                                    <p:message for="sinopse" id="messageSinopse" />
+
+                                    <p:outputLabel for="categoria" value="Categoria: " />
+                                    <p:selectOneMenu id="categoria" value="#{livroBean.livro.categoria}">
+                                        <f:selectItems value="#{livroBean.categorias}"   />
+                                    </p:selectOneMenu>
+
+                                    <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
+                                                     update=":formularioLivro" process="@form"/>
+                                </p:panelGrid>
+                            </p:fieldset>
+                        </h:form>
+                    </p:tab>
+                    <p:tab title="Livros Cadastrados" id="painelLivrosCadastrados">
+
+                        <h:form id="formTabelaLivro">
+                            <p:dataTable id="tabelaLivro" editable="true"  var="livro" value="#{livroBean.livros}" paginator="true" rows="5" emptyMessage="Nenhum Livro registrado">
+                                <f:facet name="header">Livros</f:facet>
+
+                                <p:ajax event="rowEdit" listener="#{livroBean.alterarEntidadeCadastrada}"  />
+
+                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{livro.nome}" sortBy="#{livro.nome}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{livro.nome}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="nome" value="#{livro.nome}" required="true" />
+                                        </f:facet>nome
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Sinopse" filterMatchMode="startsWith" filterBy="#{livro.sinopse}" sortBy="#{livro.sinopse}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{livro.sinopse}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="sinopse" value="#{livro.sinopse}" required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+<!--                                <p:column headerText="Categoria" filterMatchMode="startsWith" filterBy="#{livro.categoria}" sortBy="#{livro.categoria}">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{livro.categoria}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText id="categoria" value="#{livro.categoria}" required="true" />
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>-->
+                                <p:column>
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column>
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{livroBean.remover(livro)}" process="@this" update="formularioLivro">
+                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                    </p:commandLink>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog>
+                                </p:column> 
+                            </p:dataTable>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
