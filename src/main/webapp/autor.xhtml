@@ -13,7 +13,7 @@
                             <p:fieldset legend="Dados do Autor">
                                 <p:panelGrid columns="3">
                                     <p:outputLabel for="nome">Nome</p:outputLabel>
-                                    <p:inputText id="nome" value="#{autorBean.autor.nome}" />
+                                    <p:inputText id="nome" value="#{autorBean.entidade.nome}" />
                                     <p:message for="nome" id="messageNome" />
 
                                     <p:commandButton action="#{autorBean.cadastrar()}" value="Cadastrar" 
@@ -25,18 +25,18 @@
                     <p:tab title="Autores Cadastrados" id="painelAutoresCadastrados">
 
                         <h:form id="formTabelaAutor">
-                            <p:dataTable id="tabelaAutor" editable="true"  var="autor" value="#{autorBean.autores}" paginator="true" rows="5" emptyMessage="Nenhum Autor registrado">
+                            <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Autor registrado">
                                 <f:facet name="header">Autores</f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{autorBean.alterarEntidadeCadastrada}"  />
-                      
-                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{autor.nome}" sortBy="#{autor.nome}">
+                                <p:ajax event="rowEdit" listener="#{autorBean.editar}"  />
+
+                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{autor.nome}" />
+                                            <h:outputText value="#{entidade.nome}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="nome" value="#{autor.nome}" required="true" />
+                                            <p:inputText id="nome" value="#{entidade.nome}" required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
@@ -44,7 +44,7 @@
                                     <p:rowEditor />
                                 </p:column>
                                 <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(autor)}" process="@this" update="formularioAutor">
+                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(entidade)}" process="@this" update="formularioAutor">
                                         <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                     </p:commandLink>
                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

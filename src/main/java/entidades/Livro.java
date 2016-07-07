@@ -1,9 +1,14 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 import util.constantes.LivroCategoria;
 
 /**
@@ -11,19 +16,37 @@ import util.constantes.LivroCategoria;
  * @author rayana
  */
 @Entity
-@AttributeOverrides({
-    @AttributeOverride(name = "chavePrimaria", column = @Column(name = "LIVRO_ID"))})
-public class Livro extends EntidadeNegocio {
+@AttributeOverrides(
+        {
+            @AttributeOverride(name = "chavePrimaria", column = @Column(name = "LIVRO_ID"))
+        })
+public class Livro extends EntidadeNegocio
+{
 
-    private String nome;    
-    private String sinopse;  
+    @Size(min = 0, max = 5)
+    private Integer avaliacao;
+    private String nome;
+    private String sinopse;
     private LivroCategoria categoria;
-          
-    public String getNome() {
+    @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
+    private List<Autor> autores;
+
+    public void adicionarAutor(Autor autor)
+    {
+        if (autores == null)
+        {
+            autores = new ArrayList<>();
+        }
+        autores.add(autor);
+    }
+
+    public String getNome()
+    {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    {
         this.nome = nome;
     }
 
@@ -46,4 +69,15 @@ public class Livro extends EntidadeNegocio {
     {
         this.categoria = categoria;
     }
+
+    public Integer getAvaliacao()
+    {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Integer avaliacao)
+    {
+        this.avaliacao = avaliacao;
+    }
+
 }
