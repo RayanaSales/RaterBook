@@ -9,12 +9,15 @@
             <h:form id="formularioAutor">
                 <p:tabView>
                     <p:tab title="Cadastro de Autores">
+                        <p:messages id="messagesCadastro" autoUpdate="true" closable="true"/>
                         <h:form id="formCadastroCurso">
                             <p:fieldset legend="Dados do Autor">
                                 <p:panelGrid columns="3">
                                     <p:outputLabel for="nome">Nome</p:outputLabel>
-                                    <p:inputText id="nome" value="#{autorBean.entidade.nome}" />
-                                    <p:message for="nome" id="messageNome" />
+                                    <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
+                                        <f:validateLength minimum="7" maximum="30"/>
+                                    </p:inputText>
+                                    <p:message for="nome" id="messageNome"/>
 
                                     <p:commandButton action="#{autorBean.cadastrar()}" value="Cadastrar" 
                                                      update=":formularioAutor" process="@form"/>
@@ -23,7 +26,7 @@
                         </h:form>
                     </p:tab>
                     <p:tab title="Autores Cadastrados" id="painelAutoresCadastrados">
-
+                        <p:messages id="messagesEdicao" autoUpdate="true" closable="true"/>
                         <h:form id="formTabelaAutor">
                             <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Autor registrado">
                                 <f:facet name="header">Autores</f:facet>

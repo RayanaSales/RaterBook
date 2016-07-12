@@ -9,21 +9,28 @@
             <h:form id="formularioLivro">
                 <p:tabView>
                     <p:tab title="Cadastro de Livros">
+                        <p:messages id="messagesCadasLivro" autoUpdate="true" closable="true"/>
                         <h:form id="formCadastroLivro">
                             <p:fieldset legend="Dados do Livro">
                                 <p:panelGrid columns="3">
                                     <p:outputLabel for="nome">Nome</p:outputLabel>
-                                    <p:inputText id="nome" value="#{livroBean.entidade.nome}" />
-                                    <p:message for="nome" id="messageNome" />
+                                    <p:inputText id="nome" required="true" value="#{livroBean.entidade.nome}" >
+                                        <f:validateLength minimum="2" maximum="50"/>
+                                    </p:inputText>
+                                    <!--<p:message for="nome" id="messageNome" />-->
 
                                     <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
-                                    <p:inputText id="sinopse" value="#{livroBean.entidade.sinopse}" />
-                                    <p:message for="sinopse" id="messageSinopse" />
+                                    <p:inputText id="sinopse" required="true" 
+                                                 value="#{livroBean.entidade.sinopse}" >
+                                        <f:validateLength minimum="10" maximum="100"/>
+                                    </p:inputText>
+                                    <!--<p:message for="sinopse" id="messageSinopse" />-->
                                     <p:outputLabel for="avaliacao" value="Categoria: " />
                                     <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
-                                    <p:message for="avaliacao" id="messageAvaliacao" />
+                                    <!--<p:message for="avaliacao" id="messageAvaliacao" />-->
                                     <p:outputLabel for="categoria" value="Categoria: " />
-                                    <p:selectOneMenu id="categoria" value="#{livroBean.entidade.categoria}">             
+                                    <p:selectOneMenu id="categoria" required="true" 
+                                                     value="#{livroBean.entidade.categoria}">             
                                         <f:selectItems value="#{livroBean.categorias}"   />
                                     </p:selectOneMenu>
                                     <p:message for="categoria" id="messageCategoria" />

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import util.constantes.LivroCategoria;
 
 /**
@@ -25,9 +26,18 @@ public class Livro extends EntidadeNegocio
 
     @Size(min = 0, max = 5)
     private Integer avaliacao;
+    
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String nome;
+    
+    @NotBlank
+    @Size(min = 10, max = 100)
     private String sinopse;
+    
+    @NotBlank
     private LivroCategoria categoria;
+    
     @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
     private List<Autor> autores;
 
