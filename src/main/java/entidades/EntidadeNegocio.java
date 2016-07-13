@@ -22,6 +22,8 @@ public abstract class EntidadeNegocio implements Serializable {
     public void setChavePrimaria(Long chavePrimaria) {
         this.chavePrimaria = chavePrimaria;
     }
+    
+    public abstract boolean associado();
 
     @Override
     public int hashCode() {
