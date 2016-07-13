@@ -13,8 +13,7 @@
                         <h:form id="formCadastroLivro">
                             <p:fieldset legend="Dados do Livro">
                                 <p:panelGrid columns="3">
-                                    <p:outputLabel for="nome">Nome</p:outputLabel>
-                                    <p:inputText id="nome" required="true" value="#{livroBean.entidade.nome}" >
+                                    <p:outputLabel id="cadastroLivroNome" for="nome">#{mensagem['cadastroLivroNome']}</p:outputLabel>                                    <p:inputText id="nome" required="true" value="#{livroBean.entidade.nome}" >
                                         <f:validateLength minimum="2" maximum="50"/>
                                     </p:inputText>
                                     <!--<p:message for="nome" id="messageNome" />-->

@@ -13,7 +13,7 @@
                         <h:form id="formCadastroCurso">
                             <p:fieldset legend="Dados do Autor">
                                 <p:panelGrid columns="3">
-                                    <p:outputLabel for="nome">Nome</p:outputLabel>
+                                    <p:outputLabel for="nome">#{mensagem.menu}</p:outputLabel>
                                     <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
                                         <f:validateLength minimum="7" maximum="30"/>
                                     </p:inputText>
