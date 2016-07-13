@@ -11,12 +11,9 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 import util.constantes.LivroCategoria;
 
-/**
- *
- * @author rayana
- */
 @Entity
 @AttributeOverrides(
         {
@@ -27,9 +24,18 @@ public class Livro extends EntidadeNegocio {
     @Max(value = 5)
     @Min(value = 0)
     private Integer avaliacao;
+
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String nome;
+
+    @NotBlank
+    @Size(min = 10, max = 100)
     private String sinopse;
+
+    @NotBlank
     private LivroCategoria categoria;
+
     @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
     private List<Autor> autores;
 
@@ -74,6 +80,14 @@ public class Livro extends EntidadeNegocio {
 
     public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    @Override
+    public boolean associado() {
+        if (autores.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
 }

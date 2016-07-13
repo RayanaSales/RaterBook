@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:insert name="metadata"/>
 
@@ -11,6 +12,21 @@
 
     <h:body>
         <div id="cabecalho">
+
+            <h:outputText value="#{configuracaoBean.linguagem}" />
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:commandLink  value="pt_BR" action="#{userSettings.alterarIdioma()}">
+                        <f:setPropertyActionListener value="pt" target="#{userSettings.linguagem}" />
+                        <f:setPropertyActionListener value="BR" target="#{userSettings.pais}" />
+                    </p:commandLink>
+                    <p:commandLink  value="en" action="#{userSettings.alterarIdioma()}">
+                        <f:setPropertyActionListener value="en" target="#{userSettings.linguagem}" />
+                        <f:setPropertyActionListener value="" target="#{userSettings.pais}" />
+                    </p:commandLink>
+                </p:panelGrid>
+            </h:form>
+
             <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
             <h:graphicImage library="img" name="livraria.jpg" style="height: 20em; width: 100em" />
         </div>

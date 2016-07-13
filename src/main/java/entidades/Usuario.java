@@ -5,12 +5,10 @@
  */
 package entidades;
 
-import java.io.Serializable;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  *

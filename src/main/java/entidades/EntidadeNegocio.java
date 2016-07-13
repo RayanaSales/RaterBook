@@ -23,6 +23,10 @@ public abstract class EntidadeNegocio implements Serializable {
         this.chavePrimaria = chavePrimaria;
     }
 
+    public boolean associado() {
+        return Boolean.FALSE;
+    }
+
     @Override
     public int hashCode() {
 

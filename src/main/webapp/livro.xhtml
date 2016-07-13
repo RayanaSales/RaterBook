@@ -9,31 +9,40 @@
             <h:form id="formularioLivro">
                 <p:tabView>
                     <p:tab title="Cadastro de Livros">
+                        <p:messages id="messagesCadasLivro" autoUpdate="true" closable="true"/>
                         <h:form id="formCadastroLivro">
                             <p:fieldset legend="Dados do Livro">
-                                <p:panelGrid columns="2">
-                                    <p:panelGrid columns="3">
-                                        <p:outputLabel for="nome">Nome</p:outputLabel>
-                                        <p:inputText id="nome" value="#{livroBean.entidade.nome}" />
-                                        <p:message for="nome" id="messageNome" />
-                                        <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
-                                        <p:inputText id="sinopse" value="#{livroBean.entidade.sinopse}" />
-                                        <p:message for="sinopse" id="messageSinopse" />
-                                        <p:outputLabel for="avaliacao" value="Avaliação " />
-                                        <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
-                                        <p:message for="avaliacao" id="messageAvaliacao" />
-                                        <p:outputLabel for="categoria" value="Categoria: " />
-                                        <p:selectOneMenu id="categoria" value="#{livroBean.entidade.categoria}">             
-                                            <f:selectItems value="#{livroBean.categorias}"   />
-                                        </p:selectOneMenu>
-                                        <p:message for="categoria" id="messageCategoria" />
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel id="cadastroLivroNome" for="nome">Nome</p:outputLabel>                                    <p:inputText id="nome" required="true" value="#{livroBean.entidade.nome}" >
+                                        <f:validateLength minimum="2" maximum="50"/>
+                                    </p:inputText>
+                                    <p:message for="nome" id="messageNome" />
 
-                                    </p:panelGrid>
-                                    <p:fieldset legend="Autores">
-                                        <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" converter="entidadeConverter" itemValue="#{autor}" />
-                                    </p:fieldset>
-                                    <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
-                                                     update=":formularioLivro" process="@form"/>
+                                    <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
+                                    <p:inputText id="sinopse" required="true" 
+                                                 value="#{livroBean.entidade.sinopse}" >
+                                        <f:validateLength minimum="10" maximum="100"/>
+                                    </p:inputText>
+                                    <p:message for="sinopse" id="messageSinopse" />
+
+                                    <p:outputLabel for="avaliacao" value="Avaliação: " />
+                                    <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
+                                    <p:message for="avaliacao" id="messageAvaliacao" />
+
+                                    <p:outputLabel for="categoria" value="Categoria: " />
+                                    <p:selectOneMenu id="categoria" required="true" 
+                                                     value="#{livroBean.entidade.categoria}">             
+                                        <f:selectItems value="#{livroBean.categorias}"   />
+                                    </p:selectOneMenu>
+                                    <p:message for="categoria" id="messageCategoria" />
+
+                                </p:panelGrid>
+                                <p:fieldset legend="Autores">
+                                    <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" converter="entidadeConverter" itemValue="#{autor}" />
+                                </p:fieldset>
+
+                                <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
+                                                 update=":formularioLivro" process="@form"/>
                                 </p:panelGrid>
                             </p:fieldset>
 
@@ -41,7 +50,7 @@
 
                     </p:tab>
                     <p:tab title="Livros Cadastrados" id="painelLivrosCadastrados">
-
+                        <p:messages id="messagesEdicao" autoUpdate="true" closable="true"/>
                         <h:form id="formTabelaLivro">
                             <p:dataTable id="tabelaLivro" editable="true"  var="livro" value="#{livroBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Livro registrado">
                                 <f:facet name="header">Livros</f:facet>
@@ -55,7 +64,7 @@
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputText id="nome" value="#{livro.nome}" required="true" />
-                                        </f:facet>nome
+                                        </f:facet>
                                     </p:cellEditor>
                                 </p:column>
                                 <p:column headerText="Sinopse" filterMatchMode="startsWith" filterBy="#{livro.sinopse}" sortBy="#{livro.sinopse}">

@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
-import entidades.Autor;
 import entidades.EntidadeNegocio;
+import exception.NegocioException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,7 +16,7 @@ import servico.Servico;
  * @author rayana
  * @param <T>
  */
-public abstract class Bean<T extends EntidadeNegocio>
+public abstract class Bean<T extends EntidadeNegocio> implements Serializable
 {
 
     private Servico<T> servico;
@@ -28,6 +24,10 @@ public abstract class Bean<T extends EntidadeNegocio>
     protected List<T> entidades = new ArrayList<>();
 
     protected T entidade;
+
+    public Bean()
+    {
+    }
 
     @PostConstruct
     public void inicializar()
@@ -55,9 +55,15 @@ public abstract class Bean<T extends EntidadeNegocio>
 
     public void remover(T entidade)
     {
-        servico.remover(entidade);
-        popularEntidades();
-        adicionarMensagemComponente(null, "Removeu!", FacesMessage.SEVERITY_INFO);
+        try
+        {
+            servico.remover(entidade);
+            popularEntidades();
+            adicionarMensagemComponente(null, "Removeu!", FacesMessage.SEVERITY_INFO);
+        } catch (NegocioException ng)
+        {
+            adicionarMensagemComponente(null, ng.getMessage(), FacesMessage.SEVERITY_INFO);
+        }
     }
 
     public void editar(RowEditEvent editEvent)
