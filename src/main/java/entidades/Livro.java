@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import util.constantes.LivroCategoria;
 
@@ -20,10 +22,10 @@ import util.constantes.LivroCategoria;
         {
             @AttributeOverride(name = "chavePrimaria", column = @Column(name = "LIVRO_ID"))
         })
-public class Livro extends EntidadeNegocio
-{
+public class Livro extends EntidadeNegocio {
 
-    @Size(min = 0, max = 5)
+    @Max(value = 5)
+    @Min(value = 0)
     private Integer avaliacao;
     private String nome;
     private String sinopse;
@@ -31,52 +33,46 @@ public class Livro extends EntidadeNegocio
     @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
     private List<Autor> autores;
 
-    public void adicionarAutor(Autor autor)
-    {
-        if (autores == null)
-        {
+    public void adicionarAutor(Autor autor) {
+        if (autores == null) {
             autores = new ArrayList<>();
         }
         autores.add(autor);
     }
 
-    public String getNome()
-    {
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
+    }
+
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome)
-    {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setSinopse(String sinopse)
-    {
+    public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
     }
 
-    public String getSinopse()
-    {
+    public String getSinopse() {
         return sinopse;
     }
 
-    public LivroCategoria getCategoria()
-    {
+    public LivroCategoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(LivroCategoria categoria)
-    {
+    public void setCategoria(LivroCategoria categoria) {
         this.categoria = categoria;
     }
 
-    public Integer getAvaliacao()
-    {
+    public Integer getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(Integer avaliacao)
-    {
+    public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
     }
 

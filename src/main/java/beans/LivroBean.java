@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.model.DualListModel;
 import servico.AutorServico;
 import servico.LivroServico;
 import servico.Servico;
@@ -17,8 +18,7 @@ import util.constantes.LivroCategoria;
  */
 @ManagedBean
 @ViewScoped
-public class LivroBean extends Bean<Livro>
-{
+public class LivroBean extends Bean<Livro> {
 
     @EJB
     private LivroServico servico;
@@ -26,20 +26,36 @@ public class LivroBean extends Bean<Livro>
     @EJB
     private AutorServico autorServico;
 
-    public LivroCategoria[] getCategorias()
-    {
+    private DualListModel<Autor> autores = new DualListModel<>();
+
+    @Override
+    public void inicializar() {
+        super.inicializar();
+        autores.setSource(autorServico.listarTodos());
+    }
+
+    @Override
+    public void cadastrar() {
+
+        entidade.setAutores(autores.getTarget());
+        super.cadastrar();
+    }
+
+    public LivroCategoria[] getCategorias() {
         return LivroCategoria.values();
     }
 
     @Override
-    protected Servico inicializarServico()
-    {
+    protected Servico inicializarServico() {
         return servico;
     }
 
-    public List<Autor> getAutores()
-    {
-        return autorServico.listarTodos();
+    public DualListModel<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(DualListModel<Autor> autores) {
+        this.autores = autores;
     }
 
 }

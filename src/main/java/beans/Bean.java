@@ -25,9 +25,9 @@ public abstract class Bean<T extends EntidadeNegocio>
 
     private Servico<T> servico;
 
-    private List<T> entidades = new ArrayList<>();
+    protected List<T> entidades = new ArrayList<>();
 
-    private T entidade;
+    protected T entidade;
 
     @PostConstruct
     public void inicializar()

@@ -11,30 +11,33 @@
                     <p:tab title="Cadastro de Livros">
                         <h:form id="formCadastroLivro">
                             <p:fieldset legend="Dados do Livro">
-                                <p:panelGrid columns="3">
-                                    <p:outputLabel for="nome">Nome</p:outputLabel>
-                                    <p:inputText id="nome" value="#{livroBean.entidade.nome}" />
-                                    <p:message for="nome" id="messageNome" />
+                                <p:panelGrid columns="2">
+                                    <p:panelGrid columns="3">
+                                        <p:outputLabel for="nome">Nome</p:outputLabel>
+                                        <p:inputText id="nome" value="#{livroBean.entidade.nome}" />
+                                        <p:message for="nome" id="messageNome" />
+                                        <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
+                                        <p:inputText id="sinopse" value="#{livroBean.entidade.sinopse}" />
+                                        <p:message for="sinopse" id="messageSinopse" />
+                                        <p:outputLabel for="avaliacao" value="Avaliação " />
+                                        <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
+                                        <p:message for="avaliacao" id="messageAvaliacao" />
+                                        <p:outputLabel for="categoria" value="Categoria: " />
+                                        <p:selectOneMenu id="categoria" value="#{livroBean.entidade.categoria}">             
+                                            <f:selectItems value="#{livroBean.categorias}"   />
+                                        </p:selectOneMenu>
+                                        <p:message for="categoria" id="messageCategoria" />
 
-                                    <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
-                                    <p:inputText id="sinopse" value="#{livroBean.entidade.sinopse}" />
-                                    <p:message for="sinopse" id="messageSinopse" />
-                                    <p:outputLabel for="avaliacao" value="Categoria: " />
-                                    <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
-                                    <p:message for="avaliacao" id="messageAvaliacao" />
-                                    <p:outputLabel for="categoria" value="Categoria: " />
-                                    <p:selectOneMenu id="categoria" value="#{livroBean.entidade.categoria}">             
-                                        <f:selectItems value="#{livroBean.categorias}"   />
-                                    </p:selectOneMenu>
-                                    <p:message for="categoria" id="messageCategoria" />
+                                    </p:panelGrid>
+                                    <p:fieldset legend="Autores">
+                                        <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" converter="entidadeConverter" itemValue="#{autor}" />
+                                    </p:fieldset>
                                     <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
                                                      update=":formularioLivro" process="@form"/>
                                 </p:panelGrid>
                             </p:fieldset>
-                        </h:form>
-                        <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" converter="entidadeConverter" itemValue="#{autor}">
 
-                        </p:pickList>
+                        </h:form>
 
                     </p:tab>
                     <p:tab title="Livros Cadastrados" id="painelLivrosCadastrados">
