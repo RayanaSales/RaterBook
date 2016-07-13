@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:insert name="metadata"/>
 
@@ -11,6 +12,21 @@
 
     <h:body>
         <div id="cabecalho">
+
+            <h:outputText value="#{configuracaoBean.linguagem}" />
+            <h:form>
+                <p:panelGrid columns="2">
+                    <p:commandLink  value="pt_BR" action="#{configuracaoBean.alterarIdioma()}">
+                        <f:setPropertyActionListener value="pt" target="#{configuracaoBean.linguagem}" />
+                        <f:setPropertyActionListener value="BR" target="#{configuracaoBean.pais}" />
+                    </p:commandLink>
+                    <p:commandLink  value="en" action="#{configuracaoBean.alterarIdioma()}">
+                        <f:setPropertyActionListener value="en" target="#{configuracaoBean.linguagem}" />
+                        <f:setPropertyActionListener value="" target="#{configuracaoBean.pais}" />
+                    </p:commandLink>
+                </p:panelGrid>
+            </h:form>
+
             <p:growl showDetail="true" globalOnly="true" id="messages" autoUpdate="true" />
         </div>
         <div id="conteudo">
