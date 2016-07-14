@@ -8,6 +8,7 @@ package beans;
 import entidades.Usuario;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import servico.Servico;
 import servico.UsuarioServico;
 
@@ -16,12 +17,13 @@ import servico.UsuarioServico;
  * @author Edmilson
  */
 @ManagedBean
+@ViewScoped
 public class UsuarioBean extends Bean<Usuario> {
 
     @EJB
     private UsuarioServico usuarioServico;
 
-    public String cadastrarAluno() {
+    public String cadastrarUsuario() {
         super.cadastrar();
         return "sucesso";
     }

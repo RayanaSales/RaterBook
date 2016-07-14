@@ -15,4 +15,32 @@
             <var>mensagem</var>
         </resource-bundle>
     </application>
+    <lifecycle>
+        <phase-listener>listener.InterceptadorAcesso</phase-listener>
+    </lifecycle>
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>sucesso</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>falha</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>     
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>sair</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>  
+    <navigation-rule>
+        <from-view-id>/cadastro.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>sucesso</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>  
 </faces-config>

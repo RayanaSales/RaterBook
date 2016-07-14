@@ -7,14 +7,11 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 @FacesConverter(value = "entidadeConverter")
-public class EntidadeConverter implements Converter
-{
+public class EntidadeConverter implements Converter {
 
     @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value)
-    {
-        if (value != null && !value.isEmpty())
-        {
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        if (value != null && !value.isEmpty()) {
             return (EntidadeNegocio) component.getAttributes().get(value);
         }
 
@@ -22,10 +19,8 @@ public class EntidadeConverter implements Converter
     }
 
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Object entity)
-    {
-        if (entity != null && entity instanceof EntidadeNegocio)
-        {
+    public String getAsString(FacesContext context, UIComponent component, Object entity) {
+        if (entity != null && entity instanceof EntidadeNegocio) {
             component.getAttributes().put(((EntidadeNegocio) entity).getChavePrimaria().toString(), entity);
             return ((EntidadeNegocio) entity).getChavePrimaria().toString();
         }

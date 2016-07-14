@@ -18,15 +18,13 @@ import servico.Servico;
  */
 @ManagedBean
 @ViewScoped
-public class AutorBean extends Bean<Autor>
-{
+public class AutorBean extends Bean<Autor> {
 
     @EJB
     private AutorServico autorServico;
 
     @Override
-    protected Servico inicializarServico()
-    {
+    protected Servico inicializarServico() {
         return autorServico;
     }
 

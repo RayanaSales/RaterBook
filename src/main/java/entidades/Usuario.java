@@ -9,6 +9,10 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import util.Util;
 
 /**
  *
@@ -20,38 +24,42 @@ import javax.persistence.Entity;
             @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))
         })
 public class Usuario extends EntidadeNegocio {
-
+    
+    @Email
     @Column(unique = true)
     private String email;
-
+    @NotBlank
     private String senha;
-
+    @NotBlank
     private String nome;
-
+    
+    @PrePersist
+    public void gerarHash() {
+        setSenha(Util.gerarHash(senha));
+    }
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getSenha() {
         return senha;
     }
-
+    
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
+    
     public String getNome() {
         return nome;
     }
-
+    
     public void setNome(String nome) {
         this.nome = nome;
     }
     
-    
-
 }

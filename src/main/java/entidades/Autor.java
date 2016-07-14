@@ -50,8 +50,7 @@ public class Autor extends EntidadeNegocio {
     }
 
     @Override
-    public boolean associado()
-    {
+    public boolean associado() {
         //não importa se estou associdado a alguém, eu sou o maioral, excluo meu livros com cascade all.
         return false;
     }

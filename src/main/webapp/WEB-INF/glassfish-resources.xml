@@ -2,6 +2,11 @@
 <!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <resources>
      
+    <mail-resource debug="false" enabled="true" from="bibliotecaifpe@gmail.com" host="smtp.gmail.com" jndi-name="mail/Biblioteca" object-type="user" store-protocol="imap" store-protocol-class="com.sun.mail.imap.IMAPStore" transport-protocol="smtp" transport-protocol-class="com.sun.mail.smtp.SMTPTransport" user="sistemamonitoria@gmail.com">
+        <description/>
+        <property name="mail.smtp.auth" value="true"/>
+        <property name="mail.smtp.password" value="bibliotecaifpe@@"/>
+    </mail-resource>
     <jdbc-resource enabled="true" jndi-name="jdbc/RaterBook" object-type="user" pool-name="monitoriaPool">
         <description/>
     </jdbc-resource>

@@ -6,12 +6,16 @@
 package beans;
 
 import entidades.Usuario;
+import exception.NegocioException;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import servico.UsuarioServico;
 
 /**
@@ -22,29 +26,33 @@ import servico.UsuarioServico;
 @RequestScoped
 public class LoginBean {
 
+    @Email
     private String email;
-
+    @NotBlank
     private String senha;
 
     @EJB
     private UsuarioServico usuarioServico;
 
     public String efetuarLogin() {
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        String fluxo = "sucesso";
         try {
-            Usuario usuario = usuarioServico.buscarUsuario(email);
-            adicionarMensagemComponente(null, usuario.getEmail(),
-                    FacesMessage.SEVERITY_WARN);
-        } catch (NoResultException e) {
-            System.out.println(e);
-            adicionarMensagemComponente(null, "Usuário não encontrado",
+            Usuario usuarioLogado = usuarioServico.buscarUsuario(email, senha);
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+            session.setAttribute("usuarioLogado", usuarioLogado);
+        } catch (NegocioException e) {
+            fluxo = "falha";
+            adicionarMensagemComponente(null, e.getMessage(),
                     FacesMessage.SEVERITY_WARN);
         }
 
-        return "sucesso";
+        return fluxo;
     }
 
     public String efetuarLogout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().invalidateSession();
         return "sair";
     }
 

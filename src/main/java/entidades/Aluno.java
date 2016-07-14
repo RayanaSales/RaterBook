@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util.constantes;
+package entidades;
 
 /**
  *
- * @author douglas
+ * @author Edmilson Santana
  */
-public enum LivroEstado {
-    QUERO_LER, LIDO, LENDO
+public class Aluno {
+
 }

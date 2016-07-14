@@ -19,7 +19,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/autor.xhtml</welcome-file>
+        <welcome-file>faces/livro.xhtml</welcome-file>
     </welcome-file-list>
     
     <context-param>
@@ -29,10 +29,10 @@
     
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
-        <param-value>6LcAeyMTAAAAAKaUf3yV10Ey8P6mhimX4oBA-o2q</param-value>
+        <param-value>6LcJCCUTAAAAAFIfXYPEg1wbqswK5lAaprVVn7s9</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
-        <param-value>6LcAeyMTAAAAAP-hKVWAyV2JochXfp2qaVctbvoP</param-value>
+        <param-value>6LcJCCUTAAAAAFRLK_PIhlDh-fbUQPOm0bvLUJTj</param-value>
     </context-param>
 </web-app>

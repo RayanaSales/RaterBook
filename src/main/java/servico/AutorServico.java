@@ -32,4 +32,9 @@ public class AutorServico extends Servico<Autor> {
         return new Autor();
     }
 
+    @Override
+    public Boolean verificarExistencia(Autor entidadeNegocio) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
