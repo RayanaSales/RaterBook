@@ -5,8 +5,10 @@
  */
 package beans;
 
+import entidades.Aluno;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import servico.Servico;
 
 /**
  *
@@ -14,6 +16,13 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class AlunoBean {
-    
+public class AlunoBean extends Bean<Aluno> {
+
+    private static final long serialVersionUID = 5365800389243950009L;
+
+    @Override
+    protected Servico inicializarServico() {
+        return null;
+    }
+
 }

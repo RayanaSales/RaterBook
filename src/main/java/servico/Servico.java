@@ -17,11 +17,11 @@ public abstract class Servico<T extends EntidadeNegocio> {
     protected static final Logger LOG = Logger.getLogger(Servico.class);
     
     @PersistenceContext(unitName = "rater-book", type = PersistenceContextType.TRANSACTION)
-    protected EntityManager em;
+    protected EntityManager entityManager;
 
     public void salvar(T entidadeNegocio) throws NegocioException {
         validarCadastro(entidadeNegocio);
-        em.persist(entidadeNegocio);
+        entityManager.persist(entidadeNegocio);
     }
 
     public void validarCadastro(T entidadeNegocio) throws NegocioException {
@@ -41,13 +41,13 @@ public abstract class Servico<T extends EntidadeNegocio> {
     public abstract Boolean verificarExistencia(T entidadeNegocio);
 
     public void alterar(T entidadeNegocio) throws NegocioException {
-        em.merge(entidadeNegocio);
+        entityManager.merge(entidadeNegocio);
     }
 
     public void remover(T entidadeNegocio) throws NegocioException {
         if (entidadeNegocio.associado() == false) {
-            entidadeNegocio = em.find(getClasseEntidade(), entidadeNegocio.getChavePrimaria());
-            em.remove(entidadeNegocio);
+            entidadeNegocio = entityManager.find(getClasseEntidade(), entidadeNegocio.getChavePrimaria());
+            entityManager.remove(entidadeNegocio);
         } else {
             throw new NegocioException(NegocioException.ENTIDADE_ASSOCIADA);
         }
@@ -59,7 +59,7 @@ public abstract class Servico<T extends EntidadeNegocio> {
         jpql.append(" from ");
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as e ");
-        TypedQuery<T> query = em.createQuery(jpql.toString(), getClasseEntidade());
+        TypedQuery<T> query = entityManager.createQuery(jpql.toString(), getClasseEntidade());
         return query.getResultList();
     }
 

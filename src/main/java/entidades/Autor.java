@@ -25,6 +25,8 @@ import org.hibernate.validator.constraints.NotBlank;
         })
 public class Autor extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -8161053151326463631L;
+
     @NotBlank
     @Size(min = 7, max = 30)
     @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")

@@ -7,7 +7,7 @@ package beans;
 
 import entidades.Usuario;
 import exception.NegocioException;
-import javax.annotation.PostConstruct;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,7 +24,7 @@ import servico.UsuarioServico;
  */
 @ManagedBean
 @RequestScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
 
     @Email
     private String email;

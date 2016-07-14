@@ -24,7 +24,9 @@ import util.Util;
             @AttributeOverride(name = "chavePrimaria", column = @Column(name = "USUARIO_ID"))
         })
 public class Usuario extends EntidadeNegocio {
-    
+
+    private static final long serialVersionUID = -8462002161260522543L;
+
     @Email
     @Column(unique = true)
     private String email;
@@ -32,34 +34,34 @@ public class Usuario extends EntidadeNegocio {
     private String senha;
     @NotBlank
     private String nome;
-    
+
     @PrePersist
     public void gerarHash() {
         setSenha(Util.gerarHash(senha));
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getSenha() {
         return senha;
     }
-    
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
     public String getNome() {
         return nome;
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
 }

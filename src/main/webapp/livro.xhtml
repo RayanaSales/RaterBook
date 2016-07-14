@@ -33,20 +33,18 @@
                                         <p:outputLabel for="categoria" value="Categoria: " />
                                         <p:selectOneMenu id="categoria" required="true" 
                                                          value="#{livroBean.entidade.categoria}">             
-                                            <f:selectItems value="#{livroBean.categorias}"   />
+                                            <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
                                         </p:selectOneMenu>
                                         <p:message for="categoria" id="messageCategoria" />
-
+                                        <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
+                                                         update=":formularioLivro" process="@form"/>
                                     </p:panelGrid>
-                                    <p:fieldset legend="Autores">
-                                        <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" 
-                                                    converter="entidadeConverter" itemValue="#{autor}" />
-                                    </p:fieldset>
-
-                                    <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
-                                                     update=":formularioLivro" process="@form"/>
-
                                 </p:fieldset>
+                                <p:fieldset legend="Autores">
+                                    <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" 
+                                                converter="entidadeConverter" itemValue="#{autor}" />
+                                </p:fieldset>
+
                             </p:panelGrid>
                         </h:form>
 
@@ -85,7 +83,7 @@
                                             <h:outputText value="#{livro.categoria}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:selectOneMenu id="categoria" value="#{livro.categoria}">
+                                            <p:selectOneMenu id="categoria" >
                                                 <f:selectItems value="#{livroBean.categorias}"   />
                                             </p:selectOneMenu>
                                         </f:facet>

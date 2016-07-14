@@ -9,6 +9,6 @@ package util.constantes;
  *
  * @author douglas
  */
-public enum LivroEstado {
-    QUERO_LER, LIDO, LENDO
+public enum SituacaoLivro {
+    EMPRESTADO, DISPONIVEL, RESERVADO
 }

@@ -20,6 +20,8 @@ import servico.Servico;
 @ViewScoped
 public class AutorBean extends Bean<Autor> {
 
+    private static final long serialVersionUID = -9045311142076127181L;
+
     @EJB
     private AutorServico autorServico;
 

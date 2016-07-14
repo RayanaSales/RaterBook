@@ -10,7 +10,7 @@ import org.primefaces.model.DualListModel;
 import servico.AutorServico;
 import servico.LivroServico;
 import servico.Servico;
-import util.constantes.LivroCategoria;
+import util.constantes.CategoriaLivro;
 
 /**
  *
@@ -19,6 +19,8 @@ import util.constantes.LivroCategoria;
 @ManagedBean
 @ViewScoped
 public class LivroBean extends Bean<Livro> {
+
+    private static final long serialVersionUID = 6413956801026910848L;
 
     @EJB
     private LivroServico servico;
@@ -41,8 +43,8 @@ public class LivroBean extends Bean<Livro> {
         super.cadastrar();
     }
 
-    public LivroCategoria[] getCategorias() {
-        return LivroCategoria.values();
+    public CategoriaLivro[] getCategorias() {
+        return CategoriaLivro.values();
     }
 
     @Override

@@ -20,6 +20,8 @@ import servico.UsuarioServico;
 @ViewScoped
 public class UsuarioBean extends Bean<Usuario> {
 
+    private static final long serialVersionUID = -2595553757591671346L;
+
     @EJB
     private UsuarioServico usuarioServico;
 

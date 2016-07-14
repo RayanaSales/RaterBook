@@ -14,7 +14,31 @@
             <h:graphicImage library="img" name="livraria.jpg" style="height: 20em; width: 100em" />
         </div>
         <div id="conteudo">
-            <ui:insert name="conteudo"></ui:insert> 
+            <h:form rendered="#{usuarioLogado != null}">
+                <p:menubar>
+                    <p:menuitem value="Logout" style="float: left;" icon="fa fa-fw fa-sign-out" action="#{loginBean.efetuarLogout()}" />
+                </p:menubar>
+                <p:layoutUnit position="west">
+                    <p:menu>
+                        <p:submenu>
+                            <p:menuitem value="Configurações" id="configuracoes"  />
+                            <p:menuitem value="Livro" action="livro?faces-redirect=true" />
+                            <p:menuitem value="Autor" action="autor?faces-redirect=true" />
+                            <p:menuitem value="Aluno" action="aluno?faces-redirect=true" />
+                        </p:submenu>
+                    </p:menu>
+                    <p:overlayPanel  for="configuracoes" hideEffect="fade" dynamic="true" style="width:600px">
+                        <p:outputLabel value="Temas: " />
+                        <p:themeSwitcher id="basic" value="#{userSettings.tema}">
+                            <f:selectItem itemLabel="Escolha o Tema"/>
+                            <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
+                            <f:ajax />
+                        </p:themeSwitcher>
+                    </p:overlayPanel>
+                </p:layoutUnit>
+                <ui:insert name="conteudo"></ui:insert> 
+            </h:form>
+            
         </div>
     </h:body>
 </html>
