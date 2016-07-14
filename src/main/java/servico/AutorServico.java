@@ -6,12 +6,13 @@
 package servico;
 
 import entidades.Autor;
-import javax.ejb.EJB;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,21 +21,34 @@ import javax.ejb.TransactionManagementType;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AutorServico extends Servico<Autor> {
+public class AutorServico extends Servico<Autor>
+{
 
     @Override
-    public Class<Autor> getClasseEntidade() {
+    public Class<Autor> getClasseEntidade()
+    {
         return Autor.class;
     }
 
     @Override
-    public Autor getEntidadeNegocio() {
+    public Autor getEntidadeNegocio()
+    {
         return new Autor();
     }
 
     @Override
-    public Boolean verificarExistencia(Autor entidadeNegocio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public Boolean verificarExistencia(Autor entidadeNegocio)
+    {
+        TypedQuery<Autor> query;
+        query = em.createQuery("select a from Autor a where a.nome like ?1", Autor.class);
+        query.setParameter(1, entidadeNegocio.getNome());
+        List<Autor> autores = query.getResultList();
 
+        if (autores.isEmpty())
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
