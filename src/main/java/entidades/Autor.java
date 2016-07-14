@@ -34,6 +34,10 @@ public class Autor extends EntidadeNegocio {
             inverseJoinColumns = @JoinColumn(name = "LIVRO_ID"))
     private List<Livro> livros;
 
+    public Autor()
+    {
+    }
+    
     public void adicionarAutor(Livro livro) {
         if (livros == null) {
             livros = new ArrayList<>();
@@ -48,11 +52,4 @@ public class Autor extends EntidadeNegocio {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    @Override
-    public boolean associado() {
-        //não importa se estou associdado a alguém, eu sou o maioral, excluo meu livros com cascade all.
-        return false;
-    }
-
 }
