@@ -8,32 +8,32 @@
         <ui:define name="conteudo">
             <h:form id="formularioAutor">
                 <p:tabView>
-                    <p:tab title="Cadastro de Autores">
+                    <p:tab title="#{mensagem.cadastroAutor}">
                         <p:messages id="messagesCadastro" autoUpdate="true" closable="true"/>
                         <h:form id="formCadastroCurso">
-                            <p:fieldset legend="Dados do Autor">
+                            <p:fieldset legend="#{mensagem.dadosAutor}">
                                 <p:panelGrid columns="3">
-                                    <p:outputLabel for="nome">#{mensagem.menu}</p:outputLabel>
+                                    <p:outputLabel for="nome">#{mensagem.nome}</p:outputLabel>
                                     <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
                                         <f:validateLength minimum="7" maximum="30"/>
                                     </p:inputText>
                                     <p:message for="nome" id="messageNome"/>
 
-                                    <p:commandButton action="#{autorBean.cadastrar()}" value="Cadastrar" 
+                                    <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
                                                      update=":formularioAutor" process="@form"/>
                                 </p:panelGrid>
                             </p:fieldset>
                         </h:form>
                     </p:tab>
-                    <p:tab title="Autores Cadastrados" id="painelAutoresCadastrados">
+                    <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
                         <p:messages id="messagesEdicao" autoUpdate="true" closable="true"/>
                         <h:form id="formTabelaAutor">
-                            <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Autor registrado">
-                                <f:facet name="header">Autores</f:facet>
+                            <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAutorRegistrado}">
+                                <f:facet name="header">#{mensagem.autores}</f:facet>
 
                                 <p:ajax event="rowEdit" listener="#{autorBean.editar}"  />
 
-                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
+                                <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{entidade.nome}" />
