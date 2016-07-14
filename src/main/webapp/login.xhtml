@@ -18,7 +18,7 @@
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:outputLabel value="Captcha" />
                         <p:captcha id="captcha" label="Captcha" />
-                        <p:commandButton value="Entrar" />
+                        <p:commandButton value="Entrar" action="#{loginBean.efetuarLogin()}" />
                         <p:commandButton value="Cadastro" immediate="true" action="cadastro" />
                     </p:panelGrid>
                 </p:fieldset>

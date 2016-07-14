@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entidades;
+package beans;
 
-import javax.persistence.Entity;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
- * @author Edmilson Santana
+ * @author Edmilson
  */
-@Entity
-public class Aluno extends EntidadeNegocio {
-
+@ManagedBean
+@ViewScoped
+public class AlunoBean {
+    
 }

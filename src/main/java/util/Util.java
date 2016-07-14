@@ -5,10 +5,10 @@
  */
 package util;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Util {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.update(str.getBytes(Charset.forName("UTF-8")));
-            return Base64.encode((digest.digest()));
+            return Base64.encodeBase64String(digest.digest());
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
