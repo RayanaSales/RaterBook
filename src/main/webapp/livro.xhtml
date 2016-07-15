@@ -12,33 +12,42 @@
                         <h:form id="formCadastroLivro">
                             <p:panelGrid columns="2">
                                 <p:fieldset legend="Dados do Livro">
-                                    <p:panelGrid columns="3">
-                                        <p:outputLabel id="cadastroLivroNome" for="nome">Nome</p:outputLabel>                                   
-                                        <p:inputText id="nome" required="true" value="#{livroBean.entidade.nome}" >
-                                            <f:validateLength minimum="2" maximum="50"/>
-                                        </p:inputText>
-                                        <p:message for="nome" id="messageNome" />
-
-                                        <p:outputLabel for="sinopse">Sinopse</p:outputLabel>
-                                        <p:inputText id="sinopse" required="true" 
-                                                     value="#{livroBean.entidade.sinopse}" >
-                                            <f:validateLength minimum="10" maximum="100"/>
-                                        </p:inputText>
-                                        <p:message for="sinopse" id="messageSinopse" />
-
-                                        <p:outputLabel for="avaliacao" value="Avaliação: " />
-                                        <p:rating id="avaliacao" stars="5" value="#{livroBean.entidade.avaliacao}" />
-                                        <p:message for="avaliacao" id="messageAvaliacao" />
-
-                                        <p:outputLabel for="categoria" value="Categoria: " />
-                                        <p:selectOneMenu id="categoria" required="true" 
-                                                         value="#{livroBean.entidade.categoria}">             
-                                            <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
-                                        </p:selectOneMenu>
-                                        <p:message for="categoria" id="messageCategoria" />
-                                        <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
-                                                         update=":formularioLivro" process="@form"/>
-                                    </p:panelGrid>
+                                    <p:wizard>
+                                        <p:tab title="Editora">
+                                            <p:panel header="Dados da Editora">
+                                                <p:selectOneMenu id="editora" required="true" 
+                                                                 value="#{livroBean.entidade.categoria}">             
+                                                    <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
+                                                </p:selectOneMenu>
+                                                <p:overlayPanel id="moviePanel" for="movieBtn" hideEffect="fade" dynamic="true" style="width:600px">
+                                                    <p:outputLabel for="nome">Nome: </p:outputLabel>                                   
+                                                    <p:inputText id="nome" required="true" value="#{livroBean.entidade.titulo}" >
+                                                        <f:validateLength minimum="2" maximum="50"/>
+                                                    </p:inputText>
+                                                    <p:message for="titulo" id="messageTitulo" />
+                                                </p:overlayPanel>
+                                            </p:panel>
+                                        </p:tab>
+                                        <p:tab >
+                                            <p:panelGrid columns="3">
+                                                <p:outputLabel for="titulo">Título: </p:outputLabel>                                   
+                                                <p:inputText id="titulo" required="true" value="#{livroBean.entidade.titulo}" >
+                                                    <f:validateLength minimum="2" maximum="50"/>
+                                                </p:inputText>
+                                                <p:message for="titulo" id="messageTitulo" />
+                                                <p:outputLabel for="isbn">ISBN: </p:outputLabel>                                   
+                                                <p:inputMask id="isbn" mask="" value="#{livroBean.entidade.isbn}" />
+                                                <p:message for="isbn" id="messageIsbn" />
+                                                <p:outputLabel for="categoria">Categoria: </p:outputLabel>
+                                                <p:selectOneMenu id="categoria" required="true" 
+                                                                 value="#{livroBean.entidade.categoria}">             
+                                                    <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
+                                                </p:selectOneMenu>
+                                                <p:commandButton action="#{livroBean.cadastrar()}" value="Cadastrar" 
+                                                                 update=":formularioLivro" process="@form"/>
+                                            </p:panelGrid>
+                                        </p:tab>
+                                    </p:wizard>
                                 </p:fieldset>
                                 <p:fieldset legend="Autores">
                                     <p:pickList id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" 
@@ -57,13 +66,13 @@
 
                                 <p:ajax event="rowEdit" listener="#{livroBean.editar}"  />
 
-                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{livro.nome}" sortBy="#{livro.nome}">
+                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{livro.titulo}" sortBy="#{livro.titulo}">
                                     <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{livro.nome}" />
+                                            <h:outputText value="#{livro.titulo}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <p:inputText id="nome" value="#{livro.nome}" required="true" />
+                                            <p:inputText  value="#{livro.titulo}" required="true" />
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>

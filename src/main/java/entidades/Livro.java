@@ -47,6 +47,9 @@ public class Livro extends EntidadeNegocio {
     @Min(value = 1)
     private Integer edicao;
 
+    @Min(value = 0)
+    private Integer unidades;
+
     @Past
     private Integer dataCriacao;
 
@@ -137,6 +140,14 @@ public class Livro extends EntidadeNegocio {
 
     public void setSituacao(SituacaoLivro situacao) {
         this.situacao = situacao;
+    }
+
+    public Integer getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(Integer unidades) {
+        this.unidades = unidades;
     }
 
 }

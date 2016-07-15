@@ -14,4 +14,10 @@ import javax.persistence.Entity;
 @Entity
 public class Aluno extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -6967794368017326187L;
+
+    private String nome;
+    
+    private String matricula;
+    
 }

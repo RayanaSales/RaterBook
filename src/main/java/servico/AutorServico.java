@@ -21,31 +21,26 @@ import javax.persistence.TypedQuery;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AutorServico extends Servico<Autor>
-{
+public class AutorServico extends Servico<Autor> {
 
     @Override
-    public Class<Autor> getClasseEntidade()
-    {
+    public Class<Autor> getClasseEntidade() {
         return Autor.class;
     }
 
     @Override
-    public Autor getEntidadeNegocio()
-    {
+    public Autor getEntidadeNegocio() {
         return new Autor();
     }
 
     @Override
-    public Boolean verificarExistencia(Autor entidadeNegocio)
-    {
+    public Boolean verificarExistencia(Autor entidadeNegocio) {
         TypedQuery<Autor> query;
-        query = em.createQuery("select a from Autor a where a.nome like ?1", Autor.class);
+        query = entityManager.createQuery("select a from Autor a where a.nome like ?1", getClasseEntidade());
         query.setParameter(1, entidadeNegocio.getNome());
         List<Autor> autores = query.getResultList();
 
-        if (autores.isEmpty())
-        {
+        if (autores.isEmpty()) {
             return false;
         }
 
