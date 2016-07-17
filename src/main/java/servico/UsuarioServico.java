@@ -6,7 +6,7 @@
 package servico;
 
 import com.mysql.jdbc.StringUtils;
-import entidades.Usuario;
+import entidades.usuario.Usuario;
 import util.Util;
 import exception.NegocioException;
 import javax.ejb.EJB;

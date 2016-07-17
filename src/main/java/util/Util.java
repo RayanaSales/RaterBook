@@ -8,6 +8,8 @@ package util;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -24,6 +26,10 @@ public class Util {
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
+    }
+    
+    public static Date obterDataAtual() {
+        return Calendar.getInstance().getTime();
     }
 
 }

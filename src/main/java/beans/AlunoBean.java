@@ -5,7 +5,7 @@
  */
 package beans;
 
-import entidades.Aluno;
+import entidades.aluno.Aluno;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import servico.Servico;

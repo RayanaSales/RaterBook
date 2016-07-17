@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entidades;
+package entidades.editora;
 
+import entidades.EntidadeNegocio;
+import entidades.livro.Livro;
+import entidades.livro.Livro;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

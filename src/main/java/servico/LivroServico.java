@@ -1,6 +1,6 @@
 package servico;
 
-import entidades.Livro;
+import entidades.livro.Livro;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;

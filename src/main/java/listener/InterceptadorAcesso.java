@@ -5,7 +5,7 @@
  */
 package listener;
 
-import entidades.Usuario;
+import entidades.usuario.Usuario;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;

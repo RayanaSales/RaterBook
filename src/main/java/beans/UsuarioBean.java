@@ -5,7 +5,7 @@
  */
 package beans;
 
-import entidades.Usuario;
+import entidades.usuario.Usuario;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

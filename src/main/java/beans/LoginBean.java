@@ -5,7 +5,7 @@
  */
 package beans;
 
-import entidades.Usuario;
+import entidades.usuario.Usuario;
 import exception.NegocioException;
 import java.io.Serializable;
 import javax.ejb.EJB;

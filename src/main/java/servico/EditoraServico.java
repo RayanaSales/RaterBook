@@ -5,7 +5,7 @@
  */
 package servico;
 
-import entidades.Editora;
+import entidades.editora.Editora;
 import entidades.EntidadeNegocio;
 import javax.ejb.Stateless;
 

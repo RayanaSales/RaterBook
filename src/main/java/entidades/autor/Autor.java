@@ -1,5 +1,7 @@
-package entidades;
+package entidades.autor;
 
+import entidades.EntidadeNegocio;
+import entidades.livro.Livro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.AttributeOverride;

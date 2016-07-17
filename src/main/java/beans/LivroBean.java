@@ -1,8 +1,8 @@
 package beans;
 
-import entidades.Autor;
-import entidades.Editora;
-import entidades.Livro;
+import entidades.autor.Autor;
+import entidades.editora.Editora;
+import entidades.livro.Livro;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;

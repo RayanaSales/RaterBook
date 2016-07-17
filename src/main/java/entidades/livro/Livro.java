@@ -1,5 +1,8 @@
-package entidades;
+package entidades.livro;
 
+import entidades.editora.Editora;
+import entidades.autor.Autor;
+import entidades.EntidadeNegocio;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.AttributeOverride;
@@ -19,7 +22,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import util.constantes.CategoriaLivro;
-import util.constantes.SituacaoLivro;
+import util.constantes.SituacaoExemplar;
 
 @Entity
 @AttributeOverrides(
@@ -59,7 +62,7 @@ public class Livro extends EntidadeNegocio {
     private Editora editora;
 
     @NotBlank
-    private SituacaoLivro situacao;
+    private SituacaoExemplar situacao;
 
     @NotBlank
     private CategoriaLivro categoria;
@@ -84,14 +87,6 @@ public class Livro extends EntidadeNegocio {
 
     public void setCategoria(CategoriaLivro categoria) {
         this.categoria = categoria;
-    }
-
-    @Override
-    public boolean associado() {
-        if (autores.isEmpty()) {
-            return false;
-        }
-        return true;
     }
 
     public String getTitulo() {
@@ -134,11 +129,11 @@ public class Livro extends EntidadeNegocio {
         this.editora = editora;
     }
 
-    public SituacaoLivro getSituacao() {
+    public SituacaoExemplar getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(SituacaoLivro situacao) {
+    public void setSituacao(SituacaoExemplar situacao) {
         this.situacao = situacao;
     }
 
@@ -148,6 +143,14 @@ public class Livro extends EntidadeNegocio {
 
     public void setUnidades(Integer unidades) {
         this.unidades = unidades;
+    }
+
+    @Override
+    public boolean associado() {
+        if (autores.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
 }

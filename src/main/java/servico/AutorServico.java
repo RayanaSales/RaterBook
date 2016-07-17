@@ -5,7 +5,7 @@
  */
 package servico;
 
-import entidades.Autor;
+import entidades.autor.Autor;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
