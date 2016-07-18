@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import util.constantes.LivroCategoria;
@@ -33,7 +34,7 @@ public class Livro extends EntidadeNegocio {
     @Size(min = 10, max = 100)
     private String sinopse;
 
-    @NotBlank
+    @NotNull
     private LivroCategoria categoria;
 
     @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
