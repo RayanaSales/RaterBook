@@ -26,6 +26,8 @@ import servico.UsuarioServico;
 @RequestScoped
 public class LoginBean implements Serializable {
 
+    private static final long serialVersionUID = -6146667652658875312L;
+
     @Email
     private String email;
     @NotBlank

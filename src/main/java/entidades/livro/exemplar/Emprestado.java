@@ -12,7 +12,7 @@ import exception.NegocioException;
  *
  * @author Edmilson Santana
  */
-public class Emprestado implements EstadoExemplar {
+public class Emprestado implements OperacoesEstadoExemplar {
 
     private static Emprestado instancia = null;
 
@@ -29,12 +29,12 @@ public class Emprestado implements EstadoExemplar {
     @Override
     public EstadoExemplar devolver(Exemplar exemplar) throws NegocioException {
        // exemplar.getUltimoEmprestimo().devolver();
-        return Disponivel.getInstance();
+        return EstadoExemplar.DISPONIVEL;
     }
 
     @Override
     public EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) throws NegocioException {
-        throw new NegocioException(NegocioException.EXEMPLAR_DISPONIVEL);
+        throw new NegocioException(NegocioException.EXEMPLAR_INDISPONIVEL);
     }
 
 }

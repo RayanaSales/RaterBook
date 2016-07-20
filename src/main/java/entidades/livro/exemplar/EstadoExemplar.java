@@ -12,9 +12,23 @@ import exception.NegocioException;
  *
  * @author Edmilson Santana
  */
-public interface EstadoExemplar {
+public enum EstadoExemplar implements OperacoesEstadoExemplar {
+    DISPONIVEL(Disponivel.getInstance()),
+    EMPRESTADO(Emprestado.getInstance());
 
-    EstadoExemplar devolver(Exemplar exemplar) throws NegocioException;
+    private final OperacoesEstadoExemplar operacoes;
 
-    EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) throws NegocioException;
+    private EstadoExemplar(OperacoesEstadoExemplar operacoes) {
+        this.operacoes = operacoes;
+    }
+
+    @Override
+    public EstadoExemplar devolver(Exemplar exemplar) throws NegocioException {
+        return operacoes.devolver(exemplar);
+    }
+
+    @Override
+    public EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) throws NegocioException {
+        return operacoes.solicitar(aluno, exemplar);
+    }
 }

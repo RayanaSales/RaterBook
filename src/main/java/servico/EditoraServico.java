@@ -6,7 +6,6 @@
 package servico;
 
 import entidades.editora.Editora;
-import entidades.EntidadeNegocio;
 import javax.ejb.Stateless;
 
 /**
@@ -18,7 +17,7 @@ public class EditoraServico extends Servico<Editora> {
 
     @Override
     public Boolean verificarExistencia(Editora entidadeNegocio) {
-        return Boolean.TRUE;
+        return Boolean.FALSE;
     }
 
     @Override

@@ -3,10 +3,12 @@ package beans;
 import entidades.autor.Autor;
 import entidades.editora.Editora;
 import entidades.livro.Livro;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 import servico.AutorServico;
 import servico.EditoraServico;
@@ -29,24 +31,24 @@ public class LivroBean extends Bean<Livro> {
 
     @EJB
     private EditoraServico editoraServico;
-    
+
     @EJB
     private AutorServico autorServico;
     
-    private Editora editora;
+    private List<Editora> editoras = new ArrayList<>();
 
     private DualListModel<Autor> autores = new DualListModel<>();
 
     @Override
     public void inicializar() {
         super.inicializar();
-        editora = editoraServico.getEntidadeNegocio();
         autores.setSource(autorServico.listarTodos());
+        editoras = editoraServico.listarTodos();
     }
 
     @Override
     public void cadastrar() {
-        
+
         entidade.setAutores(autores.getTarget());
         super.cadastrar();
     }
@@ -54,9 +56,9 @@ public class LivroBean extends Bean<Livro> {
     public CategoriaLivro[] getCategorias() {
         return CategoriaLivro.values();
     }
-    
+
     public List<Editora> getEditoras() {
-        return editoraServico.listarTodos();
+        return editoras;
     }
 
     @Override
@@ -68,8 +70,24 @@ public class LivroBean extends Bean<Livro> {
         return autores;
     }
 
+    public boolean existemAutoresCadastrados() {
+        return !autores.getSource().isEmpty();
+    }
+    
+    public boolean existemEditorasCadastradas() {
+        return !this.getEditoras().isEmpty();
+    }
+
     public void setAutores(DualListModel<Autor> autores) {
         this.autores = autores;
     }
+
+    public String onFlowProcess(FlowEvent event) {
+        return event.getNewStep();
+    }
+
+   
+    
+    
 
 }

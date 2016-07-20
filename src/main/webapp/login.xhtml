@@ -16,8 +16,8 @@
                         <p:outputLabel value="#{mensagem.senha}" />
                         <p:password feedback="true" value="${loginBean.senha}" id="senha" weakLabel="#{mensagem.senhaFraca}"
                                     goodLabel="#{mensagem.senhaBoa}" strongLabel="#{mensagem.senhaForte}" promptLabel="#{mensagem.informeSenha}" required="true"/>
-                        <p:outputLabel value="Captcha" />
-                        <p:captcha id="captcha" label="Captcha" language="pt"/>
+                        <p:outputLabel for="captcha" value="Captcha" />
+                        <p:captcha id="captcha" label="Captcha" language="#{userSettings.localizacao.language}"/>
                         <p:commandButton value="#{mensagem.entrar}" action="#{loginBean.efetuarLogin()}" />
                         <p:commandButton value="#{mensagem.registrar}" immediate="true" action="cadastro" />
                     </p:panelGrid>

@@ -9,6 +9,9 @@ import entidades.livro.exemplar.Exemplar;
 import entidades.EntidadeNegocio;
 import entidades.aluno.Aluno;
 import java.util.Date;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -23,11 +26,18 @@ import util.constantes.SituacaoEmprestimo;
  * @author Edmilson Santana
  */
 @Entity
+@AttributeOverrides(
+        {
+            @AttributeOverride(name = "chavePrimaria", column = @Column(name = "EMPRESTIMO_ID"))
+        })
 public class Emprestimo extends EntidadeNegocio {
+
+    private static final long serialVersionUID = -6616763680915934583L;
 
     @NotNull
     @ManyToOne
     private Exemplar exemplar;
+    
     @NotNull
     @ManyToOne
     private Aluno aluno;

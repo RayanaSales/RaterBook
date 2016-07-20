@@ -12,7 +12,7 @@ import exception.NegocioException;
  *
  * @author Edmilson Santana
  */
-public class Disponivel implements EstadoExemplar {
+public class Disponivel implements OperacoesEstadoExemplar {
 
     private static Disponivel instancia = null;
 
@@ -34,7 +34,7 @@ public class Disponivel implements EstadoExemplar {
     @Override
     public EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) {
         exemplar.novoEmprestimo(aluno);
-        return Emprestado.getInstance();
+        return EstadoExemplar.EMPRESTADO;
     }
 
 }

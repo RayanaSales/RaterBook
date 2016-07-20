@@ -3,6 +3,7 @@ package entidades.livro;
 import entidades.editora.Editora;
 import entidades.autor.Autor;
 import entidades.EntidadeNegocio;
+import entidades.livro.exemplar.Exemplar;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.AttributeOverride;
@@ -10,11 +11,11 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -22,7 +23,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import util.constantes.CategoriaLivro;
-import util.constantes.SituacaoExemplar;
 
 @Entity
 @AttributeOverrides(
@@ -50,22 +50,18 @@ public class Livro extends EntidadeNegocio {
     @Min(value = 1)
     private Integer edicao;
 
-    @Min(value = 0)
-    private Integer unidades;
-
-    @Past
-    private Integer dataCriacao;
+    @Min(value = 1)
+    private Integer anoEdicao;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_EDITORA", referencedColumnName = "ID", nullable = false)
     private Editora editora;
 
     @NotBlank
-    private SituacaoExemplar situacao;
-
-    @NotBlank
     private CategoriaLivro categoria;
+
+    @OneToMany(mappedBy = "livro")
+    private List<Exemplar> exemplares;
 
     @ManyToMany(mappedBy = "livros", fetch = FetchType.LAZY)
     private List<Autor> autores;
@@ -113,14 +109,6 @@ public class Livro extends EntidadeNegocio {
         this.edicao = edicao;
     }
 
-    public Integer getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Integer dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
     public Editora getEditora() {
         return editora;
     }
@@ -129,28 +117,29 @@ public class Livro extends EntidadeNegocio {
         this.editora = editora;
     }
 
-    public SituacaoExemplar getSituacao() {
-        return situacao;
+    public List<Exemplar> getExemplares() {
+        return exemplares;
     }
 
-    public void setSituacao(SituacaoExemplar situacao) {
-        this.situacao = situacao;
+    public void addExemplar(Exemplar exemplar) {
+        if (this.exemplares == null) {
+            this.exemplares = new ArrayList<>();
+        }
+        exemplar.setLivro(this);
+        this.exemplares.add(exemplar);
     }
 
-    public Integer getUnidades() {
-        return unidades;
+    public Integer getAnoEdicao() {
+        return anoEdicao;
     }
 
-    public void setUnidades(Integer unidades) {
-        this.unidades = unidades;
+    public void setAnoEdicao(Integer anoEdicao) {
+        this.anoEdicao = anoEdicao;
     }
 
     @Override
     public boolean associado() {
-        if (autores.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !autores.isEmpty();
     }
 
 }

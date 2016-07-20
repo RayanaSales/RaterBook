@@ -5,40 +5,48 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <h:head><title>RaterBook</title></h:head>
+    <f:view locale="#{userSettings.localizacao}" />
+    <h:head>
+        <title>RaterBook</title>
+        <h:outputStylesheet library="css" name="base.css" />
+    </h:head>
 
     <h:body>
         <div id="cabecalho">
-            <p:growl showDetail="false"  globalOnly="true" id="messages" autoUpdate="true" />
-            <h:graphicImage library="img" name="livraria.jpg" style="height: 20em; width: 100em" />
+            <p:growl showDetail="false"  globalOnly="true" autoUpdate="true" />
         </div>
         <div id="conteudo">
             <h:form rendered="#{usuarioLogado != null}">
-                <p:menubar>
-                    <p:menuitem value="Logout" style="float: left;" icon="fa fa-fw fa-sign-out" action="#{loginBean.efetuarLogout()}" />
-                </p:menubar>
-                <p:layoutUnit position="west">
-                    <p:menu>
-                        <p:submenu>
-                            <p:menuitem value="Configurações" id="configuracoes"  />
-                            <p:menuitem value="Livro" action="livro?faces-redirect=true" />
-                            <p:menuitem value="Autor" action="autor?faces-redirect=true" />
-                            <p:menuitem value="Aluno" action="aluno?faces-redirect=true" />
-                        </p:submenu>
-                    </p:menu>
-                    <p:overlayPanel  for="configuracoes" hideEffect="fade" dynamic="true" style="width:600px">
-                        <p:outputLabel value="Temas: " />
-                        <p:themeSwitcher id="basic" value="#{userSettings.tema}">
-                            <f:selectItem itemLabel="Escolha o Tema"/>
-                            <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
-                            <f:ajax />
-                        </p:themeSwitcher>
-                    </p:overlayPanel>
-                </p:layoutUnit>
-                <ui:insert name="conteudo"></ui:insert> 
+                <p:layout>
+                    <p:layoutUnit  position="north">
+                        <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
+                        <p:menubar>
+                            <p:menuitem styleClass="logoutButton" value="Logout" icon="fa fa-fw fa-sign-out" action="#{loginBean.efetuarLogout()}" />
+                        </p:menubar>
+                    </p:layoutUnit>
+                    <p:layoutUnit position="west">
+                        <p:menu>
+                            <p:submenu label="Navegação">
+                                <p:menuitem icon="fa fa-fw fa-home" value="Principal" action="principal?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-cog" value="Configurações" action="configuracoes?faces-redirect=true"  />
+                                <p:menuitem icon="fa fa-fw fa-building" value="Editora" action="editora?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-book" value="Livro" action="livro?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-edit" value="Autor" action="autor?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-users" value="Aluno" action="aluno?faces-redirect=true" />
+                            </p:submenu>
+                        </p:menu>
+                    </p:layoutUnit> 
+                    <p:layoutUnit  position="center">
+                        <ui:insert name="conteudo"></ui:insert>
+                    </p:layoutUnit>
+                </p:layout>
             </h:form>
-            
+
+            <h:form rendered="#{usuarioLogado == null}">
+                <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
+                <ui:insert name="conteudo"></ui:insert>
+               
+            </h:form>
         </div>
     </h:body>
 </html>

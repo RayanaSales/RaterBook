@@ -3,40 +3,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
             <h:form>
                 <p:tabView>
-                    <p:tab title="#{mensagem.cadastroAutor}">
-                        <p:fieldset legend="#{mensagem.dadosAutor}">
+                    <p:tab title="#{mensagem.editoraCadastroTitulo}">
+                        <p:fieldset legend="#{mensagem.editoraCadastroLegenda}">
                             <p:panelGrid columns="3">
-                                <p:outputLabel for="nome">#{mensagem.nome}</p:outputLabel>
-                                <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
-                                    <f:validateLength minimum="7" maximum="30"/>
-                                </p:inputText>
-                                <p:message for="nome" id="messageNome"/>
-
-                                <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="@form" process="@form"/>
+                                <util:input inputId="nome"  inputLabel="Nome" inputValue="#{editoraBean.entidade.nome}">
+                                    <f:validateLength for="validation" minimum="2" maximum="30" />
+                                </util:input>
                             </p:panelGrid>
+                            <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                             update="tabelaEditora" process="@form"/>
                         </p:fieldset>
                     </p:tab>
-                    <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
+                    <p:tab title="#{mensagem.editoraTabelaCadastradosTitulo}">
                         <p:messages id="messagesEdicao" severity="warn" autoUpdate="true" closable="true"/>
 
-                        <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAutorRegistrado}">
-                            <f:facet name="header">#{mensagem.autores}</f:facet>
+                        <p:dataTable id="tabelaEditora" editable="true"  var="editora" value="#{editoraBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.editoraTabelaCadastradosNenhumaEditora}">
+                            <f:facet name="header">#{mensagem.editoraTabelaCadastradosCabecalho}</f:facet>
 
-                            <p:ajax event="rowEdit" listener="#{autorBean.editar}"  />
+                            <p:ajax event="rowEdit" listener="#{editoraBean.editar}"  />
 
-                            <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
+                            <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{editora.nome}" sortBy="#{editora.nome}">
                                 <p:cellEditor>
                                     <f:facet name="output">
-                                        <h:outputText value="#{entidade.nome}" />
+                                        <h:outputText value="#{editora.nome}" />
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:inputText id="nome" value="#{entidade.nome}" required="true" />
+                                        <p:inputText id="nome" value="#{editora.nome}" required="true" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -44,7 +42,7 @@
                                 <p:rowEditor />
                             </p:column>
                             <p:column>
-                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(entidade)}" process="@this" update="@form">
+                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{editoraBean.remover(editora)}" process="@this" update="tabelaEditora">
                                     <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                 </p:commandLink>
                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

@@ -7,13 +7,12 @@ package entidades.editora;
 
 import entidades.EntidadeNegocio;
 import entidades.livro.Livro;
-import entidades.livro.Livro;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -24,6 +23,7 @@ public class Editora extends EntidadeNegocio {
 
     private static final long serialVersionUID = 3035399348697353532L;
 
+    @NotBlank
     @Size(max = 50)
     private String nome;
 

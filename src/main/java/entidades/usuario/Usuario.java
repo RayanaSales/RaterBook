@@ -11,6 +11,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import util.Util;
@@ -34,7 +35,11 @@ public class Usuario extends EntidadeNegocio {
     @NotBlank
     private String senha;
     @NotBlank
-    private String nome;
+    @Size(max = 45)
+    private String primeiroNome;
+    @NotBlank
+    @Size(max = 45)
+    private String ultimoNome;
 
     @PrePersist
     public void gerarHash() {
@@ -57,12 +62,21 @@ public class Usuario extends EntidadeNegocio {
         this.senha = senha;
     }
 
-    public String getNome() {
-        return nome;
+    public String getPrimeiroNome() {
+        return primeiroNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
     }
 
+    public String getUltimoNome() {
+        return ultimoNome;
+    }
+
+    public void setUltimoNome(String ultimoNome) {
+        this.ultimoNome = ultimoNome;
+    }
+
+  
 }

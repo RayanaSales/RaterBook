@@ -7,6 +7,7 @@ package entidades.aluno;
 
 import entidades.EntidadeNegocio;
 import entidades.livro.emprestimo.Emprestimo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -57,8 +58,12 @@ public class Aluno extends EntidadeNegocio {
         return emprestimos;
     }
 
-    public void setEmprestimos(List<Emprestimo> emprestimos) {
-        this.emprestimos = emprestimos;
+    public void addEmprestimo(Emprestimo emprestimo) {
+        if ( this.emprestimos == null ) {
+            this.emprestimos = new ArrayList<>();
+        }
+        emprestimo.setAluno(this);
+        this.emprestimos.add(emprestimo);
     }
     
    

@@ -5,8 +5,6 @@
  */
 package entidades.livro.exemplar;
 
-import entidades.livro.exemplar.EstadoExemplar;
-import entidades.livro.exemplar.Disponivel;
 import entidades.EntidadeNegocio;
 import entidades.aluno.Aluno;
 import entidades.livro.emprestimo.Emprestimo;
@@ -14,20 +12,27 @@ import entidades.livro.Livro;
 import exception.NegocioException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import util.constantes.SituacaoExemplar;
 
 /**
  *
  * @author Edmilson Santana
  */
 @Entity
+@AttributeOverrides(
+        {
+            @AttributeOverride(name = "chavePrimaria", column = @Column(name = "EXEMPLAR_ID"))
+        })
 public class Exemplar extends EntidadeNegocio {
+
+    private static final long serialVersionUID = 405832921706298633L;
 
     @ManyToOne
     private Livro livro;
@@ -35,16 +40,14 @@ public class Exemplar extends EntidadeNegocio {
     @Column(unique = true)
     private Long tombo;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "exemplar")
     private List<Emprestimo> emprestimos;
-
-    private SituacaoExemplar situacaoExemplar;
-
-    @Transient
+    
+    @Enumerated(EnumType.STRING)
     private EstadoExemplar estadoExemplar;
 
     public Exemplar() {
-        estadoExemplar = Disponivel.getInstance();
+        estadoExemplar = EstadoExemplar.DISPONIVEL;
     }
 
     public void devolver() throws NegocioException {
@@ -56,12 +59,12 @@ public class Exemplar extends EntidadeNegocio {
     }
 
     public Emprestimo getUltimoEmprestimo() {
-        return emprestimos.get(0);
+        return null;
     }
-    
+
     protected void novoEmprestimo(Aluno aluno) {
         Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setAluno(aluno);
+        aluno.addEmprestimo(emprestimo);
         this.addEmprestimo(emprestimo);
     }
 
@@ -91,14 +94,6 @@ public class Exemplar extends EntidadeNegocio {
         }
         emprestimo.setExemplar(this);
         this.emprestimos.add(emprestimo);
-    }
-
-    public SituacaoExemplar getSituacaoExemplar() {
-        return situacaoExemplar;
-    }
-
-    public void setSituacaoExemplar(SituacaoExemplar situacaoExemplar) {
-        this.situacaoExemplar = situacaoExemplar;
     }
 
     public EstadoExemplar getEstadoExemplar() {

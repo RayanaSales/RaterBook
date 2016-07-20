@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <composite:interface>
+        <composite:attribute name="inputId" required="true" />
+        <composite:attribute name="inputLabel" required="true" />
+        <composite:attribute name="inputValue" required="true" />
+        <composite:editableValueHolder name="validation"  />
+    </composite:interface>
+
+    <composite:implementation>
+        <p:outputLabel for="#{cc.attrs.inputId}" value="#{cc.attrs.inputLabel}" />                                  
+        <p:inputText id="#{cc.attrs.inputId}" required="true" value="#{cc.attrs.inputValue}" >
+            <f:ajax execute="#{cc.attrs.inputId}" event="blur" render="message#{cc.attrs.inputId}" />
+        </p:inputText>
+        <p:message for="#{cc.attrs.inputId}" id="message#{cc.attrs.inputId}"  />
+    </composite:implementation>
+
+
+</html>
+
