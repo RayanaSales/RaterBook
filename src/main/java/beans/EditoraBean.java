@@ -5,34 +5,29 @@
  */
 package beans;
 
-import entidades.usuario.Usuario;
+import entidades.editora.Editora;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import servico.EditoraServico;
 import servico.Servico;
-import servico.UsuarioServico;
 
 /**
  *
- * @author Edmilson
+ * @author Edmilson Santana
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends Bean<Usuario> {
+public class EditoraBean extends Bean<Editora> {
 
-    private static final long serialVersionUID = -2595553757591671346L;
+    private static final long serialVersionUID = -2765574855367937965L;
 
     @EJB
-    private UsuarioServico usuarioServico;
-
-    public String cadastrarUsuario() {
-        super.cadastrar();
-        return "sucesso";
-    }
-
+    private EditoraServico editoraServico;
+    
     @Override
     protected Servico inicializarServico() {
-        return usuarioServico;
+        return editoraServico;
     }
-
+    
 }

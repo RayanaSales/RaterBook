@@ -17,7 +17,7 @@
         <repository>
             <id>primefaces</id>
             <name>PrimeFaces Repository</name>
-            <url>http://repository.primefaces.org/</url>
+            <url>http://repository.primefaces.org/org/primefaces/themes/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -95,7 +95,7 @@
             <groupId>org.primefaces.themes</groupId>  
             <artifactId>all-themes</artifactId>  
             <version>1.0.10</version>  
-        </dependency>
+        </dependency>  
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>javax.mail-api</artifactId>

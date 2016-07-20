@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entidades;
-
-import javax.persistence.Entity;
+package util.constantes;
 
 /**
  *
- * @author Edmilson Santana
+ * @author douglas
  */
-@Entity
-public class Aluno extends EntidadeNegocio {
-
+public enum SituacaoExemplar {
+    EMPRESTADO, DISPONIVEL
 }

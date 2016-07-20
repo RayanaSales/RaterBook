@@ -1,5 +1,7 @@
-package entidades;
+package entidades.autor;
 
+import entidades.EntidadeNegocio;
+import entidades.livro.Livro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.AttributeOverride;
@@ -25,15 +27,21 @@ import org.hibernate.validator.constraints.NotBlank;
         })
 public class Autor extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -8161053151326463631L;
+
     @NotBlank
     @Size(min = 7, max = 30)
-    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
+    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.autor.Autor.nome}")
     private String nome;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_AUTOR_LIVRO", joinColumns = @JoinColumn(name = "AUTOR_ID"),
             inverseJoinColumns = @JoinColumn(name = "LIVRO_ID"))
     private List<Livro> livros;
 
+    public Autor()
+    {
+    }
+    
     public void adicionarAutor(Livro livro) {
         if (livros == null) {
             livros = new ArrayList<>();
@@ -48,11 +56,4 @@ public class Autor extends EntidadeNegocio {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    @Override
-    public boolean associado() {
-        //não importa se estou associdado a alguém, eu sou o maioral, excluo meu livros com cascade all.
-        return false;
-    }
-
 }

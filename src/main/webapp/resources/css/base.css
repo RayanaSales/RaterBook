@@ -1,0 +1,15 @@
+.logo {
+    height: 20em; 
+    width: 100em;
+}
+
+
+.ui-layout-unit .ui-layout-unit-content {
+    padding: 0.2em 0em;
+    border: 0px none;
+    overflow: hidden !important;
+}
+
+.logoBandeiraPais {
+    width: 2em;
+}

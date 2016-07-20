@@ -5,7 +5,7 @@
  */
 package beans;
 
-import entidades.Autor;
+import entidades.autor.Autor;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -19,6 +19,8 @@ import servico.Servico;
 @ManagedBean
 @ViewScoped
 public class AutorBean extends Bean<Autor> {
+
+    private static final long serialVersionUID = -9045311142076127181L;
 
     @EJB
     private AutorServico autorServico;

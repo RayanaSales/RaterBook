@@ -7,6 +7,8 @@ package beans;
 
 import java.io.Serializable;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -23,9 +25,13 @@ public class UserSettings implements Serializable {
 
     private String tema = "hot-sneaks";
 
-    private String linguagem;
+    private Locale localizacao;
 
-    private String pais;
+    @PostConstruct
+    private void inicializar() {
+        this.localizacao = FacesContext.getCurrentInstance()
+                .getViewRoot().getLocale();
+    }
 
     public String getTema() {
         return tema;
@@ -46,7 +52,8 @@ public class UserSettings implements Serializable {
             "trontastic", "ui-darkness", "ui-lightness", "vader"};
     }
 
-    public String alterarIdioma() {
+    public String alterarIdioma(String linguagem, String pais) {
+
         if (!pais.isEmpty()) {
             alterarLocalidade(new Locale(linguagem, pais));
         } else {
@@ -55,23 +62,19 @@ public class UserSettings implements Serializable {
         return null;
     }
 
-    private void alterarLocalidade(Locale locale) {
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+    private void alterarLocalidade(Locale novaLocalidade) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getViewRoot().setLocale(this.localizacao);
+        context.addMessage(null, new FacesMessage("Idioma Alterado com Sucesso"));
+        this.localizacao = novaLocalidade;
     }
 
-    public String getLinguagem() {
-        return linguagem;
+    public Locale getLocalizacao() {
+        return localizacao;
     }
 
-    public void setLinguagem(String linguagem) {
-        this.linguagem = linguagem;
+    public void setLocalizacao(Locale localizacao) {
+        this.localizacao = localizacao;
     }
 
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
 }

@@ -6,7 +6,7 @@
 package servico;
 
 import com.mysql.jdbc.StringUtils;
-import entidades.Usuario;
+import entidades.usuario.Usuario;
 import util.Util;
 import exception.NegocioException;
 import javax.ejb.EJB;
@@ -63,7 +63,7 @@ public class UsuarioServico extends Servico<Usuario> {
         jpql.append(getClasseEntidade().getSimpleName());
         jpql.append(" as u ");
         jpql.append(" where u.email = ?1 ");
-        TypedQuery<Usuario> query = super.em.createQuery(jpql.toString(),
+        TypedQuery<Usuario> query = super.entityManager.createQuery(jpql.toString(),
                 getClasseEntidade());
         query.setParameter(1, email);
         Usuario usuario = null;

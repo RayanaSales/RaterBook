@@ -7,8 +7,8 @@ package util.constantes;
 
 /**
  *
- * @author douglas
+ * @author Edmilson Santana
  */
-public enum LivroEstado {
-    QUERO_LER, LIDO, LENDO
+public enum SituacaoEmprestimo {
+    DEVOLVIDO, ATRASADO, NAO_DEVOLVIDO
 }
