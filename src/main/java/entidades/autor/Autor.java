@@ -31,7 +31,7 @@ public class Autor extends EntidadeNegocio {
 
     @NotBlank
     @Size(min = 7, max = 30)
-    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
+    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.autor.Autor.nome}")
     private String nome;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_AUTOR_LIVRO", joinColumns = @JoinColumn(name = "AUTOR_ID"),

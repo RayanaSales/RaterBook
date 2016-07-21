@@ -12,8 +12,10 @@
                         <p:fieldset legend="#{mensagem.dadosAutor}">
                             <p:panelGrid columns="3">
                                 <p:outputLabel for="nome">#{mensagem.nome}</p:outputLabel>
-                                <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
+                                <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true" 
+                                             requiredMessage="#{mensagem.campoObrigatorio}"> 
                                     <f:validateLength minimum="7" maximum="30"/>
+                                    <f:ajax execute="nome" render="messageNome" event="blur" />
                                 </p:inputText>
                                 <p:message for="nome" id="messageNome"/>
 
@@ -23,7 +25,7 @@
                         </p:fieldset>
                     </p:tab>
                     <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
-                        <p:messages id="messagesEdicao" severity="warn" autoUpdate="true" closable="true"/>
+                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
 
                         <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAutorRegistrado}">
                             <f:facet name="header">#{mensagem.autores}</f:facet>
