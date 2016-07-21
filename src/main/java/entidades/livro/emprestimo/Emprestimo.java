@@ -8,6 +8,8 @@ package entidades.livro.emprestimo;
 import entidades.livro.exemplar.Exemplar;
 import entidades.EntidadeNegocio;
 import entidades.aluno.Aluno;
+import exception.NegocioException;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -19,6 +21,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import util.constantes.SituacaoEmprestimo;
 
 /**
@@ -37,7 +41,7 @@ public class Emprestimo extends EntidadeNegocio {
     @NotNull
     @ManyToOne
     private Exemplar exemplar;
-    
+
     @NotNull
     @ManyToOne
     private Aluno aluno;
@@ -47,8 +51,8 @@ public class Emprestimo extends EntidadeNegocio {
     private Date dataPrevistaEntrega;
 
     @Transient
-    private final Double valorDiarioMulta;
-            
+    private final Double valorDiarioMulta = 2.0;
+
     @Transient
     private final Integer INTERVALO_DATA_ENTREGA = 7;
 
@@ -62,9 +66,34 @@ public class Emprestimo extends EntidadeNegocio {
 
     public Emprestimo() {
         dataEmprestimo = new Date();
-        valorDiarioMulta = 2.0;
     }
 
+    public Double quitarEmprestimo() throws NegocioException {
+        this.dataDevolucao = Calendar.getInstance().getTime();
+        Double valorMultaAtraso = 0.0;
+        if (!this.isAtrasado()) {
+            valorMultaAtraso = calcularMultaAtraso();
+        } 
+        return valorMultaAtraso;
+    }
+
+    public Double calcularMultaAtraso() {
+        Double valorMultaAtraso = 0.0;
+        if (this.dataDevolucao != null) {
+            int diasAtrasado = Days.daysBetween(new DateTime(dataDevolucao), 
+                    new DateTime(dataPrevistaEntrega)).getDays();
+            valorMultaAtraso = valorDiarioMulta * diasAtrasado;
+        }
+        return valorMultaAtraso;
+    }
+
+    public boolean isAtrasado() {
+        Boolean atrasado = Boolean.FALSE;
+        if (dataDevolucao.after(dataPrevistaEntrega)) {
+            atrasado = Boolean.TRUE;
+        }
+        return atrasado;
+    }
 
     public Exemplar getExemplar() {
         return exemplar;
