@@ -18,7 +18,7 @@
                                 <p:message for="nome" id="messageNome"/>
 
                                 <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="@form" process="@form"/>
+                                                 update="tabelaAutor" process="@form"/>
                             </p:panelGrid>
                         </p:fieldset>
                     </p:tab>
@@ -44,7 +44,7 @@
                                 <p:rowEditor />
                             </p:column>
                             <p:column>
-                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(entidade)}" process="@this" update="@form">
+                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{autorBean.remover(entidade)}" process="@this" update="tabelaAutor">
                                     <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
                                 </p:commandLink>
                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
