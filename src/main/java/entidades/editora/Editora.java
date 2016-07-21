@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -25,6 +26,7 @@ public class Editora extends EntidadeNegocio {
 
     @NotBlank
     @Size(max = 50)
+    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.editora.Editora.nome}")
     private String nome;
 
     @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)

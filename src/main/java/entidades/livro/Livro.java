@@ -44,7 +44,7 @@ public class Livro extends EntidadeNegocio {
     @Size(min = 2, max = 50)
     private String titulo;
 
-    @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}")
+    @Pattern(regexp = "[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}", message = "{entidades.editora.Livro.isbn}")
     private String isbn;
 
     @Min(value = 1)

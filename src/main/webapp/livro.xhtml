@@ -15,7 +15,7 @@
                                     <p:panel header="Dados da Editora">
                                         <p:panelGrid rendered="#{livroBean.existemEditorasCadastradas()}" columns="3">
                                             <p:outputLabel  for="editora" value="Editora" />
-                                            <p:selectOneMenu editable="true" requiredMessage="#{mensagem.campoObrigatorio}" id="editora" required="true"  value="#{livroBean.entidade.editora}">
+                                            <p:selectOneMenu editable="true" requiredMessage="#{mensagem.campoObrigatorio}" id="editora" required="true" converter="entidadeConverter"  value="#{livroBean.entidade.editora}">
                                                 <f:selectItems var="editora" value="#{livroBean.editoras}" itemLabel="#{editora.nome}" itemValue="#{editora}" />
                                             </p:selectOneMenu>
                                             <p:message for="editora"/>

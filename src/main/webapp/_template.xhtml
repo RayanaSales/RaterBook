@@ -26,13 +26,13 @@
                     </p:layoutUnit>
                     <p:layoutUnit position="west">
                         <p:menu>
-                            <p:submenu label="Navegação">
-                                <p:menuitem icon="fa fa-fw fa-home" value="Principal" action="principal?faces-redirect=true" />
-                                <p:menuitem icon="fa fa-fw fa-cog" value="Configurações" action="configuracoes?faces-redirect=true"  />
-                                <p:menuitem icon="fa fa-fw fa-building" value="Editora" action="editora?faces-redirect=true" />
-                                <p:menuitem icon="fa fa-fw fa-book" value="Livro" action="livro?faces-redirect=true" />
-                                <p:menuitem icon="fa fa-fw fa-edit" value="Autor" action="autor?faces-redirect=true" />
-                                <p:menuitem icon="fa fa-fw fa-users" value="Aluno" action="aluno?faces-redirect=true" />
+                            <p:submenu label="#{mensagem.submenu}">
+                                <p:menuitem icon="fa fa-fw fa-home" value="#{mensagem.principal}" action="principal?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-cog" value="#{mensagem.configuracoes}" action="configuracoes?faces-redirect=true"  />
+                                <p:menuitem icon="fa fa-fw fa-building" value="#{mensagem.editora}" action="editora?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-book" value="#{mensagem.livro}" action="livro?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-edit" value="#{mensagem.autor}" action="autor?faces-redirect=true" />
+                                <p:menuitem icon="fa fa-fw fa-users" value="#{mensagem.aluno}" action="aluno?faces-redirect=true" />
                             </p:submenu>
                         </p:menu>
                     </p:layoutUnit> 
