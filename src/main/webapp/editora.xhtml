@@ -21,7 +21,7 @@
                         </p:fieldset>
                     </p:tab>
                     <p:tab title="#{mensagem.editoraTabelaCadastradosTitulo}">
-                        <p:messages id="messagesEdicao" severity="warn" autoUpdate="true" closable="true"/>
+                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
 
                         <p:dataTable id="tabelaEditora" editable="true"  var="editora" value="#{editoraBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.editoraTabelaCadastradosNenhumaEditora}">
                             <f:facet name="header">#{mensagem.editoraTabelaCadastradosCabecalho}</f:facet>

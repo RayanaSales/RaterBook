@@ -51,7 +51,7 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
             popularEntidades();
             mensagemAlteracaoSucesso();
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_ERROR);
         } catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());

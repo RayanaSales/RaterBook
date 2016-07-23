@@ -7,17 +7,27 @@ package servico;
 
 import entidades.editora.Editora;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 /**
  *
- * @author Edmilson
+ * @author Douglas Albuqerque
  */
 @Stateless
 public class EditoraServico extends Servico<Editora> {
 
     @Override
     public Boolean verificarExistencia(Editora entidadeNegocio) {
-        return Boolean.FALSE;
+        StringBuilder jpqlConsulta = new StringBuilder();
+        jpqlConsulta.append(" SELECT COUNT(editora.chavePrimaria) FROM ");
+        jpqlConsulta.append(getClasseEntidade().getSimpleName());
+        jpqlConsulta.append(" AS editora ");
+        jpqlConsulta.append(" WHERE editora.nome = ?1");
+        TypedQuery<Long> query = super.entityManager
+                .createQuery(jpqlConsulta.toString(), Long.class);
+        query.setParameter(1, entidadeNegocio.getNome());
+        Long resultado = query.getSingleResult();
+        return resultado > 0;
     }
 
     @Override
