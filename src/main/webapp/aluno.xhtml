@@ -3,60 +3,91 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form>
+            <h:form id="formularioAluno">
                 <p:tabView>
-                    <p:tab title="">
-                        <h:form>
-                            <p:fieldset legend="#{mensagem.aluno.cadastroAluno}">
-                                <p:panelGrid columns="3">
-                                    <p:outputLabel for="nome" />
-                                    <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true"> 
-                                        <f:validateLength minimum="7" maximum="30"/>
-                                    </p:inputText>
-                                    <p:message for="nome" id="messageNome"/>
+                    <p:tab title="#{mensagem.cadastroAluno}">
 
-                                    <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                     update="@form" process="@form"/>
-                                </p:panelGrid>
-                            </p:fieldset>
-                        </h:form>
+                        <p:fieldset legend="#{mensagem.dadosAluno}">
+                            <p:panelGrid columns="3">
+
+                                <p:outputLabel for="primeiroNome">#{mensagem.primeiroNome}</p:outputLabel>
+                                <p:inputText id="primeiroNome" value="#{alunoBean.entidade.primeiroNome}" required="true"> 
+                                    <f:validateLength minimum="3" maximum="30"/>
+                                </p:inputText>
+                                <p:message for="primeiroNome" id="messagePrimeiroNome"/>
+
+                                <p:outputLabel for="ultimoNome">#{mensagem.ultimoNome}</p:outputLabel>
+                                <p:inputText id="ultimoNome" value="#{alunoBean.entidade.ultimoNome}" required="true"> 
+                                    <f:validateLength minimum="3" maximum="30"/>
+                                </p:inputText>
+                                <p:message for="ultimoNome" id="messageUltimoNome"/>
+
+                                <p:outputLabel for="maskMatricula">#{mensagem.matricula}</p:outputLabel>                                                                    
+                                <p:inputMask id="maskMatricula" value="#{alunoBean.entidade.matricula}" mask="99999Y9-RC9999"/>
+                                <p:message for="maskMatricula" id="messageMatricula"/>
+
+                                <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                                 update="tabelaAluno" process="@form"/>
+                            </p:panelGrid>
+                        </p:fieldset>
+
                     </p:tab>
+                    <p:tab title="#{mensagem.alunosCadastrados}" id="painelAlunosCadastrados">
+                        <p:dataTable id="tabelaAluno" editable="true"  var="entidade" value="#{alunoBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAlunoCadastrado}">
+                            <f:facet name="header">#{mensagem.alunos}</f:facet>
 
-                    <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
-                        <p:messages id="messagesEdicao" autoUpdate="true" closable="true"/>
-                        <h:form id="formTabelaAutor">
-                            <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAutorRegistrado}">
-                                <f:facet name="header">#{mensagem.autores}</f:facet>
+                            <p:ajax event="rowEdit" listener="#{alunoBean.editar}"  />
 
-                                <p:ajax event="rowEdit" listener="#{autorBean.editar}"  />
+                            <p:column headerText="#{mensagem.primeiroNome}" filterMatchMode="startsWith" filterBy="#{entidade.primeiroNome}" sortBy="#{entidade.primeiroNome}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{entidade.primeiroNome}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{entidade.primeiroNome}" required="true" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
-                                <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{entidade.nome}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText id="nome" value="#{entidade.nome}" required="true" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column>
-                                    <p:rowEditor />
-                                </p:column>
-                                <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoBean.remover(entidade)}" process="@this" update="formularioAutor">
-                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
-                                    </p:commandLink>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
-                                </p:column> 
-                            </p:dataTable>
-                        </h:form>
+                            <p:column headerText="#{mensagem.ultimoNome}" filterMatchMode="startsWith" filterBy="#{entidade.ultimoNome}" sortBy="#{entidade.ultimoNome}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{entidade.ultimoNome}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{entidade.ultimoNome}" required="true" />
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="#{mensagem.matricula}" filterMatchMode="startsWith" filterBy="#{entidade.matricula}" sortBy="#{entidade.matricula}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{entidade.matricula}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputMask  value="#{entidade.matricula}" mask="99999Y9-RC9999"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column>
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column>
+                                <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{alunoBean.remover(entidade)}" process="@this" update="tabelaAluno">
+                                    <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                </p:commandLink>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column> 
+                        </p:dataTable>
                     </p:tab>
                 </p:tabView>
             </h:form>

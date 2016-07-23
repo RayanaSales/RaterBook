@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,8 +24,14 @@ public class Aluno extends EntidadeNegocio {
 
     private static final long serialVersionUID = -6967794368017326187L;
 
+    @NotBlank
+    @Size(min = 3, max = 30)
+    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
     private String primeiroNome;
     
+    @NotBlank
+    @Size(min = 3, max = 30)
+    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
     private String ultimoNome;
     
     private String matricula;

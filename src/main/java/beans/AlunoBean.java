@@ -6,23 +6,25 @@
 package beans;
 
 import entidades.aluno.Aluno;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import servico.AlunoServico;
 import servico.Servico;
 
-/**
- *
- * @author Edmilson
- */
 @ManagedBean
 @ViewScoped
-public class AlunoBean extends Bean<Aluno> {
-
+public class AlunoBean extends Bean<Aluno>
+{
     private static final long serialVersionUID = 5365800389243950009L;
 
+    @EJB
+    private AlunoServico alunoServico;
+
     @Override
-    protected Servico inicializarServico() {
-        return null;
+    protected Servico inicializarServico()
+    {
+        return alunoServico;
     }
 
 }

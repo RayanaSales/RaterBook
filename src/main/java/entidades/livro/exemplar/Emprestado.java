@@ -28,7 +28,8 @@ public class Emprestado implements OperacoesEstadoExemplar {
 
     @Override
     public EstadoExemplar devolver(Exemplar exemplar) throws NegocioException {
-       // exemplar.getUltimoEmprestimo().devolver();
+     //   Emprestimo emprestimo = exemplar.getUltimoEmprestimo();
+        
         return EstadoExemplar.DISPONIVEL;
     }
 

@@ -12,12 +12,12 @@
                     <p:tab title="#{mensagem.editoraCadastroTitulo}">
                         <p:fieldset legend="#{mensagem.editoraCadastroLegenda}">
                             <p:panelGrid columns="3">
-                                <util:input inputId="nome"  inputLabel="Nome" inputValue="#{editoraBean.entidade.nome}">
+                                <util:input inputId="nome" inputLabel="Nome" inputValue="#{editoraBean.entidade.nome}">
                                     <f:validateLength for="validation" minimum="2" maximum="30" />
                                 </util:input>
+                                <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                                 update="tabelaEditora" process="@form"/>
                             </p:panelGrid>
-                            <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                             update="tabelaEditora" process="@form"/>
                         </p:fieldset>
                     </p:tab>
                     <p:tab title="#{mensagem.editoraTabelaCadastradosTitulo}">
