@@ -5,6 +5,7 @@
  */
 package beans;
 
+import exception.MensagemExcecao;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
@@ -68,6 +69,7 @@ public class UserSettings implements Serializable {
         context.getViewRoot().setLocale(this.localizacao);
         context.addMessage(null, new FacesMessage("Idioma Alterado com Sucesso"));
         this.localizacao = novaLocalidade;
+        MensagemExcecao.getInstance().trocarArquivoProperty(novaLocalidade);
     }
 
     public Locale getLocalizacao() {

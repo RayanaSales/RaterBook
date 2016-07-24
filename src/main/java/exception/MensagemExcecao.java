@@ -5,6 +5,7 @@
  */
 package exception;
 
+import java.util.Locale;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -17,10 +18,21 @@ import util.PropriedadesUtil;
 public class MensagemExcecao {
 
     protected Throwable excecao;
-    protected static PropriedadesUtil leitor = new PropriedadesUtil(new String[]{"ExceptionsMessage.properties"});
+    protected static PropriedadesUtil leitor = new PropriedadesUtil(new String[]{"ExceptionsMessage_pt_br.properties"});
+    private static MensagemExcecao mensagemExcecao = null;
+
+    public static MensagemExcecao getInstance() {
+        if (mensagemExcecao == null) {
+            mensagemExcecao = new MensagemExcecao();
+        }
+        return mensagemExcecao;
+    }
 
     public MensagemExcecao(Throwable excecao) {
         this.excecao = excecao;
+    }
+
+    public MensagemExcecao() {
     }
 
     public String getMensagem() {
@@ -51,5 +63,13 @@ public class MensagemExcecao {
             mensagem.append(leitor.get("java.lang.Exception"));
         }
         return mensagem.toString();
+    }
+
+    public void trocarArquivoProperty(Locale locale) {
+        if (locale.getLanguage().equals("pt")) {
+            leitor = new PropriedadesUtil(new String[]{"ExceptionsMessage_pt_br.properties"});
+        } else {
+            leitor = new PropriedadesUtil(new String[]{"ExceptionsMessage_en.properties"});
+        }
     }
 }
