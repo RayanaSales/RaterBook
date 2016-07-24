@@ -6,15 +6,17 @@
 package entidades.livro.exemplar;
 
 import entidades.aluno.Aluno;
+import entidades.livro.emprestimo.Emprestimo;
 import exception.NegocioException;
+import java.util.Date;
 
 /**
  *
- * @author EdmilsonS
+ * @author Edmilson Santana
  */
 public interface OperacoesEstadoExemplar {
 
-    EstadoExemplar devolver(Exemplar exemplar) throws NegocioException;
+    void devolver(Exemplar exemplar) throws NegocioException;
 
-    EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) throws NegocioException;
+    Emprestimo solicitar(Aluno aluno,  Date dataPrevistaEntrega, Exemplar exemplar) throws NegocioException;
 }

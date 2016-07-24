@@ -6,28 +6,29 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
     <ui:composition template="_template.xhtml" >
-        <ui:define name="conteudo">
-            <h:form>
-                <p:tabView>
-                    <p:tab title="#{mensagem.editoraCadastroTitulo}">
+        <ui:define  name="conteudo">
+            <p:tabView id="abas">
+                <p:tab title="#{mensagem.editoraCadastroTitulo}">
+                    <h:form>
                         <p:fieldset legend="#{mensagem.editoraCadastroLegenda}">
                             <p:panelGrid columns="3">
-                                <util:input inputId="nome" inputLabel="Nome" inputValue="#{editoraBean.entidade.nome}">
-                                    <f:validateLength for="validation" minimum="2" maximum="30" />
-                                </util:input>
+                                <p:outputLabel for="nome" value="#{mensagem.nome}" />                                  
+                                <p:inputText id="nome" required="true" value="#{editoraBean.entidade.nome}" >
+                                    <f:validateLength for="nome" minimum="2" maximum="30" />
+                                    <f:ajax execute="nome" event="blur" render="messageNome" />
+                                </p:inputText>
+                                <p:message for="nome" id="messageNome"  />
                                 <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="tabelaEditora" process="@form"/>
+                                                 update="@form abas:formularioTabelaEditora:tabelaEditora" process="@form"/>
                             </p:panelGrid>
                         </p:fieldset>
-                    </p:tab>
-                    <p:tab title="#{mensagem.editoraTabelaCadastradosTitulo}">
-                        <p:messages id="messagesEdicao" severity="warn" autoUpdate="true" closable="true"/>
-
+                    </h:form>
+                </p:tab>
+                <p:tab id="abaTabelaExemplares" title="#{mensagem.editoraTabelaCadastradosTitulo}">
+                    <h:form id="formularioTabelaEditora">
                         <p:dataTable id="tabelaEditora" editable="true"  var="editora" value="#{editoraBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.editoraTabelaCadastradosNenhumaEditora}">
                             <f:facet name="header">#{mensagem.editoraTabelaCadastradosCabecalho}</f:facet>
-
                             <p:ajax event="rowEdit" listener="#{editoraBean.editar}"  />
-
                             <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{editora.nome}" sortBy="#{editora.nome}">
                                 <p:cellEditor>
                                     <f:facet name="output">
@@ -51,9 +52,9 @@
                                 </p:confirmDialog>
                             </p:column> 
                         </p:dataTable>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
         </ui:define>
     </ui:composition>
 </html>

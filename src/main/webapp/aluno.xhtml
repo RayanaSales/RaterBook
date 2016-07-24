@@ -7,10 +7,9 @@
       xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form id="formularioAluno">
-                <p:tabView>
-                    <p:tab title="#{mensagem.cadastroAluno}">
-
+            <p:tabView id="abas">
+                <p:tab title="#{mensagem.cadastroAluno}">
+                    <h:form>
                         <p:fieldset legend="#{mensagem.dadosAluno}">
                             <p:panelGrid columns="3">
 
@@ -31,12 +30,13 @@
                                 <p:message for="maskMatricula" id="messageMatricula"/>
 
                                 <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="tabelaAluno" process="@form"/>
+                                                 update="@form abas:formularioAlunosCadastrados:tabelaAluno" process="@form"/>
                             </p:panelGrid>
                         </p:fieldset>
-
-                    </p:tab>
-                    <p:tab title="#{mensagem.alunosCadastrados}" id="painelAlunosCadastrados">
+                    </h:form>
+                </p:tab>
+                <p:tab title="#{mensagem.alunosCadastrados}" id="painelAlunosCadastrados">
+                    <h:form id="formularioAlunosCadastrados">
                         <p:dataTable id="tabelaAluno" editable="true"  var="entidade" value="#{alunoBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAlunoCadastrado}">
                             <f:facet name="header">#{mensagem.alunos}</f:facet>
 
@@ -88,9 +88,9 @@
                                 </p:confirmDialog>
                             </p:column> 
                         </p:dataTable>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
         </ui:define>
     </ui:composition>
 </html>

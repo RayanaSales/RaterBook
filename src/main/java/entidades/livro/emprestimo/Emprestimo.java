@@ -15,15 +15,15 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import util.constantes.SituacaoEmprestimo;
 
 /**
  *
@@ -46,15 +46,11 @@ public class Emprestimo extends EntidadeNegocio {
     @ManyToOne
     private Aluno aluno;
 
-    @Future
     @Temporal(TemporalType.DATE)
     private Date dataPrevistaEntrega;
 
     @Transient
     private final Double valorDiarioMulta = 2.0;
-
-    @Transient
-    private final Integer INTERVALO_DATA_ENTREGA = 7;
 
     @Temporal(TemporalType.DATE)
     private Date dataDevolucao;
@@ -62,35 +58,73 @@ public class Emprestimo extends EntidadeNegocio {
     @Temporal(TemporalType.DATE)
     private final Date dataEmprestimo;
 
+    @Enumerated(EnumType.STRING)
     private SituacaoEmprestimo situacaoEmprestimo;
 
     public Emprestimo() {
         dataEmprestimo = new Date();
+        situacaoEmprestimo = SituacaoEmprestimo.EM_ANDAMENTO;
     }
 
-    public Double quitarEmprestimo() throws NegocioException {
-        this.dataDevolucao = Calendar.getInstance().getTime();
-        Double valorMultaAtraso = 0.0;
-        if (!this.isAtrasado()) {
-            valorMultaAtraso = calcularMultaAtraso();
-        } 
-        return valorMultaAtraso;
+    public void devolverEmprestimo() throws NegocioException {
+        if (emAndamento()) {
+            this.dataDevolucao = Calendar.getInstance().getTime();
+            if (this.isAtrasado()) {
+                situacaoEmprestimo = SituacaoEmprestimo.MULTA_A_PAGAR;
+                throw new NegocioException(NegocioException.EMPRESTIMO_ATRASADO);
+            } else {
+                situacaoEmprestimo = SituacaoEmprestimo.QUITADO;
+            }
+        }
     }
 
     public Double calcularMultaAtraso() {
         Double valorMultaAtraso = 0.0;
-        if (this.dataDevolucao != null) {
-            int diasAtrasado = Days.daysBetween(new DateTime(dataDevolucao), 
-                    new DateTime(dataPrevistaEntrega)).getDays();
+        int diasAtrasado;
+        if (isAtrasado()) {
+            if (dataDevolucao != null) {
+                diasAtrasado = Days.daysBetween(new DateTime(dataDevolucao),
+                        new DateTime(dataPrevistaEntrega)).getDays();
+
+            } else {
+                Date hoje = Calendar.getInstance().getTime();
+                diasAtrasado = Days.daysBetween(new DateTime(hoje),
+                        new DateTime(dataPrevistaEntrega)).getDays();
+            }
             valorMultaAtraso = valorDiarioMulta * diasAtrasado;
         }
         return valorMultaAtraso;
     }
 
-    public boolean isAtrasado() {
+    public void pagarMulta() {
+        if (posssuiMulta()) {
+            situacaoEmprestimo = SituacaoEmprestimo.QUITADO;
+        }
+    }
+
+    public Boolean emAndamento() {
+        return situacaoEmprestimo.equals(SituacaoEmprestimo.EM_ANDAMENTO)
+                || situacaoEmprestimo.equals(SituacaoEmprestimo.ATRASADO);
+    }
+
+    public Boolean posssuiMulta() {
+        return situacaoEmprestimo.equals(SituacaoEmprestimo.MULTA_A_PAGAR);
+    }
+
+    private boolean isAtrasado() {
+
         Boolean atrasado = Boolean.FALSE;
-        if (dataDevolucao.after(dataPrevistaEntrega)) {
-            atrasado = Boolean.TRUE;
+        if (dataDevolucao != null) {
+            if (dataDevolucao.after(dataPrevistaEntrega)) {
+                atrasado = Boolean.TRUE;
+                situacaoEmprestimo = SituacaoEmprestimo.ATRASADO;
+            }
+        } else {
+            Date hoje = Calendar.getInstance().getTime();
+            if (hoje.after(dataPrevistaEntrega)) {
+                atrasado = Boolean.TRUE;
+                situacaoEmprestimo = SituacaoEmprestimo.ATRASADO;
+            }
         }
         return atrasado;
     }
@@ -125,6 +159,10 @@ public class Emprestimo extends EntidadeNegocio {
 
     public void setDataDevolucao(Date dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public Date getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
     public SituacaoEmprestimo getSituacaoEmprestimo() {

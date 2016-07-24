@@ -6,7 +6,9 @@
 package entidades.livro.exemplar;
 
 import entidades.aluno.Aluno;
+import entidades.livro.emprestimo.Emprestimo;
 import exception.NegocioException;
+import java.util.Date;
 
 /**
  *
@@ -23,12 +25,12 @@ public enum EstadoExemplar implements OperacoesEstadoExemplar {
     }
 
     @Override
-    public EstadoExemplar devolver(Exemplar exemplar) throws NegocioException {
-        return operacoes.devolver(exemplar);
+    public void devolver(Exemplar exemplar) throws NegocioException {
+        operacoes.devolver(exemplar);
     }
 
     @Override
-    public EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) throws NegocioException {
-        return operacoes.solicitar(aluno, exemplar);
+    public Emprestimo solicitar(Aluno aluno, Date dataPrevistaEntrega, Exemplar exemplar) throws NegocioException {
+        return operacoes.solicitar(aluno, dataPrevistaEntrega, exemplar);
     }
 }

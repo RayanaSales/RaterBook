@@ -12,42 +12,39 @@
     </h:head>
 
     <h:body>
-        <div id="cabecalho">
-            <p:growl showDetail="false"  globalOnly="true" autoUpdate="true" />
-        </div>
-        <div id="conteudo">
-            <h:form rendered="#{usuarioLogado != null}">
-                <p:layout>
-                    <p:layoutUnit  position="north">
-                        <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
-                        <p:menubar>
-                            <p:menuitem styleClass="logoutButton" value="Logout" icon="fa fa-fw fa-sign-out" action="#{loginBean.efetuarLogout()}" />
-                        </p:menubar>
-                    </p:layoutUnit>
-                    <p:layoutUnit position="west">
-                        <p:menu>
-                            <p:submenu label="#{mensagem.submenu}">
-                                <p:menuitem icon="fa fa-fw fa-home" value="#{mensagem.principal}" action="principal?faces-redirect=true" ajax="false" immediate="true"/>
-                                <p:menuitem icon="fa fa-fw fa-cog" value="#{mensagem.configuracoes}" action="configuracoes?faces-redirect=true"  ajax="false" immediate="true"/>
-                                <p:menuitem icon="fa fa-fw fa-building" value="#{mensagem.editora}" action="editora?faces-redirect=true" ajax="false" immediate="true"/>
-                                <p:menuitem icon="fa fa-fw fa-book" value="#{mensagem.livro}" action="livro?faces-redirect=true" ajax="false" immediate="true"/>
-                                <p:menuitem icon="fa fa-fw fa-edit" value="#{mensagem.autor}" action="autor?faces-redirect=true" ajax="false" immediate="true"/>
-                                <p:menuitem icon="fa fa-fw fa-users" value="#{mensagem.aluno}" action="aluno?faces-redirect=true" ajax="false" immediate="true"/>
-                            </p:submenu>
-                        </p:menu>
-                    </p:layoutUnit> 
-                    <p:layoutUnit  position="center">
-                        <ui:insert name="conteudo"></ui:insert>
-                    </p:layoutUnit>
-                </p:layout>
+        <p:growl showDetail="false" globalOnly="true"  autoUpdate="true" />
+        <p:layout rendered="#{usuarioLogado != null}"> 
+            <h:form>
+                <p:layoutUnit  position="north">
+                    <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
+                    <p:menubar>
+                        <p:menuitem styleClass="logoutButton" value="Logout" icon="fa fa-fw fa-sign-out" action="#{loginBean.efetuarLogout()}" />
+                    </p:menubar>
+                </p:layoutUnit>
+                <p:layoutUnit position="west">
+                    <p:menu>
+                        <p:submenu icon="fa fa-fw fa-sitemap" label="#{mensagem.submenu}">
+                            <p:menuitem icon="fa fa-fw fa-home" value="#{mensagem.principal}" action="principal?faces-redirect=true" ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-cog" value="#{mensagem.configuracoes}" action="configuracoes?faces-redirect=true"  ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-building" value="#{mensagem.editora}" action="editora?faces-redirect=true" ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-book" value="#{mensagem.livro}" action="livro?faces-redirect=true" ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-user-plus" value="Empréstimos" action="emprestimo?faces-redirect=true" ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-paint-brush" value="#{mensagem.autor}" action="autor?faces-redirect=true" ajax="false" immediate="true"/>
+                            <p:menuitem icon="fa fa-fw fa-users" value="#{mensagem.aluno}" action="aluno?faces-redirect=true" ajax="false" immediate="true"/>
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit> 
             </h:form>
-
-            <h:form rendered="#{usuarioLogado == null}">
-                <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
+            <p:layoutUnit  position="center">
                 <ui:insert name="conteudo"></ui:insert>
-               
-            </h:form>
-        </div>
+            </p:layoutUnit>
+        </p:layout>
+        
+        <h:form rendered="#{usuarioLogado == null}">
+            <h:graphicImage library="img" name="livraria.jpg" styleClass="logo"/>
+            <ui:insert name="conteudo"></ui:insert>
+
+        </h:form>
     </h:body>
 </html>
 

@@ -6,6 +6,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -76,5 +77,6 @@ public class UserSettings implements Serializable {
     public void setLocalizacao(Locale localizacao) {
         this.localizacao = localizacao;
     }
+    
 
 }

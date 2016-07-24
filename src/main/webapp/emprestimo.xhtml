@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="_template.xhtml" >
+        <ui:define name="conteudo">
+            <p:tabView>
+                <p:tab title="Novo empréstimo">
+                    <h:form>
+                        <p:fieldset legend="Dados do empréstimo">
+                            <p:panelGrid columns="3">
+                                <p:outputLabel for="exemplar" value="Exemplar" />
+                                <p:selectOneListbox scrollHeight="100" id="exemplar" required="true" value="#{emprestimoBean.exemplar}" var="exemplar" converter="entidadeConverter" filter="true" style="width: 100%;" filterMatchMode="contains">
+                                    <f:selectItems value="#{emprestimoBean.exemplares}" var="exemplar" itemValue="#{exemplar}"   />
+                                    <p:column>
+                                        <h:outputText value="#{exemplar.livro.titulo}, Nº #{exemplar.numeroExemplar}" />
+                                        <h:outputText value="" />
+                                    </p:column>
+                                </p:selectOneListbox>
+                                <p:message for="exemplar" />
+                                <p:outputLabel for="aluno" value="Aluno" />
+                                <p:selectOneListbox scrollHeight="100" id="aluno" required="true" value="#{emprestimoBean.aluno}" var="t" converter="entidadeConverter" filter="true" style="width: 100%;" filterMatchMode="contains">
+                                    <f:selectItems value="#{emprestimoBean.alunos}" var="aluno" itemLabel="#{aluno.matricula}" itemValue="#{aluno}"   />
+                                    <p:column>
+                                        <h:outputText value="#{t.matricula}" />
+                                    </p:column>
+                                </p:selectOneListbox>
+                                <p:message for="aluno" />
+                                <p:outputLabel for="dataEntrega" value="Data de Entrega" />
+                                <p:calendar mindate="#{emprestimoBean.getDataLimiteEmprestimo()}"  required="true" pattern="dd/MM/yyy" id="dataEntrega" value="#{emprestimoBean.dataPrevistaEntrega}"/>
+                                <p:message for="dataEntrega" />
+                            </p:panelGrid>
+                            <p:separator />
+                            <p:commandButton update="@form"  process="@form" action="#{emprestimoBean.criarNovoEmprestimo}" value="Novo emprestimo"/>
+                        </p:fieldset>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Empréstimos">
+                    <p:dataTable  id="tabelaEmprestimo"  var="emprestimo" value="#{emprestimoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum empréstimo registrado">
+                        <f:facet name="header">Empréstimos</f:facet>
+
+                        <p:column headerText="Aluno" filterMatchMode="startsWith" filterBy="#{emprestimo.aluno.matricula}" sortBy="#{emprestimo.aluno.matricula}">
+                            <h:outputText value="#{emprestimo.aluno.matricula}" />
+                        </p:column>
+                        <p:column headerText="Livro" filterMatchMode="startsWith" filterBy="#{emprestimo.exemplar.livro.titulo}" sortBy="#{emprestimo.exemplar.livro.titulo}">
+                            <h:outputText value="#{emprestimo.exemplar.livro.titulo}, Nº #{emprestimo.exemplar.numeroExemplar}" />
+                        </p:column>
+                        <p:column headerText="Data de Entrega" filterMatchMode="startsWith" filterBy="#{emprestimo.dataPrevistaEntrega}" sortBy="#{emprestimo.dataPrevistaEntrega}">
+                            <h:outputText value="#{emprestimo.dataPrevistaEntrega}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column> 
+                        <p:column headerText="Data do Empréstimo" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
+                            <h:outputText value="#{emprestimo.dataEmprestimo}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column> 
+                        <p:column headerText="Data de Devolução" filterMatchMode="startsWith" filterBy="#{emprestimo.dataDevolucao}" sortBy="#{emprestimo.dataDevolucao}">
+                            <h:outputText value="#{emprestimo.dataDevolucao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column> 
+                        <p:column headerText="Situação" filterMatchMode="startsWith" filterBy="#{emprestimo.situacaoEmprestimo}" sortBy="#{emprestimo.situacaoEmprestimo}">
+
+                        </p:column>
+                        <p:column headerText="Multa a Pagar" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
+                            <h:outputText value=" R$#{emprestimo.calcularMultaAtraso()}">
+                                <f:convertNumber maxFractionDigits="3" />
+                            </h:outputText>
+                        </p:column> 
+                        <p:column>
+                            <p:commandButton process="@this"  rendered="#{emprestimo.emAndamento()}" title="Devolver empréstimo" action="#{emprestimoBean.devolverEmprestimo(emprestimo)}"  update="@form" value="Devolver" />
+                        </p:column>
+                        <p:column rendered="#{emprestimo.posssuiMulta()}" >
+                            <p:commandButton   process="@this" title="Pagar Multa"  update="@form" value="Pagar Multa">
+                                <f:setPropertyActionListener value="#{emprestimo}" target="#{entidade}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -11,6 +11,9 @@ import entidades.livro.emprestimo.Emprestimo;
 import entidades.livro.Livro;
 import exception.NegocioException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -19,7 +22,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import util.DateComparator;
 
 /**
  *
@@ -30,16 +36,26 @@ import javax.persistence.OneToMany;
         {
             @AttributeOverride(name = "chavePrimaria", column = @Column(name = "EXEMPLAR_ID"))
         })
+@NamedQueries(
+        @NamedQuery(
+                name = Exemplar.ULTIMO_TOMBO_EXEMPLAR,
+                query = "SELECT max(e.tombo) FROM Exemplar e"
+        ))
 public class Exemplar extends EntidadeNegocio {
 
     private static final long serialVersionUID = 405832921706298633L;
-
+    
+    public static final String ULTIMO_TOMBO_EXEMPLAR = "UltimoTomboExemplar";
+    
     @ManyToOne
     private Livro livro;
 
     @Column(unique = true)
     private Long tombo;
 
+    @Column()
+    private Long numeroExemplar;
+    
     @OneToMany(mappedBy = "exemplar")
     private List<Emprestimo> emprestimos;
     
@@ -51,21 +67,24 @@ public class Exemplar extends EntidadeNegocio {
     }
 
     public void devolver() throws NegocioException {
-        estadoExemplar = estadoExemplar.devolver(this);
+        estadoExemplar.devolver(this);
     }
 
-    public void solicitar(Aluno aluno) throws NegocioException {
-        estadoExemplar = estadoExemplar.solicitar(aluno, this);
+    public Emprestimo solicitar(Aluno aluno, Date dataPrevistaEntrega) throws NegocioException {
+        return estadoExemplar.solicitar(aluno, dataPrevistaEntrega, this);
     }
 
     public Emprestimo getUltimoEmprestimo() {
-        return null;
+        Collections.sort(emprestimos, new DateComparator());
+        return emprestimos.get(0);
     }
 
-    protected void novoEmprestimo(Aluno aluno) {
+    protected Emprestimo novoEmprestimo(Aluno aluno, Date dataPrevistaEntrega) {
         Emprestimo emprestimo = new Emprestimo();
+        emprestimo.setDataPrevistaEntrega(dataPrevistaEntrega);
         aluno.addEmprestimo(emprestimo);
         this.addEmprestimo(emprestimo);
+        return emprestimo;
     }
 
     public Livro getLivro() {
@@ -95,6 +114,14 @@ public class Exemplar extends EntidadeNegocio {
         emprestimo.setExemplar(this);
         this.emprestimos.add(emprestimo);
     }
+    
+    public Boolean isEmprestado() {
+        Boolean emprestado = Boolean.FALSE;
+        if ( estadoExemplar.equals(EstadoExemplar.EMPRESTADO)) {
+            emprestado = Boolean.TRUE;
+        }
+        return emprestado;
+    }
 
     public EstadoExemplar getEstadoExemplar() {
         return estadoExemplar;
@@ -103,5 +130,15 @@ public class Exemplar extends EntidadeNegocio {
     public void setEstadoExemplar(EstadoExemplar estadoExemplar) {
         this.estadoExemplar = estadoExemplar;
     }
+
+    public Long getNumeroExemplar() {
+        return numeroExemplar;
+    }
+
+    public void setNumeroExemplar(Long numeroExemplar) {
+        this.numeroExemplar = numeroExemplar;
+    }
+    
+    
 
 }

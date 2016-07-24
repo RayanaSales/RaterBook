@@ -6,7 +6,9 @@
 package entidades.livro.exemplar;
 
 import entidades.aluno.Aluno;
+import entidades.livro.emprestimo.Emprestimo;
 import exception.NegocioException;
+import java.util.Date;
 
 /**
  *
@@ -27,14 +29,15 @@ public class Disponivel implements OperacoesEstadoExemplar {
     }
 
     @Override
-    public EstadoExemplar devolver(Exemplar exemplar) throws NegocioException {
+    public void devolver(Exemplar exemplar) throws NegocioException {
         throw new NegocioException(NegocioException.EXEMPLAR_DISPONIVEL);
     }
 
     @Override
-    public EstadoExemplar solicitar(Aluno aluno, Exemplar exemplar) {
-        exemplar.novoEmprestimo(aluno);
-        return EstadoExemplar.EMPRESTADO;
+    public Emprestimo solicitar(Aluno aluno, Date dataPrevistaEntrega, Exemplar exemplar) {
+        Emprestimo emprestimo = exemplar.novoEmprestimo(aluno, dataPrevistaEntrega);
+        exemplar.setEstadoExemplar(EstadoExemplar.EMPRESTADO);
+        return emprestimo;
     }
 
 }

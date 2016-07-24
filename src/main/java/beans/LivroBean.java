@@ -3,12 +3,15 @@ package beans;
 import entidades.autor.Autor;
 import entidades.editora.Editora;
 import entidades.livro.Livro;
+import entidades.livro.exemplar.EstadoExemplar;
+import entidades.livro.exemplar.Exemplar;
+import exception.NegocioException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DualListModel;
 import servico.AutorServico;
 import servico.EditoraServico;
@@ -32,9 +35,11 @@ public class LivroBean extends Bean<Livro> {
     @EJB
     private EditoraServico editoraServico;
 
+    private List<Exemplar> exemplares = new ArrayList<>();
+
     @EJB
     private AutorServico autorServico;
-    
+
     private List<Editora> editoras = new ArrayList<>();
 
     private DualListModel<Autor> autores = new DualListModel<>();
@@ -44,6 +49,8 @@ public class LivroBean extends Bean<Livro> {
         super.inicializar();
         autores.setSource(autorServico.listarTodos());
         editoras = editoraServico.listarTodos();
+        exemplares = servico.obterExemplares();
+
     }
 
     @Override
@@ -57,6 +64,10 @@ public class LivroBean extends Bean<Livro> {
         return CategoriaLivro.values();
     }
 
+    public EstadoExemplar[] getEstados() {
+        return EstadoExemplar.values();
+    }
+
     public List<Editora> getEditoras() {
         return editoras;
     }
@@ -66,6 +77,14 @@ public class LivroBean extends Bean<Livro> {
         return servico;
     }
 
+    public void criarNovoExemplar() throws NegocioException {
+        servico.novoExemplar(entidade);
+        String mensagem = "Um novo exemplar do livro "
+                + entidade.getTitulo() + " foi criado";
+        adicionarMensagemView(mensagem, FacesMessage.SEVERITY_INFO);
+
+    }
+
     public DualListModel<Autor> getAutores() {
         return autores;
     }
@@ -73,7 +92,7 @@ public class LivroBean extends Bean<Livro> {
     public boolean existemAutoresCadastrados() {
         return !autores.getSource().isEmpty();
     }
-    
+
     public boolean existemEditorasCadastradas() {
         return !this.getEditoras().isEmpty();
     }
@@ -82,12 +101,12 @@ public class LivroBean extends Bean<Livro> {
         this.autores = autores;
     }
 
-    public String onFlowProcess(FlowEvent event) {
-        return event.getNewStep();
+    public List<Exemplar> getExemplares() {
+        return exemplares;
     }
 
-   
-    
-    
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
+    }
 
 }

@@ -15,7 +15,7 @@ import org.jboss.logging.Logger;
 public abstract class Servico<T extends EntidadeNegocio> {
 
     protected static final Logger LOG = Logger.getLogger(Servico.class);
-    
+
     @PersistenceContext(unitName = "rater-book", type = PersistenceContextType.TRANSACTION)
     protected EntityManager entityManager;
 
@@ -34,7 +34,7 @@ public abstract class Servico<T extends EntidadeNegocio> {
         } catch (NonUniqueResultException e) {
             throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
         } catch (NoResultException e) {
-            
+
         }
     }
 

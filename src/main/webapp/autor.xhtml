@@ -6,9 +6,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form>
-                <p:tabView>
-                    <p:tab title="#{mensagem.cadastroAutor}">
+            <p:tabView id="abas">
+
+                <p:tab title="#{mensagem.cadastroAutor}">
+                    <h:form>
                         <p:fieldset legend="#{mensagem.dadosAutor}">
                             <p:panelGrid columns="3">
                                 <p:outputLabel for="nome">#{mensagem.nome}</p:outputLabel>
@@ -20,25 +21,26 @@
                                 <p:message for="nome" id="messageNome"/>
 
                                 <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="tabelaAutor" process="@form"/>
+                                                 update="@form abas:formularioTabelaAutor:tabelaAutor" process="@form"/>
                             </p:panelGrid>
                         </p:fieldset>
-                    </p:tab>
-                    <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
-                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
-
+                    </h:form>
+                </p:tab>
+                <p:tab title="#{mensagem.autoresCadastrados}" id="painelAutoresCadastrados">
+                    <h:form id="formularioTabelaAutor">
+                        <p:messages id="messagesEdicao" severity="error" autoUpdate="true" closable="true"/>
                         <p:dataTable id="tabelaAutor" editable="true"  var="entidade" value="#{autorBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAutorRegistrado}">
                             <f:facet name="header">#{mensagem.autores}</f:facet>
-
                             <p:ajax event="rowEdit" listener="#{autorBean.editar}"  />
-
                             <p:column headerText="#{mensagem.nome}" filterMatchMode="startsWith" filterBy="#{entidade.nome}" sortBy="#{entidade.nome}">
                                 <p:cellEditor>
                                     <f:facet name="output">
                                         <h:outputText value="#{entidade.nome}" />
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:inputText id="nome" value="#{entidade.nome}" required="true" />
+                                        <p:inputText id="nome" value="#{entidade.nome}" required="true">
+                                            <f:validateLength minimum="7" maximum="30"/>
+                                        </p:inputText>
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -55,9 +57,9 @@
                                 </p:confirmDialog>
                             </p:column> 
                         </p:dataTable>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
         </ui:define>
     </ui:composition>
 </html>

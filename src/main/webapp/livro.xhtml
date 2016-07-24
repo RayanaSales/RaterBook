@@ -6,122 +6,131 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <h:form>
-                <p:tabView>
-                    <p:tab title="Cadastro de Livros">
-                        <h:form>
-                            <p:wizard flowListener="#{livroBean.onFlowProcess}">
-                                <p:tab title="Editora">
-                                    <p:panel header="Dados da Editora">
-                                        <p:panelGrid rendered="#{livroBean.existemEditorasCadastradas()}" columns="3">
-                                            <p:outputLabel  for="editora" value="Editora" />
-                                            <p:selectOneMenu editable="true" requiredMessage="#{mensagem.campoObrigatorio}" id="editora" required="true" converter="entidadeConverter"  value="#{livroBean.entidade.editora}">
-                                                <f:selectItems var="editora" value="#{livroBean.editoras}" itemLabel="#{editora.nome}" itemValue="#{editora}" />
-                                            </p:selectOneMenu>
-                                            <p:message for="editora"/>
-                                        </p:panelGrid>
-                                        <p:outputLabel value="Não existem editoras cadastradas. " />
-                                        <p:commandLink rendered="#{!livroBean.existemEditorasCadastradas()}" value="Cadastre uma Editora" action="editora?faces-redirect=true" />
-                                    </p:panel>
-                                </p:tab>
-                                <p:tab title="Livro">
-                                    <p:panel header="Dados do Livro">
-                                        <p:panelGrid columns="3">
-                                            <p:outputLabel for="titulo" value="Título" />                                 
-                                            <p:inputText required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="titulo" value="#{livroBean.entidade.titulo}">
-                                                <f:validateLength minimum="2" maximum="50" />
-                                                <f:ajax event="blur" execute="titulo" render="messageTitulo" />
-                                            </p:inputText>
-                                            <p:message for="titulo" id="messageTitulo"/>
-                                            <p:outputLabel for="isbn" value="ISBN" />                                 
-                                            <p:inputMask required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="isbn" mask="999-99-9999-999-9" value="#{livroBean.entidade.isbn}" />
-                                            <p:message for="isbn"/>
-                                            <p:outputLabel for="categoria" value="Categoria" />
-                                            <p:selectOneMenu  requiredMessage="#{mensagem.campoObrigatorio}" id="categoria" required="true" 
-                                                              value="#{livroBean.entidade.categoria}">             
-                                                <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
-                                            </p:selectOneMenu>
-                                            <p:message for="categoria" />
-                                            <p:outputLabel for="ano" value="Ano" />
-                                            <p:inputMask mask="9999" required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="ano"  />
-                                            <p:message for="ano" />
-                                            <p:outputLabel for="edicao" value="Edição" />
-                                            <p:inputText id="edicao" required="true" requiredMessage="#{mensagem.campoObrigatorio}">
-                                                <f:passThroughAttribute name="type" value="number" />
-                                                <f:validateLongRange minimum="1" />
-                                            </p:inputText>
-                                            <p:message for="edicao" />
-                                        </p:panelGrid>
-                                    </p:panel>
-                                </p:tab>
-                                <p:tab title="Autores">
-                                    <p:panel header="Autores">
-                                        <p:pickList rendered="#{livroBean.existemAutoresCadastrados()}" id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" 
-                                                    converter="entidadeConverter" itemValue="#{autor}" />
-                                        <p:commandLink rendered="#{!livroBean.existemAutoresCadastrados()}" value="Cadastre um Autor" action="autor?faces-redirect=true" />
-                                    </p:panel>
-                                </p:tab>
-                            </p:wizard>
-                        </h:form>
+            <p:tabView id="abas">
+                <p:tab title="Cadastro de Livros">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <p:fieldset legend="Dados do Livro">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel for="titulo" value="Título" />                                 
+                                    <p:inputText required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="titulo" value="#{livroBean.entidade.titulo}">
+                                        <f:validateLength minimum="2" maximum="50" />
+                                        <f:ajax event="blur" execute="titulo" render="messageTitulo" />
+                                    </p:inputText>
+                                    <p:message for="titulo" id="messageTitulo"/>
+                                    <p:outputLabel  for="editora" value="Editora" />
+                                    <p:selectOneMenu rendered="#{livroBean.existemEditorasCadastradas()}" requiredMessage="#{mensagem.campoObrigatorio}" id="editora" required="true" converter="entidadeConverter"  value="#{livroBean.entidade.editora}">
+                                        <f:selectItems var="editora" value="#{livroBean.editoras}" itemLabel="#{editora.nome}" itemValue="#{editora}" />
+                                    </p:selectOneMenu>
+                                    <p:commandLink immediate="true" rendered="#{!livroBean.existemEditorasCadastradas()}" value="Cadastre uma Editora" action="editora?faces-redirect=true" />
+                                    <p:message for="editora"/>
+                                    <p:outputLabel for="isbn" value="ISBN" />                                 
+                                    <p:inputMask required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="isbn" mask="999-99-9999-999-9" value="#{livroBean.entidade.isbn}" />
+                                    <p:message for="isbn"/>
+                                    <p:outputLabel for="categoria" value="Categoria" />
+                                    <p:selectOneMenu  requiredMessage="#{mensagem.campoObrigatorio}" id="categoria" required="true" 
+                                                      value="#{livroBean.entidade.categoria}">             
+                                        <f:selectItems var="categoria" value="#{livroBean.categorias}" itemValue="#{categoria}"   />
+                                    </p:selectOneMenu>
+                                    <p:message for="categoria" />
+                                    <p:outputLabel for="ano" value="Ano" />
+                                    <p:inputMask mask="9999" required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="ano">
+                                        <f:ajax event="blur" execute="ano" render="messageAno" />
+                                        <f:convertNumber />
+                                    </p:inputMask>
+                                    <p:message for="ano" id="messageAno" />
+                                    <p:outputLabel for="edicao" value="Edição" />
+                                    <p:inputText id="edicao" required="true" requiredMessage="#{mensagem.campoObrigatorio}">
+                                        <f:validateLongRange minimum="1" />
+                                    </p:inputText>
+                                    <p:message for="edicao" />
+                                </p:panelGrid>
 
-                    </p:tab>
-                    <p:tab title="Livros Cadastrados">
-                        <p:messages id="messagesEdicao" autoUpdate="true" closable="true"/>
-                        <h:form>
-                            <p:dataTable id="tabelaLivro" editable="true"  var="livro" value="#{livroBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Livro registrado">
-                                <f:facet name="header">Livros</f:facet>
+                            </p:fieldset>
+                            <p:fieldset legend="Autores">
+                                <p:pickList required="true" rendered="#{livroBean.existemAutoresCadastrados()}" id="autores" value="#{livroBean.autores}" var="autor" itemLabel="#{autor.nome}" 
+                                            converter="entidadeConverter" itemValue="#{autor}" />
+                                <p:message for="autores"/>
+                                <p:outputLabel rendered="#{!livroBean.existemAutoresCadastrados()}" value="Não existem autores cadastrados. " />
+                                <p:commandLink immediate="true" rendered="#{!livroBean.existemAutoresCadastrados()}" value="Cadastre um Autor" action="autor?faces-redirect=true" />
+                            </p:fieldset>
+                            <p:commandButton action="#{livroBean.cadastrar}" value="Cadastrar" process="@form" update="@form abas:formularioTabelaLivros:tabelaLivro" /> 
 
-                                <p:ajax event="rowEdit" listener="#{livroBean.editar}"  />
+                        </p:panelGrid>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Livros Cadastrados">
+                    <h:form id="formularioTabelaLivros">
+                        <p:dataTable id="tabelaLivro"  var="livro" value="#{livroBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum Livro registrado">
+                            <f:facet name="header">Livros</f:facet>
+                            <p:column headerText="Título" filterMatchMode="startsWith" filterBy="#{livro.titulo}" sortBy="#{livro.titulo}">
+                                <h:outputText value="#{livro.titulo}" />
+                            </p:column>
+                            <p:column headerText="Autores" filterMatchMode="contains" >
+                                <ui:repeat value="#{livro.autores}" var="autor">
+                                    <h:outputText value="#{autor.nome}, " />
+                                </ui:repeat>
+                            </p:column>
+                            <p:column headerText="ISBN" filterMatchMode="startsWith" filterBy="#{livro.isbn}" sortBy="#{livro.isbn}">
+                                <h:outputText value="#{livro.isbn}" />
+                            </p:column>
+                            <p:column style="width:32px;text-align: center">
+                                <p:commandLink update="tabelaLivro" oncomplete="PF('detalharLivro').show()" styleClass="ui-icon ui-icon-search">
+                                    <f:setPropertyActionListener value="#{livro}" target="#{livroBean.entidade}" />
+                                </p:commandLink>
+                            </p:column>
+                            <p:column  style="width:32px;text-align: center">
+                                <p:commandLink  styleClass="ui-icon ui-icon-trash"  action="#{livroBean.remover(livro)}" process="@this" update="tabelaLivro">
+                                    <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                </p:commandLink>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column> 
+                            <p:column  style="width:32px;text-align: center">
+                                <p:commandLink process="@this" title="Novo exemplar" action="#{livroBean.criarNovoExemplar}"  update="@form abas:formularioTabelaExemplares:tabelaExemplares" styleClass="ui-icon ui-icon-plus">
+                                    <f:setPropertyActionListener value="#{livro}" target="#{livroBean.entidade}" />
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:tab>
 
-                                <p:column headerText="Nome" filterMatchMode="startsWith" filterBy="#{livro.titulo}" sortBy="#{livro.titulo}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{livro.titulo}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputText  value="#{livro.titulo}" required="true" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Sinopse" filterMatchMode="startsWith" filterBy="#{livro.isbn}" sortBy="#{livro.isbn}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{livro.isbn}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:inputMask required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="isbn" mask="999-99-9999-999-9" value="#{livroBean.entidade.isbn}" />
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Categoria" filterMatchMode="startsWith" filterBy="#{livro.categoria}" sortBy="#{livro.categoria}">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{livro.categoria}" />
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <p:selectOneMenu id="categoria" >
-                                                <f:selectItems value="#{livroBean.categorias}"   />
-                                            </p:selectOneMenu>
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column>
-                                    <p:rowEditor />
-                                </p:column>
-                                <p:column>
-                                    <p:commandLink styleClass="ui-icon ui-icon-trash"  action="#{livroBean.remover(livro)}" process="@this" update="formularioLivro">
-                                        <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
-                                    </p:commandLink>
-                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                    </p:confirmDialog>
-                                </p:column> 
-                            </p:dataTable>
-                        </h:form>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
+                <p:tab id="abaExemplares" title="Exemplares">
+                    <h:form id="formularioTabelaExemplares">
+                        <p:dataTable paginator="true"  value="#{livroBean.exemplares}" widgetVar="tabelaExemplares" id="tabelaExemplares" var="exemplar" emptyMessage="Não existem exemplares cadastrados">
+                            <f:facet name="header">Exemplares</f:facet>
+                            <p:column headerText="ISBN" filterMatchMode="startsWith" filterBy="#{exemplar.livro.isbn}" sortBy="#{exemplar.livro.isbn}">
+                                <h:outputText value="#{exemplar.livro.isbn}" />
+                            </p:column>
+                            <p:column headerText="Tombo" filterMatchMode="startsWith" filterBy="#{exemplar.tombo}" sortBy="#{exemplar.tombo}">
+                                <h:outputText value="#{exemplar.tombo}" />
+                            </p:column>
+                            <p:column headerText="Nº Exemplar:" filterMatchMode="startsWith" filterBy="#{exemplar.chavePrimaria}" sortBy="#{exemplar.chavePrimaria}">
+                                <h:outputText value="#{exemplar.chavePrimaria}" />
+                            </p:column>
+                            <p:column headerText="Situação" filterBy="#{exemplar.estadoExemplar}" filterMatchMode="in">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu label="Situações" onchange="PF('tabelaExemplares').filter()" panelStyle="width:125px" scrollHeight="150">
+                                        <f:selectItems value="#{livroBean.estados}" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{exemplar.estadoExemplar}" />
+                            </p:column>
+                            <p:column style="text-align: center">
+                                <p:commandLink  styleClass="ui-icon ui-icon-trash"  action="#{emprestimoBean.remover(exemplar)}" process="@this" update="@form">
+                                    <p:confirm header="Confirmação" message="Tem certeza ?" icon="ui-icon-alert" />
+                                </p:commandLink>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
         </ui:define>
     </ui:composition>
 </html>

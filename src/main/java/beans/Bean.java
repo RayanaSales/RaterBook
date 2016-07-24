@@ -135,6 +135,10 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
         return entidade;
     }
 
+    public void setEntidade(T entidade) {
+        this.entidade = entidade;
+    }
+
     public void setAutor(T entidade) {
         this.entidade = entidade;
     }

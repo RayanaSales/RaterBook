@@ -18,7 +18,7 @@ public class NegocioException extends Exception {
     public static final String EXEMPLAR_INDISPONIVEL = "excecao.NegocioException.exemplarIndisponivel";
     public static final String EXEMPLAR_DISPONIVEL = "excecao.NegocioException.exemplarDisponivel";
     public static final String EMPRESTIMO_ATRASADO = "excecao.NegocioException.exemplarAtrasado";
-    
+   
     public NegocioException(String chave) {
         this.chave = chave;
     }
