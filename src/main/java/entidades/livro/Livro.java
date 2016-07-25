@@ -145,7 +145,7 @@ public class Livro extends EntidadeNegocio {
 
     public void novoExemplar(Long tombo) {
         Exemplar exemplar = new Exemplar();
-        Long numeroExemplar = Integer.toUnsignedLong(this.exemplares.size() + 1);
+        Long numeroExemplar = Long.valueOf(this.exemplares.size() + 1);
         exemplar.setTombo(tombo);
         exemplar.setNumeroExemplar(numeroExemplar);
         this.adicionarExemplar(exemplar);
