@@ -7,7 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            
+            <p:tabView id="abas">
+                <p:tab title="Rater book">
+                    <p:fieldset legend="#{mensagem.descricao}">
+                        <p:outputLabel value="#{mensagem.descricao_txt}" />              
+                    </p:fieldset>
+                </p:tab>
+                <p:tab id="aba2" title="#{mensagem.quemSomos}">
+                    <p:fieldset legend="#{mensagem.sobreNos}">
+                        <p:outputLabel value="#{mensagem.quemSomos_txt}" />            
+                    </p:fieldset>
+                </p:tab>
+                <p:tab id="aba3" title="#{mensagem.faleConosco}">
+                    <p:fieldset legend="#{mensagem.nossosEmails}">
+                        <p:panelGrid columns="1">
+                            <p:outputLabel>Edmilson Santana: emgs@a.recife.ifpe.edu.br</p:outputLabel>
+                            <p:outputLabel>Douglas Albuquerque: das@a.recife.ifpe.edu.br</p:outputLabel>
+                            <p:outputLabel>Rayana Sales: ras@a.recife.ifpe.edu.br</p:outputLabel>
+                        </p:panelGrid>           
+                    </p:fieldset>
+                </p:tab>
+            </p:tabView>
         </ui:define>
     </ui:composition>
 </html>
