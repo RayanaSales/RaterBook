@@ -61,7 +61,7 @@ public class Emprestimo extends EntidadeNegocio {
     @Enumerated(EnumType.STRING)
     private SituacaoEmprestimo situacaoEmprestimo = SituacaoEmprestimo.EM_ANDAMENTO;
 
-    ;
+    
 
     public Emprestimo() {
 
