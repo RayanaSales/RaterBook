@@ -7,7 +7,6 @@ package beans;
 
 import entidades.usuario.Usuario;
 import exception.NegocioException;
-import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import servico.Servico;
 import servico.UsuarioServico;
 
 /**
@@ -24,7 +24,7 @@ import servico.UsuarioServico;
  */
 @ManagedBean
 @RequestScoped
-public class LoginBean implements Serializable {
+public class LoginBean extends Bean<Usuario>{
 
     private static final long serialVersionUID = -6146667652658875312L;
 
@@ -45,8 +45,7 @@ public class LoginBean implements Serializable {
             session.setAttribute("usuarioLogado", usuarioLogado);
         } catch (NegocioException e) {
             fluxo = "falha";
-            adicionarMensagemComponente(null, e.getMessage(),
-                    FacesMessage.SEVERITY_WARN);
+            adicionarMensagemExcecaoView(e.getChave(), FacesMessage.SEVERITY_ERROR);
         }
 
         return fluxo;
@@ -56,12 +55,6 @@ public class LoginBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.getExternalContext().invalidateSession();
         return "sair";
-    }
-
-    private void adicionarMensagemComponente(String componente, String mensagem,
-            FacesMessage.Severity severity) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(componente, new FacesMessage(severity, mensagem, null));
     }
 
     public String getEmail() {
@@ -78,6 +71,11 @@ public class LoginBean implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    protected Servico inicializarServico() {
+        return usuarioServico;
     }
 
 }

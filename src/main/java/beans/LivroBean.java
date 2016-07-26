@@ -61,6 +61,14 @@ public class LivroBean extends Bean<Livro> {
         this.popularListaAutores();
         
     }
+
+    @Override
+    public void remover(Livro entidade) {
+        super.remover(entidade); 
+        this.carregarExemplares();
+    }
+    
+    
     
     public void popularListaAutores() {
         autores.setSource(autorServico.listarTodos());
@@ -86,6 +94,7 @@ public class LivroBean extends Bean<Livro> {
 
     public void criarNovoExemplar() throws NegocioException {
         servico.novoExemplar(entidade);
+        carregarExemplares();
         adicionarMensagemView(MENSAGEM_NOVO_EXEMPLAR, FacesMessage.SEVERITY_INFO);
     }
 

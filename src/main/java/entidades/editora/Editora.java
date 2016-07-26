@@ -23,10 +23,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Editora extends EntidadeNegocio {
 
     private static final long serialVersionUID = 3035399348697353532L;
-
     @NotBlank
-    @Size(max = 50)
-    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.editora.Editora.nome}")
+    @Size(min = 3, max = 30)
+    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.apenasTexto}")
     private String nome;
 
     @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)
@@ -48,10 +47,6 @@ public class Editora extends EntidadeNegocio {
         this.livros = livros;
     }
 
-    @Override
-    public boolean isAssociado() {
-        return livros.isEmpty();
-    }
     
     
 

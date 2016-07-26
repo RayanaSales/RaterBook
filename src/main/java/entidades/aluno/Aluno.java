@@ -26,14 +26,15 @@ public class Aluno extends EntidadeNegocio {
 
     @NotBlank
     @Size(min = 3, max = 30)
-    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
+    @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String primeiroNome;
     
     @NotBlank
     @Size(min = 3, max = 30)
-    @Pattern(regexp = "[A-Za-z ]+", message = "Apenas Letras")
+    @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String ultimoNome;
     
+    @NotBlank
     private String matricula;
 
     @OneToMany(mappedBy = "aluno")
@@ -75,23 +76,30 @@ public class Aluno extends EntidadeNegocio {
         this.emprestimos.add(emprestimo);
     }
     
-   @Override
-    public boolean equals(Object o)
-    {
-        super.equals(o);
-        
-        if (o != null)
-        {
-            if (o instanceof Aluno)
-            {
-                Aluno outra = (Aluno) o;
-                if (this.primeiroNome.equals(outra.primeiroNome) && this.ultimoNome.equals(outra.ultimoNome) && matricula.equals(outra.matricula))
-                {
-                    return true;
-                }
+    public Boolean possuiEmprestimosComMulta() {
+        int quantidadeEmprestimos = 0;
+        for(Emprestimo emp : this.getEmprestimos()){
+            if(emp.posssuiMulta()){
+                quantidadeEmprestimos++;
             }
         }
-        return false;
+        return quantidadeEmprestimos > 0;
+    }
+
+    @Override
+    public boolean isAssociado() {
+        return possuiEmprestimosEmAndamento();
+    }
+    
+    
+    public Boolean possuiEmprestimosEmAndamento() {
+        int quantidadeEmprestimos = 0;
+        for(Emprestimo emp : this.getEmprestimos()){
+            if(emp.emAndamento()){
+                quantidadeEmprestimos++;
+            }
+        }
+        return quantidadeEmprestimos > 0;
     }
     
     

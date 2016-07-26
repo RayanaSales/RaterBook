@@ -28,10 +28,11 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Autor extends EntidadeNegocio {
 
     private static final long serialVersionUID = -8161053151326463631L;
-
+    
+    
     @NotBlank
-    @Size(min = 7, max = 30)
-    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.autor.Autor.nome}")
+    @Size(min = 3, max = 30)
+    @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.apenasTexto}")
     private String nome;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_AUTOR_LIVRO",
@@ -55,11 +56,6 @@ public class Autor extends EntidadeNegocio {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    @Override
-    public boolean isAssociado() {
-        return livros.isEmpty();
     }
 
 }

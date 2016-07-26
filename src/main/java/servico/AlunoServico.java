@@ -1,6 +1,8 @@
 package servico;
 
 import entidades.aluno.Aluno;
+import entidades.editora.Editora;
+import exception.NegocioException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -16,34 +18,24 @@ import javax.persistence.TypedQuery;
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AlunoServico extends Servico<Aluno>
-{
+public class AlunoServico extends Servico<Aluno> {
 
     @Override
-    public Class<Aluno> getClasseEntidade()
-    {
+    public Class<Aluno> getClasseEntidade() {
         return Aluno.class;
     }
 
     @Override
-    public Aluno getEntidadeNegocio()
-    {
+    public Aluno getEntidadeNegocio() {
         return new Aluno();
     }
 
     @Override
-    public Boolean verificarExistencia(Aluno entidadeNegocio)
-    {
+    public Boolean verificarExistencia(Aluno entidadeNegocio) {
         TypedQuery<Aluno> query;
         query = entityManager.createQuery("select a from Aluno a where a.matricula like ?1", getClasseEntidade());
         query.setParameter(1, entidadeNegocio.getMatricula());
         List<Aluno> alunos = query.getResultList();
-
-        if (entidadeNegocio.equals(query.getFirstResult()))
-        {
-            return true;
-        }
-
-        return false;
+        return !alunos.isEmpty();
     }
 }

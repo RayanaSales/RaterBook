@@ -11,6 +11,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -35,10 +36,12 @@ public class Usuario extends EntidadeNegocio {
     @NotBlank
     private String senha;
     @NotBlank
-    @Size(max = 45)
+    @Size(min = 5, max = 45)
+    @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String primeiroNome;
     @NotBlank
-    @Size(max = 45)
+    @Size(min = 5, max = 45)
+    @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String ultimoNome;
 
     @PrePersist

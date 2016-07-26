@@ -57,7 +57,6 @@ public class EmprestimoBean extends Bean<Emprestimo> {
         exemplar = livroServico.criarExemplar();
         aluno = alunoServico.getEntidadeNegocio();
         alunos = alunoServico.listarTodos();
-        exemplares = livroServico.obterExemplaresDisponiveis();
     }
 
     @Override
@@ -69,6 +68,7 @@ public class EmprestimoBean extends Bean<Emprestimo> {
         try {
             emprestimoServico.cadastrarNovoEmprestimo(aluno, dataPrevistaEntrega, exemplar);
             mensagemCadastroSucesso();
+            super.popularEntidades();
         } catch (NegocioException ex) {
             adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         }
@@ -108,7 +108,7 @@ public class EmprestimoBean extends Bean<Emprestimo> {
     }
 
     public List<Exemplar> getExemplares() {
-        return exemplares;
+        return livroServico.obterExemplaresDisponiveis();
     }
 
     public void setExemplares(List<Exemplar> exemplares) {

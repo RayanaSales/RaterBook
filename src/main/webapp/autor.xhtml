@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:util="http://xmlns.jcp.org/jsf/composite/util">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
             <p:tabView id="abas">
@@ -11,18 +12,12 @@
                 <p:tab title="#{mensagem.cadastroAutor}">
                     <h:form>
                         <p:fieldset legend="#{mensagem.dadosAutor}">
-                            <p:panelGrid columns="3">
-                                <p:outputLabel for="nome">#{mensagem.nome}</p:outputLabel>
-                                <p:inputText id="nome" value="#{autorBean.entidade.nome}" required="true" 
-                                             requiredMessage="#{mensagem.campoObrigatorio}"> 
-                                    <f:validateLength minimum="7" maximum="30"/>
-                                    <f:ajax execute="nome" render="messageNome" event="blur" />
-                                </p:inputText>
-                                <p:message for="nome" id="messageNome"/>
-
-                                <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="@form abas:formularioTabelaAutor:tabelaAutor" process="@form"/>
-                            </p:panelGrid>
+                            <util:input inputId="nome" inputLabel="#{mensagem.nome}" inputValue="#{autorBean.entidade.nome}">
+                                <f:validateLength minimum="3" maximum="30" for="validation"/>
+                            </util:input>
+                            <p:separator />
+                            <p:commandButton action="#{autorBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                             update="@form abas:formularioTabelaAutor:tabelaAutor" process="@form"/>
                         </p:fieldset>
                     </h:form>
                 </p:tab>
@@ -38,8 +33,8 @@
                                         <h:outputText value="#{entidade.nome}" />
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:inputText id="nome" value="#{entidade.nome}" required="true">
-                                            <f:validateLength minimum="7" maximum="30"/>
+                                        <p:inputText id="nome" value="#{entidade.nome}" requiredMessage="#{mensagem.campoObrigatorio}" required="true">
+                                            <f:validateLength minimum="3" maximum="30" for="validation"/>
                                         </p:inputText>
                                     </f:facet>
                                 </p:cellEditor>

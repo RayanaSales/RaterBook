@@ -48,15 +48,14 @@ public class EmprestimoServico extends Servico<Emprestimo> {
     }
 
     public void cadastrarNovoEmprestimo(Aluno aluno, Date dataEntrega, Exemplar exemplar) throws NegocioException {
-        if(!verificarMultasPendentes(aluno)){
+        if (!verificarMultasPendentes(aluno)) {
             Emprestimo emprestimo = exemplar.solicitar(aluno, dataEntrega);
             super.salvar(emprestimo);
             alunoServico.alterar(aluno);
             livroServico.atualizarExemplar(exemplar);
-      }else{
+        } else {
             throw new NegocioException(NegocioException.POSSUI_MULTA);
-      }
-        
+        }
 
     }
 
@@ -72,11 +71,11 @@ public class EmprestimoServico extends Servico<Emprestimo> {
         emprestimo.pagarMulta();
         super.alterar(emprestimo);
     }
-    
-    private boolean verificarMultasPendentes(Aluno aluno){
+
+    private boolean verificarMultasPendentes(Aluno aluno) {
         int quantidadeDeMultas = 0;
-        for(Emprestimo emp : aluno.getEmprestimos()){
-            if(emp.posssuiMulta()){
+        for (Emprestimo emp : aluno.getEmprestimos()) {
+            if (emp.posssuiMulta()) {
                 quantidadeDeMultas++;
             }
         }

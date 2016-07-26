@@ -14,30 +14,35 @@
                             <p:panelGrid columns="3">
 
                                 <p:outputLabel for="primeiroNome">#{mensagem.primeiroNome}</p:outputLabel>
-                                <p:inputText id="primeiroNome" value="#{alunoBean.entidade.primeiroNome}" required="true"> 
+                                <p:inputText id="primeiroNome" requiredMessage="#{mensagem.campoObrigatorio}" value="#{alunoBean.entidade.primeiroNome}" required="true"> 
                                     <f:validateLength minimum="3" maximum="30"/>
+                                    <f:ajax execute="primeiroNome" render="messagePrimeiroNome" />
                                 </p:inputText>
                                 <p:message for="primeiroNome" id="messagePrimeiroNome"/>
 
                                 <p:outputLabel for="ultimoNome">#{mensagem.ultimoNome}</p:outputLabel>
-                                <p:inputText id="ultimoNome" value="#{alunoBean.entidade.ultimoNome}" required="true"> 
+                                <p:inputText id="ultimoNome" requiredMessage="#{mensagem.campoObrigatorio}" value="#{alunoBean.entidade.ultimoNome}" required="true"> 
                                     <f:validateLength minimum="3" maximum="30"/>
+                                    <f:ajax execute="ultimoNome" render="messageUltimoNome" />
                                 </p:inputText>
                                 <p:message for="ultimoNome" id="messageUltimoNome"/>
 
                                 <p:outputLabel for="maskMatricula">#{mensagem.matricula}</p:outputLabel>                                                                    
-                                <p:inputMask id="maskMatricula" value="#{alunoBean.entidade.matricula}" mask="99999Y9-RC9999" required="true"/>
+                                <p:inputMask id="maskMatricula" requiredMessage="#{mensagem.campoObrigatorio}" value="#{alunoBean.entidade.matricula}" mask="99999Y9-RC9999" required="true">
+                                    <f:ajax execute="maskMatricula" render="messageMatricula" />
+                                </p:inputMask>
                                 <p:message for="maskMatricula" id="messageMatricula"/>
 
-                                <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="@form abas:formularioAlunosCadastrados:tabelaAluno" process="@form"/>
                             </p:panelGrid>
+                            <p:separator />
+                            <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                             update="@form abas:formularioAlunosCadastrados:tabelaAluno" process="@form"/>
                         </p:fieldset>
                     </h:form>
                 </p:tab>
                 <p:tab title="#{mensagem.alunosCadastrados}" id="painelAlunosCadastrados">
                     <h:form id="formularioAlunosCadastrados">
-                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
+                        <p:messages id="messagesEdicao" severity="error" autoUpdate="true" closable="true"/>
                         <p:dataTable id="tabelaAluno" editable="true"  var="entidade" value="#{alunoBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAlunoCadastrado}">
                             <f:facet name="header">#{mensagem.alunos}</f:facet>
 

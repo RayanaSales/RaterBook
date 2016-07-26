@@ -11,22 +11,18 @@
                 <p:tab title="#{mensagem.editoraCadastroTitulo}">
                     <h:form>
                         <p:fieldset legend="#{mensagem.editoraCadastroLegenda}">
-                            <p:panelGrid columns="3">
-                                <p:outputLabel for="nome" value="#{mensagem.nome}" />                                  
-                                <p:inputText id="nome" required="true" value="#{editoraBean.entidade.nome}" >
-                                    <f:validateLength for="nome" minimum="2" maximum="30" />
-                                    <f:ajax execute="nome" event="blur" render="messageNome" />
-                                </p:inputText>
-                                <p:message for="nome" id="messageNome"  />
-                                <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
-                                                 update="@form abas:formularioTabelaEditora:tabelaEditora" process="@form"/>
-                            </p:panelGrid>
+                            <util:input inputId="editora" inputLabel="#{mensagem.editora}" inputValue="#{editoraBean.entidade.nome}">
+                                <f:validateLength minimum="2" maximum="30" for="validation"/>
+                            </util:input>
+                            <p:separator />
+                            <p:commandButton action="#{editoraBean.cadastrar()}" value="#{mensagem.inserir}" 
+                                             update="@form abas:formularioTabelaEditora:tabelaEditora" process="@form"/>
                         </p:fieldset>
                     </h:form>
                 </p:tab>
                 <p:tab id="abaTabelaExemplares" title="#{mensagem.editoraTabelaCadastradosTitulo}">
                     <h:form id="formularioTabelaEditora">
-                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
+                        <p:messages id="messagesEdicao" severity="error" autoUpdate="true" closable="true"/>
                         <p:dataTable id="tabelaEditora" editable="true"  var="editora" value="#{editoraBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.editoraTabelaCadastradosNenhumaEditora}">
                             <f:facet name="header">#{mensagem.editoraTabelaCadastradosCabecalho}</f:facet>
                             <p:ajax event="rowEdit" listener="#{editoraBean.editar}"  />
@@ -36,7 +32,9 @@
                                         <h:outputText value="#{editora.nome}" />
                                     </f:facet>
                                     <f:facet name="input">
-                                        <p:inputText id="nome" value="#{editora.nome}" required="true" />
+                                        <p:inputText id="nome" value="#{editora.nome}" required="true">
+                                            <f:validateLength for="nome" minimum="2" maximum="30" />
+                                        </p:inputText>
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>

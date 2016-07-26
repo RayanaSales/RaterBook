@@ -12,7 +12,7 @@
                         <p:panelGrid columns="2">
                             <p:fieldset legend="#{mensagem.dadosDeLivro}">
                                 <p:panelGrid columns="3">
-                                    <p:outputLabel for="titulo" value="#{mensagem.dadosDeLivro}" />                                 
+                                    <p:outputLabel for="titulo" value="#{mensagem.livroTitulo}" />                                 
                                     <p:inputText required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="titulo" value="#{livroBean.entidade.titulo}">
                                         <f:validateLength minimum="2" maximum="50" />
                                         <f:ajax event="blur" execute="titulo" render="messageTitulo" />
@@ -25,8 +25,10 @@
                                     <p:commandLink immediate="true" rendered="#{!livroBean.existemEditorasCadastradas()}" value="Cadastre uma Editora" action="editora?faces-redirect=true" />
                                     <p:message for="editora"/>
                                     <p:outputLabel for="isbn" value="#{mensagem.livroISBN}" />                                 
-                                    <p:inputMask  required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="isbn" mask="999-99-9999-999-9" value="#{livroBean.entidade.isbn}" />
-                                    <p:message for="isbn"/>
+                                    <p:inputMask  required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="isbn" mask="999-99-9999-999-9" value="#{livroBean.entidade.isbn}">
+                                        <f:ajax event="blur" execute="isbn" render="messageIsbn" />
+                                    </p:inputMask>
+                                    <p:message for="isbn" id="messageIsbn"/>
                                     <p:outputLabel for="categoria" value="#{mensagem.livroCategoria}" />
                                     <p:selectOneMenu  requiredMessage="#{mensagem.campoObrigatorio}" id="categoria" required="true" 
                                                       value="#{livroBean.entidade.categoria}">             
@@ -186,7 +188,7 @@
                                 </p:confirmDialog>
                             </p:column> 
                             <p:column   style="width:5%;text-align: center">
-                                <p:commandLink process="@this" title="Novo exemplar" action="#{livroBean.criarNovoExemplar}"  update="@form abas:formularioTabelaExemplares:tabelaExemplares" styleClass="ui-icon ui-icon-plus">
+                                <p:commandLink process="@this" title="Novo exemplar" action="#{livroBean.criarNovoExemplar}"  update="@form abas:formularioTabelaExemplares" styleClass="ui-icon ui-icon-plus">
                                     <f:setPropertyActionListener value="#{livro}" target="#{livroBean.entidade}" />
                                 </p:commandLink>
                             </p:column>

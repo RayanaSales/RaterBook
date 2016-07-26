@@ -6,6 +6,7 @@
 package servico;
 
 import entidades.autor.Autor;
+import exception.NegocioException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -34,16 +35,35 @@ public class AutorServico extends Servico<Autor> {
     }
 
     @Override
+    public void remover(Autor entidadeNegocio) throws NegocioException {
+        Boolean possuiLivros = this.verificarSeAutorPossuiLivros(entidadeNegocio);
+        if (possuiLivros) {
+            throw new NegocioException(NegocioException.ENTIDADE_ASSOCIADA);
+        } else {
+            super.remover(entidadeNegocio);
+        }
+
+    }
+
+    public Boolean verificarSeAutorPossuiLivros(Autor autor) {
+         StringBuilder jpqlConsulta = new StringBuilder();
+        jpqlConsulta.append(" SELECT COUNT(autor) FROM ");
+        jpqlConsulta.append(getClasseEntidade().getSimpleName());
+        jpqlConsulta.append(" AS autor ");
+        jpqlConsulta.append(" WHERE autor.nome = ?1 and autor.livros is empty");
+        TypedQuery<Long> query = super.entityManager
+                .createQuery(jpqlConsulta.toString(), Long.class);
+        query.setParameter(1, autor.getNome());
+        Long resultado = query.getSingleResult();
+        return !(resultado == 1);
+    }
+
+    @Override
     public Boolean verificarExistencia(Autor entidadeNegocio) {
         TypedQuery<Autor> query;
         query = entityManager.createQuery("select a from Autor a where a.nome like ?1", getClasseEntidade());
         query.setParameter(1, entidadeNegocio.getNome());
         List<Autor> autores = query.getResultList();
-
-        if (autores.isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return !autores.isEmpty();
     }
 }

@@ -19,19 +19,23 @@
                         </p:inputText>
                         <p:message for="email" id="messageEmail" />
                         <p:outputLabel value="#{mensagem.primeiroNome}" />
-                        <p:inputText id="nome" value="#{usuarioBean.entidade.primeiroNome}" />
+                        <p:inputText id="nome" value="#{usuarioBean.entidade.primeiroNome}">
+                            <f:validateLength minimum="5" maximum="45"/>
+                            <f:ajax event="blur" execute="nome" render="messageNome" />
+                        </p:inputText>
                         <p:message for="nome" id="messageNome" />
                         <p:outputLabel value="#{mensagem.ultimoNome}" />
-                        <p:inputText id="sobrenome" value="#{usuarioBean.entidade.ultimoNome}" />
+                        <p:inputText id="sobrenome" value="#{usuarioBean.entidade.ultimoNome}">
+                            <f:validateLength minimum="5" maximum="45"/>
+                            <f:ajax event="blur" execute="sobrenome" render="messageSobrenome" />
+                        </p:inputText>
                         <p:message for="sobrenome" id="messageSobrenome" />
                         <p:outputLabel value="#{mensagem.senha}" />
-                        <p:password feedback="true" value="#{usuarioBean.entidade.senha}" id="senha" weakLabel="Fraca"
+                        <p:password feedback="true" value="#{usuarioBean.entidade.senha}" requiredMessage="#{mensagem.campoObrigatorio}" id="senha" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
-                        <p:outputLabel value="Captcha" />
-                        <p:captcha language="#{userSettings.localizacao}" id="captcha" label="Captcha" />
-                        <p:message for="captcha" id="messageCaptcha" />
                         <p:commandButton value="Cadastrar" action="#{usuarioBean.cadastrarUsuario()}" />
+
                     </p:panelGrid>
                 </p:fieldset>
 

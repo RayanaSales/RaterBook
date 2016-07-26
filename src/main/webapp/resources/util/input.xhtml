@@ -13,11 +13,13 @@
     </composite:interface>
 
     <composite:implementation>
-        <p:outputLabel for="#{cc.attrs.inputId}" value="#{cc.attrs.inputLabel}" />                                  
-        <p:inputText id="#{cc.attrs.inputId}" required="true" value="#{cc.attrs.inputValue}" >
-            <f:ajax execute="#{cc.attrs.inputId}" event="blur" render="message#{cc.attrs.inputId}" />
-        </p:inputText>
-        <p:message for="#{cc.attrs.inputId}" id="message#{cc.attrs.inputId}"  />
+        <p:panelGrid columns="3">
+            <p:outputLabel for="#{cc.attrs.inputId}" value="#{cc.attrs.inputLabel}" />                                  
+            <p:inputText requiredMessage="#{mensagem.campoObrigatorio}" id="#{cc.attrs.inputId}" required="true" value="#{cc.attrs.inputValue}" >
+                <f:ajax execute="#{cc.attrs.inputId}" event="blur" render="message#{cc.attrs.inputId}" />
+            </p:inputText>
+            <p:message for="#{cc.attrs.inputId}" id="message#{cc.attrs.inputId}"  />
+        </p:panelGrid>
     </composite:implementation>
 
 
