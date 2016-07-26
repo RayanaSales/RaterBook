@@ -28,12 +28,12 @@ public class Aluno extends EntidadeNegocio {
     @Size(min = 3, max = 30)
     @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String primeiroNome;
-    
+
     @NotBlank
     @Size(min = 3, max = 30)
     @Pattern(regexp = "[A-Za-z ]+", message = "#{entidades.apenasTexto}")
     private String ultimoNome;
-    
+
     @NotBlank
     private String matricula;
 
@@ -69,17 +69,17 @@ public class Aluno extends EntidadeNegocio {
     }
 
     public void addEmprestimo(Emprestimo emprestimo) {
-        if ( this.emprestimos == null ) {
+        if (this.emprestimos == null) {
             this.emprestimos = new ArrayList<>();
         }
         emprestimo.setAluno(this);
         this.emprestimos.add(emprestimo);
     }
-    
+
     public Boolean possuiEmprestimosComMulta() {
         int quantidadeEmprestimos = 0;
-        for(Emprestimo emp : this.getEmprestimos()){
-            if(emp.posssuiMulta()){
+        for (Emprestimo emp : this.getEmprestimos()) {
+            if (emp.posssuiMulta()) {
                 quantidadeEmprestimos++;
             }
         }
@@ -90,17 +90,15 @@ public class Aluno extends EntidadeNegocio {
     public boolean isAssociado() {
         return possuiEmprestimosEmAndamento();
     }
-    
-    
+
     public Boolean possuiEmprestimosEmAndamento() {
         int quantidadeEmprestimos = 0;
-        for(Emprestimo emp : this.getEmprestimos()){
-            if(emp.emAndamento()){
+        for (Emprestimo emp : this.getEmprestimos()) {
+            if (emp.emAndamento()) {
                 quantidadeEmprestimos++;
             }
         }
         return quantidadeEmprestimos > 0;
     }
-    
-    
+
 }

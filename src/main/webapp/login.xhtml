@@ -22,7 +22,9 @@
                         <p:password feedback="true" value="${loginBean.senha}" id="senha" weakLabel="#{mensagem.senhaFraca}"
                                     goodLabel="#{mensagem.senhaBoa}" strongLabel="#{mensagem.senhaForte}" promptLabel="#{mensagem.informeSenha}" required="true"/>
                         <p:message   for="senha"  />
-                        
+                        <p:outputLabel for="captcha" value="Captcha" />
+                        <p:captcha language="#{userSettings.localizacao}" required="true" requiredMessage="#{mensagem.campoObrigatorio}" id="captcha" label="Captcha" /> 
+                        <p:message  for="captcha" /> 
                         <p:commandButton icon="fa fa-sign-in fa-fw" value="#{mensagem.entrar}" action="#{loginBean.efetuarLogin()}" />
                         <p:commandButton icon="fa fa-fw fa-arrow-circle-o-right" value="#{mensagem.registrar}" immediate="true" action="cadastro" />
                     </p:panelGrid>
