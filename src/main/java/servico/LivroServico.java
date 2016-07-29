@@ -53,7 +53,6 @@ public class LivroServico extends Servico<Livro> {
     public Long contarLivrosPorIsbn(String isbn) {
         StringBuilder jpql = new StringBuilder();
         jpql.append(" select count(l) FROM Livro l ");
-        jpql.append(" JOIN FETCH l.editora ");
         jpql.append(" WHERE l.isbn = ?1 ");
         TypedQuery<Long> query = entityManager.createQuery(jpql.toString(),
                 Long.class);
@@ -64,6 +63,12 @@ public class LivroServico extends Servico<Livro> {
     public void novoExemplar(Livro livro) throws NegocioException {
         Long tombo = this.gerarTomboExemplar();
         livro.novoExemplar(tombo);
+        super.alterar(livro);
+    }
+    
+    public void removerExemplar(Exemplar exemplar) throws NegocioException {
+        Livro livro = exemplar.getLivro();
+        livro.removerExemplar(exemplar);
         super.alterar(livro);
     }
 

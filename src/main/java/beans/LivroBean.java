@@ -29,16 +29,18 @@ public class LivroBean extends Bean<Livro> {
 
     private static final long serialVersionUID = 6413956801026910848L;
 
+    private static final String MENSAGEM_NOVO_EXEMPLAR = "exemplarCriado";
+
     @EJB
     private LivroServico servico;
 
     @EJB
     private EditoraServico editoraServico;
 
-    private List<Exemplar> exemplares = new ArrayList<>();
-
     @EJB
     private AutorServico autorServico;
+
+    private List<Exemplar> exemplares = new ArrayList<>();
 
     private List<Editora> editoras = new ArrayList<>();
 
@@ -47,10 +49,8 @@ public class LivroBean extends Bean<Livro> {
     @Override
     public void inicializar() {
         super.inicializar();
-        autores.setSource(autorServico.listarTodos());
+        this.popularListaAutores();
         editoras = editoraServico.listarTodos();
-        exemplares = servico.obterExemplares();
-
     }
 
     @Override
@@ -58,6 +58,13 @@ public class LivroBean extends Bean<Livro> {
 
         entidade.setAutores(autores.getTarget());
         super.cadastrar();
+        this.popularListaAutores();
+        
+    }
+    
+    public void popularListaAutores() {
+        autores.setSource(autorServico.listarTodos());
+        autores.getTarget().clear();
     }
 
     public CategoriaLivro[] getCategorias() {
@@ -79,10 +86,13 @@ public class LivroBean extends Bean<Livro> {
 
     public void criarNovoExemplar() throws NegocioException {
         servico.novoExemplar(entidade);
-        String mensagem = "Um novo exemplar do livro "
-                + entidade.getTitulo() + " foi criado";
-        adicionarMensagemView(mensagem, FacesMessage.SEVERITY_INFO);
+        adicionarMensagemView(MENSAGEM_NOVO_EXEMPLAR, FacesMessage.SEVERITY_INFO);
+    }
 
+    public void removerExemplar(Exemplar exemplar) throws NegocioException {
+        servico.removerExemplar(exemplar);
+        mensagemRemoverSucesso();
+        this.carregarExemplares();
     }
 
     public DualListModel<Autor> getAutores() {
@@ -102,7 +112,14 @@ public class LivroBean extends Bean<Livro> {
     }
 
     public List<Exemplar> getExemplares() {
+        if (exemplares.isEmpty()) {
+            this.carregarExemplares();
+        }
         return exemplares;
+    }
+
+    public void carregarExemplares() {
+        exemplares = servico.obterExemplares();
     }
 
     public void setExemplares(List<Exemplar> exemplares) {

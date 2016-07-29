@@ -41,23 +41,11 @@ public abstract class Servico<T extends EntidadeNegocio> {
     public abstract Boolean verificarExistencia(T entidadeNegocio);
 
     public void alterar(T entidadeNegocio) throws NegocioException {
-        try {
-            Boolean existe = verificarExistencia(entidadeNegocio);
-            if (existe) {
-                throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
-            } else {
-                entityManager.merge(entidadeNegocio);
-
-            }
-        } catch (NonUniqueResultException e) {
-            throw new NegocioException(NegocioException.OBJETO_EXISTENTE);
-        } catch (NoResultException e) {
-
-        }
+        entityManager.merge(entidadeNegocio);
     }
 
     public void remover(T entidadeNegocio) throws NegocioException {
-        if (entidadeNegocio.associado() == false) {
+        if (!entidadeNegocio.isAssociado()) {
             entidadeNegocio = entityManager.find(getClasseEntidade(), entidadeNegocio.getChavePrimaria());
             entityManager.remove(entidadeNegocio);
         } else {

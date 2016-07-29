@@ -6,21 +6,20 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
-            <p:tabView>
+            <p:tabView id="abas">
                 <p:tab title="Novo empréstimo">
                     <h:form>
-                        <p:fieldset legend="Dados do empréstimo">
+                        <p:fieldset legend="#{mensagem.dadosDoEmprestimo}">
                             <p:panelGrid columns="3">
-                                <p:outputLabel for="exemplar" value="Exemplar" />
+                                <p:outputLabel for="exemplar" value="#{mensagem.exemplar}" />
                                 <p:selectOneListbox scrollHeight="100" id="exemplar" required="true" value="#{emprestimoBean.exemplar}" var="exemplar" converter="entidadeConverter" filter="true" style="width: 100%;" filterMatchMode="contains">
                                     <f:selectItems value="#{emprestimoBean.exemplares}" var="exemplar" itemValue="#{exemplar}"   />
                                     <p:column>
                                         <h:outputText value="#{exemplar.livro.titulo}, Nº #{exemplar.numeroExemplar}" />
-                                        <h:outputText value="" />
                                     </p:column>
                                 </p:selectOneListbox>
                                 <p:message for="exemplar" />
-                                <p:outputLabel for="aluno" value="Aluno" />
+                                <p:outputLabel for="aluno" value="#{mensagem.aluno}" />
                                 <p:selectOneListbox scrollHeight="100" id="aluno" required="true" value="#{emprestimoBean.aluno}" var="t" converter="entidadeConverter" filter="true" style="width: 100%;" filterMatchMode="contains">
                                     <f:selectItems value="#{emprestimoBean.alunos}" var="aluno" itemLabel="#{aluno.matricula}" itemValue="#{aluno}"   />
                                     <p:column>
@@ -28,57 +27,67 @@
                                     </p:column>
                                 </p:selectOneListbox>
                                 <p:message for="aluno" />
-                                <p:outputLabel for="dataEntrega" value="Data de Entrega" />
+                                <p:outputLabel for="dataEntrega" value="#{mensagem.dataEntrega}" />
                                 <p:calendar mindate="#{emprestimoBean.getDataLimiteEmprestimo()}"  required="true" pattern="dd/MM/yyy" id="dataEntrega" value="#{emprestimoBean.dataPrevistaEntrega}"/>
                                 <p:message for="dataEntrega" />
                             </p:panelGrid>
                             <p:separator />
-                            <p:commandButton update="@form"  process="@form" action="#{emprestimoBean.criarNovoEmprestimo}" value="Novo emprestimo"/>
+                            <p:commandButton update="@form abas:formularioCadastroEmprestimo:tabelaEmprestimo"  process="@form" action="#{emprestimoBean.criarNovoEmprestimo}" value="#{mensagem.inserir}"/>
                         </p:fieldset>
                     </h:form>
                 </p:tab>
-                <p:tab title="Empréstimos">
-                    <p:dataTable  id="tabelaEmprestimo"  var="emprestimo" value="#{emprestimoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum empréstimo registrado">
-                        <f:facet name="header">Empréstimos</f:facet>
-
-                        <p:column headerText="Aluno" filterMatchMode="startsWith" filterBy="#{emprestimo.aluno.matricula}" sortBy="#{emprestimo.aluno.matricula}">
-                            <h:outputText value="#{emprestimo.aluno.matricula}" />
-                        </p:column>
-                        <p:column headerText="Livro" filterMatchMode="startsWith" filterBy="#{emprestimo.exemplar.livro.titulo}" sortBy="#{emprestimo.exemplar.livro.titulo}">
-                            <h:outputText value="#{emprestimo.exemplar.livro.titulo}, Nº #{emprestimo.exemplar.numeroExemplar}" />
-                        </p:column>
-                        <p:column headerText="Data de Entrega" filterMatchMode="startsWith" filterBy="#{emprestimo.dataPrevistaEntrega}" sortBy="#{emprestimo.dataPrevistaEntrega}">
-                            <h:outputText value="#{emprestimo.dataPrevistaEntrega}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column> 
-                        <p:column headerText="Data do Empréstimo" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
-                            <h:outputText value="#{emprestimo.dataEmprestimo}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column> 
-                        <p:column headerText="Data de Devolução" filterMatchMode="startsWith" filterBy="#{emprestimo.dataDevolucao}" sortBy="#{emprestimo.dataDevolucao}">
-                            <h:outputText value="#{emprestimo.dataDevolucao}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column> 
-                        <p:column headerText="Situação" filterMatchMode="startsWith" filterBy="#{emprestimo.situacaoEmprestimo}" sortBy="#{emprestimo.situacaoEmprestimo}">
-
-                        </p:column>
-                        <p:column headerText="Multa a Pagar" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
-                            <h:outputText value=" R$#{emprestimo.calcularMultaAtraso()}">
-                                <f:convertNumber maxFractionDigits="3" />
-                            </h:outputText>
-                        </p:column> 
-                        <p:column>
-                            <p:commandButton process="@this"  rendered="#{emprestimo.emAndamento()}" title="Devolver empréstimo" action="#{emprestimoBean.devolverEmprestimo(emprestimo)}"  update="@form" value="Devolver" />
-                        </p:column>
-                        <p:column rendered="#{emprestimo.posssuiMulta()}" >
-                            <p:commandButton   process="@this" title="Pagar Multa"  update="@form" value="Pagar Multa">
-                                <f:setPropertyActionListener value="#{emprestimo}" target="#{entidade}" />
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
+                <p:tab title="#{mensagem.emprestimosCadastrados}">
+                    <h:form id="formularioCadastroEmprestimo">
+                        <p:dataTable  id="tabelaEmprestimo"  var="emprestimo" value="#{emprestimoBean.entidades}" paginator="true" rows="5" emptyMessage="Nenhum empréstimo registrado">
+                            <f:facet name="header">#{mensagem.emprestimos}</f:facet>
+                            <p:column style="width:16px">
+                                <p:rowToggler />
+                            </p:column>
+                            <p:rowExpansion>
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+                                    <h:outputText value="#{mensagem.livroTitulo}" />
+                                    <h:outputText value="#{emprestimo.exemplar.livro.titulo}" />
+                                    <h:outputText value="#{mensagem.livroISBN}" />
+                                    <h:outputText value="#{emprestimo.exemplar.livro.isbn}" />
+                                    <h:outputText value="#{mensagem.numeroExemplar}" />
+                                    <h:outputText value="#{emprestimo.exemplar.numeroExemplar}" />
+                                </p:panelGrid>
+                            </p:rowExpansion>
+                            <p:column headerText="#{mensagem.matricula}" filterMatchMode="startsWith" filterBy="#{emprestimo.aluno.matricula}" sortBy="#{emprestimo.aluno.matricula}">
+                                <h:outputText value="#{emprestimo.aluno.matricula}" />
+                            </p:column>
+                            <p:column headerText="#{mensagem.dataEntrega}" filterMatchMode="startsWith" filterBy="#{emprestimo.dataPrevistaEntrega}" sortBy="#{emprestimo.dataPrevistaEntrega}">
+                                <h:outputText value="#{emprestimo.dataPrevistaEntrega}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column> 
+                            <p:column headerText="#{mensagem.dataEmprestimo}" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
+                                <h:outputText value="#{emprestimo.dataEmprestimo}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column> 
+                            <p:column headerText="#{mensagem.dataDevolucao}" filterMatchMode="startsWith" filterBy="#{emprestimo.dataDevolucao}" sortBy="#{emprestimo.dataDevolucao}">
+                                <h:outputText value="#{emprestimo.dataDevolucao}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column> 
+                            <p:column headerText="#{mensagem.situacao}" filterMatchMode="startsWith" filterBy="#{emprestimo.situacaoEmprestimo.label}" sortBy="#{emprestimo.situacaoEmprestimo.label}">
+                                <h:outputText value="#{emprestimo.situacaoEmprestimo.label}" />
+                            </p:column>
+                            <p:column headerText="#{mensagem.multa}" filterMatchMode="startsWith" filterBy="#{emprestimo.dataEmprestimo}" sortBy="#{emprestimo.dataEmprestimo}">
+                                <h:outputText value=" R$#{emprestimo.calcularMultaAtraso()}">
+                                    <f:convertNumber maxFractionDigits="3" />
+                                </h:outputText>
+                            </p:column> 
+                            <p:column>
+                                <p:commandButton process="@this"  rendered="#{emprestimo.emAndamento()}" title="Devolver empréstimo" action="#{emprestimoBean.devolverEmprestimo(emprestimo)}"  update="@form" value="#{mensagem.devolver}" />
+                                <p:commandButton  rendered="#{emprestimo.posssuiMulta()}" action="#{emprestimoBean.pagarMulta()}"  process="@this" title="#{mensagem.pagar}"  update="@form" value="Pagar Multa">
+                                    <f:setPropertyActionListener value="#{emprestimo}" target="#{emprestimoBean.entidade}" />
+                                </p:commandButton>
+                            </p:column>
+                          
+                        </p:dataTable>
+                    </h:form>
                 </p:tab>
             </p:tabView>
         </ui:define>

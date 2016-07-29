@@ -9,27 +9,27 @@
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
             <h:form>
-                <p:fieldset legend="Cadastro">
+                <p:fieldset legend="#{mensagem.cadastro}">
                     <p:panelGrid columns="3" >
-                        <p:outputLabel value="Email" />
+                        <p:outputLabel value="#{mensagem.email}" />
                         <p:inputText id="email" value="#{usuarioBean.entidade.email}" required="true" requiredMessage="E-mail é obrigatório" validatorMessage="Email inválido">
                             <f:attribute name="type" value="email" />
                             <f:validateRegex pattern=".+@.+" />
                             <f:ajax event="blur" execute="email" render="messageEmail" />
                         </p:inputText>
                         <p:message for="email" id="messageEmail" />
-                        <p:outputLabel value="Nome" />
+                        <p:outputLabel value="#{mensagem.primeiroNome}" />
                         <p:inputText id="nome" value="#{usuarioBean.entidade.primeiroNome}" />
                         <p:message for="nome" id="messageNome" />
-                        <p:outputLabel value="Sobrenome" />
+                        <p:outputLabel value="#{mensagem.ultimoNome}" />
                         <p:inputText id="sobrenome" value="#{usuarioBean.entidade.ultimoNome}" />
                         <p:message for="sobrenome" id="messageSobrenome" />
-                        <p:outputLabel value="Senha" />
+                        <p:outputLabel value="#{mensagem.senha}" />
                         <p:password feedback="true" value="#{usuarioBean.entidade.senha}" id="senha" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
                         <p:outputLabel value="Captcha" />
-                        <p:captcha id="captcha" label="Captcha" />
+                        <p:captcha language="#{userSettings.localizacao}" id="captcha" label="Captcha" />
                         <p:message for="captcha" id="messageCaptcha" />
                         <p:commandButton value="Cadastrar" action="#{usuarioBean.cadastrarUsuario()}" />
                     </p:panelGrid>

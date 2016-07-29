@@ -6,6 +6,7 @@ import exception.NegocioException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -22,13 +23,26 @@ import servico.Servico;
  */
 public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
 
+    private static final long serialVersionUID = -8123848449171429471L;
+
     private Servico<T> servico;
 
     protected List<T> entidades = new ArrayList<>();
 
     protected T entidade;
 
+    private static final String BUNDLE_MESSAGE = "Mensagens";
+
+    private static final String BUNDLE_EXCEPTIONS_MESSAGE = "ExceptionsMessage";
+
+    private static final String ALTERADO_COM_SUCESSO = "sucessoAlteracao";
+
+    private static final String CADASTRADO_COM_SUCESSO = "sucessoCadastro";
+
+    private static final String REMOVIDO_COM_SUCESSO = "sucessoRemovido";
+
     public Bean() {
+
     }
 
     @PostConstruct
@@ -51,7 +65,7 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
             popularEntidades();
             mensagemAlteracaoSucesso();
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_ERROR);
+            adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         } catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
@@ -68,7 +82,7 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
             popularEntidades();
             mensagemRemoverSucesso();
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+            adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         }
     }
 
@@ -84,7 +98,7 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
             inicializarEntidadeNegocio();
             mensagemCadastroSucesso();
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+            adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         } catch (EJBException ejbe) {
             if (ejbe.getCause() instanceof ConstraintViolationException) {
                 MensagemExcecao mensagemExcecao = new MensagemExcecao(ejbe.getCause());
@@ -96,23 +110,36 @@ public abstract class Bean<T extends EntidadeNegocio> implements Serializable {
     }
 
     public void mensagemAlteracaoSucesso() {
-        this.adicionarMensagemView("Alteração realizada com sucesso!", FacesMessage.SEVERITY_INFO);
+        this.adicionarMensagemView(ALTERADO_COM_SUCESSO, FacesMessage.SEVERITY_INFO);
     }
 
     public void mensagemCadastroSucesso() {
-        this.adicionarMensagemView("Cadastro realizado com sucesso!", FacesMessage.SEVERITY_INFO);
+        this.adicionarMensagemView(CADASTRADO_COM_SUCESSO, FacesMessage.SEVERITY_INFO);
     }
 
     public void mensagemRemoverSucesso() {
-        this.adicionarMensagemView("Cadastro removido com sucesso!", FacesMessage.SEVERITY_INFO);
+        this.adicionarMensagemView(REMOVIDO_COM_SUCESSO, FacesMessage.SEVERITY_INFO);
     }
 
-    public void adicionarMensagemView(String mensagem) {
-        this.adicionarMensagemComponente(null, mensagem, null);
+    public void adicionarMensagemView(String chave) {
+        this.adicionarMensagemView(chave, FacesMessage.SEVERITY_INFO);
     }
 
-    public void adicionarMensagemView(String mensagem, Severity severity) {
+    public void adicionarMensagemView(String chave, Severity severity) {
+        ResourceBundle resourceBundle = this.carregarResourceBundle(BUNDLE_MESSAGE);
+        String mensagem = resourceBundle.getString(chave);
         this.adicionarMensagemComponente(null, mensagem, severity);
+    }
+
+    protected void adicionarMensagemExcecaoView(String chave, Severity severity) {
+        ResourceBundle resourceBundle = this.carregarResourceBundle(BUNDLE_EXCEPTIONS_MESSAGE);
+        String mensagem = resourceBundle.getString(chave);
+        this.adicionarMensagemComponente(null, mensagem, severity);
+    }
+
+    private ResourceBundle carregarResourceBundle(String baseName) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        return ResourceBundle.getBundle(baseName, context.getViewRoot().getLocale());
     }
 
     private void adicionarMensagemComponente(String componente, String mensagem, Severity severity) {

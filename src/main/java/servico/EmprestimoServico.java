@@ -52,16 +52,17 @@ public class EmprestimoServico extends Servico<Emprestimo> {
         super.salvar(emprestimo);
         alunoServico.alterar(aluno);
         livroServico.atualizarExemplar(exemplar);
-        
+
     }
-    
+
     public void devolverEmprestimo(Emprestimo emprestimo) throws NegocioException {
         Exemplar exemplar = emprestimo.getExemplar();
         exemplar.devolver();
         super.alterar(emprestimo);
         livroServico.atualizarExemplar(exemplar);
+
     }
-    
+
     public void pagarMulta(Emprestimo emprestimo) throws NegocioException {
         emprestimo.pagarMulta();
         super.alterar(emprestimo);

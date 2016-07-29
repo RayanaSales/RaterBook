@@ -10,14 +10,13 @@
         <ui:define name="conteudo">
             <h:form>
                 <p:panelGrid columns="2">
-                    <p:outputLabel for="tema" value="Tema" />
+                    <p:outputLabel for="tema" value="#{mensagem.tema}" />
                     <p:themeSwitcher id="tema" value="#{userSettings.tema}">
-                        <f:selectItem itemLabel="Escolha o Tema"/>
                         <f:selectItems value="${userSettings.temas}" var="tema" itemLabel="#{tema}" itemValue="#{value}" />
                         <f:ajax execute="@form" render="@form" />
                     </p:themeSwitcher>
 
-                    <p:outputLabel value="Idioma" />
+                    <p:outputLabel value="#{mensagem.idioma}" />
                     <p:panelGrid columns="2">
                         <p:commandLink action="#{userSettings.alterarIdioma('pt', 'br')}">
                             <p:graphicImage styleClass="logoBandeiraPais" library="img" name="pt-br-flag.png" />

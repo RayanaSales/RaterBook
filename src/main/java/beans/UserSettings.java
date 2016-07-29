@@ -5,12 +5,9 @@
  */
 package beans;
 
-import exception.MensagemExcecao;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -28,13 +25,15 @@ public class UserSettings implements Serializable {
     private String tema = "hot-sneaks";
 
     private Locale localizacao;
-
+    
+    /**
+     *
+     */
     @PostConstruct
-    private void inicializar() {
-        this.localizacao = FacesContext.getCurrentInstance()
+    public void inicializar() {
+        localizacao = FacesContext.getCurrentInstance()
                 .getViewRoot().getLocale();
     }
-
     public String getTema() {
         return tema;
     }
@@ -61,15 +60,13 @@ public class UserSettings implements Serializable {
         } else {
             alterarLocalidade(new Locale(linguagem));
         }
-        return null;
+        return "configuracoes?faces-redirect=true";
     }
 
     private void alterarLocalidade(Locale novaLocalidade) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.getViewRoot().setLocale(this.localizacao);
-        context.addMessage(null, new FacesMessage("Idioma Alterado com Sucesso"));
+        context.getViewRoot().setLocale(novaLocalidade);
         this.localizacao = novaLocalidade;
-        MensagemExcecao.getInstance().trocarArquivoProperty(novaLocalidade);
     }
 
     public Locale getLocalizacao() {
@@ -80,5 +77,4 @@ public class UserSettings implements Serializable {
         this.localizacao = localizacao;
     }
     
-
 }

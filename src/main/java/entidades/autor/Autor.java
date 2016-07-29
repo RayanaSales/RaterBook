@@ -34,15 +34,15 @@ public class Autor extends EntidadeNegocio {
     @Pattern(regexp = "[A-Za-z ]+", message = "{entidades.autor.Autor.nome}")
     private String nome;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_AUTOR_LIVRO", joinColumns = @JoinColumn(name = "AUTOR_ID"),
-            inverseJoinColumns = @JoinColumn(name = "LIVRO_ID"))
+    @JoinTable(name = "TB_AUTOR_LIVRO",
+            joinColumns = @JoinColumn(name = "AUTOR_ID", referencedColumnName = "AUTOR_ID"),
+            inverseJoinColumns = @JoinColumn(name = "LIVRO_ID", referencedColumnName = "LIVRO_ID"))
     private List<Livro> livros;
 
-    public Autor()
-    {
+    public Autor() {
     }
-    
-    public void adicionarAutor(Livro livro) {
+
+    public void adicionarLivro(Livro livro) {
         if (livros == null) {
             livros = new ArrayList<>();
         }
@@ -56,4 +56,10 @@ public class Autor extends EntidadeNegocio {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public boolean isAssociado() {
+        return livros.isEmpty();
+    }
+
 }

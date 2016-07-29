@@ -23,7 +23,7 @@ public abstract class EntidadeNegocio implements Serializable {
         this.chavePrimaria = chavePrimaria;
     }
 
-    public boolean associado() {
+    public boolean isAssociado() {
         return Boolean.FALSE;
     }
 

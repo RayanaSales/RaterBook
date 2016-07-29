@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -70,9 +68,9 @@ public class EmprestimoBean extends Bean<Emprestimo> {
     public void criarNovoEmprestimo() {
         try {
             emprestimoServico.cadastrarNovoEmprestimo(aluno, dataPrevistaEntrega, exemplar);
-            adicionarMensagemView("Empréstimo cadastrado!", FacesMessage.SEVERITY_WARN);
+            mensagemCadastroSucesso();
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+            adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         }
     }
 
@@ -80,7 +78,7 @@ public class EmprestimoBean extends Bean<Emprestimo> {
         try {
             emprestimoServico.devolverEmprestimo(emprestimo);
         } catch (NegocioException ex) {
-            adicionarMensagemView(ex.getMessage(), FacesMessage.SEVERITY_WARN);
+           adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         }
     }
 

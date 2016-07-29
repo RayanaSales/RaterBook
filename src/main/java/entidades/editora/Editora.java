@@ -48,4 +48,11 @@ public class Editora extends EntidadeNegocio {
         this.livros = livros;
     }
 
+    @Override
+    public boolean isAssociado() {
+        return livros.isEmpty();
+    }
+    
+    
+
 }

@@ -22,7 +22,7 @@ public enum SituacaoEmprestimo {
         this.label = label;
     }
     
-    private String getLabel() {
+    public String getLabel() {
         return this.label;
     }
     

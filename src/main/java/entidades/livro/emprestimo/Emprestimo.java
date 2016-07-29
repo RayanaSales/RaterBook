@@ -56,14 +56,15 @@ public class Emprestimo extends EntidadeNegocio {
     private Date dataDevolucao;
 
     @Temporal(TemporalType.DATE)
-    private final Date dataEmprestimo;
+    private final Date dataEmprestimo = new Date();
 
     @Enumerated(EnumType.STRING)
-    private SituacaoEmprestimo situacaoEmprestimo;
+    private SituacaoEmprestimo situacaoEmprestimo = SituacaoEmprestimo.EM_ANDAMENTO;
+
+    ;
 
     public Emprestimo() {
-        dataEmprestimo = new Date();
-        situacaoEmprestimo = SituacaoEmprestimo.EM_ANDAMENTO;
+
     }
 
     public void devolverEmprestimo() throws NegocioException {
@@ -71,7 +72,6 @@ public class Emprestimo extends EntidadeNegocio {
             this.dataDevolucao = Calendar.getInstance().getTime();
             if (this.isAtrasado()) {
                 situacaoEmprestimo = SituacaoEmprestimo.MULTA_A_PAGAR;
-                throw new NegocioException(NegocioException.EMPRESTIMO_ATRASADO);
             } else {
                 situacaoEmprestimo = SituacaoEmprestimo.QUITADO;
             }
@@ -83,13 +83,13 @@ public class Emprestimo extends EntidadeNegocio {
         int diasAtrasado;
         if (isAtrasado()) {
             if (dataDevolucao != null) {
-                diasAtrasado = Days.daysBetween(new DateTime(dataDevolucao),
-                        new DateTime(dataPrevistaEntrega)).getDays();
+                diasAtrasado = Days.daysBetween(new DateTime(dataPrevistaEntrega),
+                        new DateTime(dataDevolucao)).getDays();
 
             } else {
                 Date hoje = Calendar.getInstance().getTime();
-                diasAtrasado = Days.daysBetween(new DateTime(hoje),
-                        new DateTime(dataPrevistaEntrega)).getDays();
+                diasAtrasado = Days.daysBetween(new DateTime(dataPrevistaEntrega),
+                        new DateTime(hoje)).getDays();
             }
             valorMultaAtraso = valorDiarioMulta * diasAtrasado;
         }
@@ -114,19 +114,26 @@ public class Emprestimo extends EntidadeNegocio {
     private boolean isAtrasado() {
 
         Boolean atrasado = Boolean.FALSE;
+        
         if (dataDevolucao != null) {
             if (dataDevolucao.after(dataPrevistaEntrega)) {
                 atrasado = Boolean.TRUE;
-                situacaoEmprestimo = SituacaoEmprestimo.ATRASADO;
+                this.alterarSituacaoParaAtrasado();
             }
         } else {
             Date hoje = Calendar.getInstance().getTime();
             if (hoje.after(dataPrevistaEntrega)) {
                 atrasado = Boolean.TRUE;
-                situacaoEmprestimo = SituacaoEmprestimo.ATRASADO;
+                this.alterarSituacaoParaAtrasado();
             }
         }
         return atrasado;
+    }
+
+    private void alterarSituacaoParaAtrasado() {
+        if (situacaoEmprestimo.equals(SituacaoEmprestimo.EM_ANDAMENTO)) {
+            situacaoEmprestimo = SituacaoEmprestimo.ATRASADO;
+        }
     }
 
     public Exemplar getExemplar() {
