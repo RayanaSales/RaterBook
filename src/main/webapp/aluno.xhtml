@@ -26,7 +26,7 @@
                                 <p:message for="ultimoNome" id="messageUltimoNome"/>
 
                                 <p:outputLabel for="maskMatricula">#{mensagem.matricula}</p:outputLabel>                                                                    
-                                <p:inputMask id="maskMatricula" value="#{alunoBean.entidade.matricula}" mask="99999Y9-RC9999"/>
+                                <p:inputMask id="maskMatricula" value="#{alunoBean.entidade.matricula}" mask="99999Y9-RC9999" required="true"/>
                                 <p:message for="maskMatricula" id="messageMatricula"/>
 
                                 <p:commandButton action="#{alunoBean.cadastrar()}" value="#{mensagem.inserir}" 
@@ -37,6 +37,7 @@
                 </p:tab>
                 <p:tab title="#{mensagem.alunosCadastrados}" id="painelAlunosCadastrados">
                     <h:form id="formularioAlunosCadastrados">
+                        <p:messages id="messagesEdicao" severity="warn,error" autoUpdate="true" closable="true"/>
                         <p:dataTable id="tabelaAluno" editable="true"  var="entidade" value="#{alunoBean.entidades}" paginator="true" rows="5" emptyMessage="#{mensagem.nenhumAlunoCadastrado}">
                             <f:facet name="header">#{mensagem.alunos}</f:facet>
 
