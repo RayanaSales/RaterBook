@@ -28,9 +28,9 @@
                         <p:password feedback="true" value="#{usuarioBean.entidade.senha}" id="senha" weakLabel="Fraca"
                                     goodLabel="Bom" strongLabel="Forte" promptLabel="Digite a sua senha" required="true"/>
                         <p:message for="senha" id="messageSenha" />
-                        <p:outputLabel value="Captcha" />
+<!--                        <p:outputLabel value="Captcha" />
                         <p:captcha language="#{userSettings.localizacao}" id="captcha" label="Captcha" />
-                        <p:message for="captcha" id="messageCaptcha" />
+                        <p:message for="captcha" id="messageCaptcha" />-->
                         <p:commandButton value="Cadastrar" action="#{usuarioBean.cadastrarUsuario()}" />
                     </p:panelGrid>
                 </p:fieldset>

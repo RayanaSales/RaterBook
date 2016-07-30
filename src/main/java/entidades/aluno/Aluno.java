@@ -75,24 +75,24 @@ public class Aluno extends EntidadeNegocio {
         this.emprestimos.add(emprestimo);
     }
     
-   @Override
-    public boolean equals(Object o)
-    {
-        super.equals(o);
-        
-        if (o != null)
-        {
-            if (o instanceof Aluno)
-            {
-                Aluno outra = (Aluno) o;
-                if (this.primeiroNome.equals(outra.primeiroNome) && this.ultimoNome.equals(outra.ultimoNome) && matricula.equals(outra.matricula))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//   @Override
+//    public boolean equals(Object o)
+//    {
+//        super.equals(o);
+//        
+//        if (o != null)
+//        {
+//            if (o instanceof Aluno)
+//            {
+//                Aluno outra = (Aluno) o;
+//                if (this.primeiroNome.equals(outra.primeiroNome) && this.ultimoNome.equals(outra.ultimoNome) && matricula.equals(outra.matricula))
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
     
     
 }
