@@ -62,7 +62,7 @@ public class Livro extends EntidadeNegocio {
     @NotNull
     private CategoriaLivro categoria;
 
-    @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "livro", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Exemplar> exemplares;
 
     @JoinTable(name = "TB_AUTOR_LIVRO",
@@ -143,12 +143,13 @@ public class Livro extends EntidadeNegocio {
         }
     }
 
-    public void novoExemplar(Long tombo) {
+    public Exemplar novoExemplar(Long tombo) {
         Exemplar exemplar = new Exemplar();
         Long numeroExemplar = Long.valueOf(this.exemplares.size() + 1);
         exemplar.setTombo(tombo);
         exemplar.setNumeroExemplar(numeroExemplar);
         this.adicionarExemplar(exemplar);
+        return exemplar;
     }
 
     public Integer getAnoEdicao() {

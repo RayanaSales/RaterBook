@@ -17,7 +17,7 @@ public class DateComparator implements Comparator<Emprestimo> {
 
     @Override
     public int compare(Emprestimo t, Emprestimo t1) {
-        return t.getDataEmprestimo().compareTo(t1.getDataEmprestimo());
+        return t1.getDataEmprestimo().compareTo(t.getDataEmprestimo());
     }
     
 }

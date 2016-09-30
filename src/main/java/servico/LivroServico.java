@@ -62,7 +62,8 @@ public class LivroServico extends Servico<Livro> {
 
     public void novoExemplar(Livro livro) throws NegocioException {
         Long tombo = this.gerarTomboExemplar();
-        livro.novoExemplar(tombo);
+        Exemplar exemplar = livro.novoExemplar(tombo);
+        salvarExemplar(exemplar);
         super.alterar(livro);
     }
     
@@ -93,6 +94,10 @@ public class LivroServico extends Servico<Livro> {
     
     public void atualizarExemplar(Exemplar exemplar) {
         super.entityManager.merge(exemplar);
+    }
+    
+    public void salvarExemplar(Exemplar exemplar) {
+        super.entityManager.persist(exemplar);
     }
 
     public List<Exemplar> obterExemplaresDisponiveis() {

@@ -56,6 +56,10 @@ public class EmprestimoBean extends Bean<Emprestimo> {
         super.inicializar();
         exemplar = livroServico.criarExemplar();
         aluno = alunoServico.getEntidadeNegocio();
+        this.carregarListaAlunos();
+    }
+
+    private void carregarListaAlunos() {
         alunos = alunoServico.listarTodos();
     }
 
@@ -78,13 +82,13 @@ public class EmprestimoBean extends Bean<Emprestimo> {
         try {
             emprestimoServico.devolverEmprestimo(emprestimo);
         } catch (NegocioException ex) {
-           adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
+            adicionarMensagemExcecaoView(ex.getChave(), FacesMessage.SEVERITY_WARN);
         }
     }
 
     public void pagarMulta() throws NegocioException {
         emprestimoServico.pagarMulta(entidade);
-
+        this.carregarListaAlunos();
     }
 
     public List<Aluno> getAlunos() {
@@ -122,8 +126,7 @@ public class EmprestimoBean extends Bean<Emprestimo> {
     public void setExemplar(Exemplar exemplar) {
         this.exemplar = exemplar;
     }
-    
-    
+
     public Date getDataLimiteEmprestimo() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);

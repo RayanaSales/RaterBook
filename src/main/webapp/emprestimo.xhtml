@@ -7,7 +7,7 @@
     <ui:composition template="_template.xhtml" >
         <ui:define name="conteudo">
             <p:tabView id="abas">
-                <p:tab title="Novo empréstimo">
+                <p:tab title="#{mensagem.cadastroEmprestimo}">
                     <h:form id="formularioCadastroEmprestimo">
                         <p:fieldset legend="#{mensagem.dadosDoEmprestimo}">
                             <p:panelGrid columns="3">
@@ -44,7 +44,7 @@
                                 <p:rowToggler />
                             </p:column>
                             <p:rowExpansion>
-                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:400px">
                                     <h:outputText value="#{mensagem.livroTitulo}" />
                                     <h:outputText value="#{emprestimo.exemplar.livro.titulo}" />
                                     <h:outputText value="#{mensagem.livroISBN}" />
@@ -81,7 +81,7 @@
                             </p:column> 
                             <p:column>
                                 <p:commandButton process="@this"  rendered="#{emprestimo.emAndamento()}" title="Devolver empréstimo" action="#{emprestimoBean.devolverEmprestimo(emprestimo)}"  update="@form abas:formularioCadastroEmprestimo" value="#{mensagem.devolver}" />
-                                <p:commandButton  rendered="#{emprestimo.posssuiMulta()}" action="#{emprestimoBean.pagarMulta()}"  process="@this" title="#{mensagem.pagar}"  update="@form" value="Pagar Multa">
+                                <p:commandButton  rendered="#{emprestimo.posssuiMulta()}" action="#{emprestimoBean.pagarMulta()}"  process="@this" title="#{mensagem.pagar}"  update="@form abas:formularioCadastroEmprestimo" value="#{mensagem.pagar}">
                                     <f:setPropertyActionListener value="#{emprestimo}" target="#{emprestimoBean.entidade}" />
                                 </p:commandButton>
                             </p:column>

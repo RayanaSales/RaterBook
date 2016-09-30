@@ -67,6 +67,12 @@ public class LivroBean extends Bean<Livro> {
         super.remover(entidade); 
         this.carregarExemplares();
     }
+
+    @Override
+    public void alterar() {
+        entidade.setAutores(autores.getTarget());
+        super.alterar(); 
+    }
     
     
     
